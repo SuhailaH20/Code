@@ -1,6 +1,6 @@
 
 
-const User = require('../models/loginmodels');
+const User = require('../models/Schema');
 
 
   const userLogin = (req, res) => {
@@ -22,12 +22,12 @@ const User = require('../models/loginmodels');
   
       // Check if the provided password matches the user's password
       if (user.password === password) {
-        // Authentication successful
-        //res.sendFile(path.join(__dirname, 'frontend', 'LandingPage.html'));
+        console.log('Redirecting to index page...');
+        res.redirect('/');  // This should take you to the index page
       } else {
-        // Authentication failed
         res.send('كلمة المرور خطأ ');
       }
+      
     } catch (error) {
       console.error('Error during login:', error);
       res.status(500).send('Internal Server Error');

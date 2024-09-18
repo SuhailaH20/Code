@@ -13,24 +13,24 @@ const createGet = (req, res) => {
   // POST route for creating an account
   const createPost = async (req, res) => {
     try {
-      const { idNumber } = req.body;
-      const trimmedIdNumber = idNumber.trim();
-  
-      // Check if the user already exists
-      const existingUser = await User.findOne({ idNumber: trimmedIdNumber });
-      if (existingUser) {
-        return res.json({ message: 'المستخدم مسجل مسبقا' });
-      }
-  
-      const user = new User(req.body);
-      await user.save();
+        const { idNumber } = req.body;
+        console.log('Received idNumber:', idNumber);
+        const trimmedIdNumber = idNumber.trim();
       
-      // Redirect to the landing page
-      //res.sendFile(path.join(__dirname, '../views/LandingPage.html')); // Adjust the path as necessary
-    } catch (error) {
-      console.error('Error saving user:', error);
-      res.status(500).send('Internal Server Error');
-    }
+        const existingUser = await User.findOne({ idNumber: trimmedIdNumber });
+        if (existingUser) {
+          return res.json({ message: 'المستخدم مسجل مسبقا' });
+        }
+      
+        const user = new User(req.body);
+        console.log('Saving user:', user);
+        await user.save();
+        res.json({ message: 'User saved successfully' });
+      } catch (error) {
+        console.error('Error saving user:', error);
+        res.status(500).send('Internal Server Error');
+      }
+      
   };
   
 
