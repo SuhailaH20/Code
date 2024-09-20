@@ -1,0 +1,448 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo&display=swap'); 
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	outline: none;
+	text-decoration: none;
+	list-style: none;
+    font-family: 'MyArabicFont', 'Cairo', sans-serif; 
+}
+
+body {
+	background: #ffffff;
+	padding: 20px;
+}
+
+/* sidebar styles */
+.wrapper {
+	background: #ffffff;
+	height: calc(100vh - 40px);
+	display: flex;
+	flex-direction: row-reverse; 
+}
+
+.side_bar {
+	width: 250px;
+	height: 100%;
+}
+
+.main_container {
+	width: calc(100% - 250px);
+	padding: 30px;
+	overflow: auto;
+}
+
+.main_container p {
+	line-height: 22px;
+	margin-bottom: 20px;
+}
+
+.side_bar .side_bar_top {
+	background: #3E8C74;
+	height: 250px;
+	border-top-right-radius: 15px; 
+	border-top-left-radius: 15px; 
+	padding: 30px;
+}
+
+.side_bar .side_bar_top .picture {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 20px;	
+}
+
+.side_bar .side_bar_top .picture img {
+	width: 115px;
+	height: 115px;
+	padding: 5px;
+}
+
+.side_bar .side_bar_top .info h3 {
+	text-align: center;
+	color: #fff;
+}
+
+.side_bar .side_bar_top .info p {
+	margin-top: 5px;
+	font-size: 12px;	
+    text-align: center;
+}
+
+.side_bar .side_bar_bottom {
+	background: #3E8C74;
+	height: calc(100% - 250px);
+	padding: 20px 0;
+	padding-right: 15px; 
+	border-bottom-right-radius: 15px; 
+	border-bottom-left-radius: 15px; 
+}
+
+.side_bar .side_bar_bottom ul li {
+	position: relative;
+}
+
+.side_bar .side_bar_bottom ul li a {
+	display: block;
+	padding: 15px;		
+	font-size: 14px;
+	color: #ffffff;
+	margin-bottom: 5px;			
+    text-align: center;	
+}
+
+.side_bar .side_bar_bottom ul li a .icon {
+	margin-left: 8px; 
+}
+
+.side_bar .side_bar_bottom ul li.active a {
+	background: #ffffff;
+	color: #1C4A69;
+	border-top-right-radius: 25px;
+	border-bottom-right-radius: 25px; 
+}
+
+.side_bar .side_bar_bottom ul li.active .top_curve,
+.side_bar .side_bar_bottom ul li.active .bottom_curve {
+	position: absolute;
+	right: 0; 
+	width: 100%;
+	height: 20px;
+	background: #ffffff;
+}
+
+.side_bar .side_bar_bottom ul li.active .top_curve {
+	top: -20px;
+}
+
+.side_bar .side_bar_bottom ul li.active .bottom_curve {
+	bottom: -20px;	
+}
+
+.side_bar .side_bar_bottom ul li.active .top_curve:before,
+.side_bar .side_bar_bottom ul li.active .bottom_curve:before {
+	content: "";
+	position: absolute;
+	top: 0;
+	right: 0; 
+	width: 100%;
+	height: 100%;
+	background: #3E8C74;	
+}
+
+.side_bar .side_bar_bottom ul li.active .top_curve:before {
+	border-bottom-left-radius: 25px; 
+}
+
+.side_bar .side_bar_bottom ul li.active .bottom_curve:before {
+	border-top-left-radius: 25px; 
+}
+
+/* Hide all containers */
+.dashboard_container,
+.location_container,
+.report_container,
+.recommendations_container {
+	display: none;
+}
+
+/* location container */
+@import url('https://fonts.googleapis.com/css2?family=Cairo&display=swap'); 
+
+:root {
+    --main-color: #3E8C74; 
+    --secondary-color:  #79b4a2;
+    --lighter-color: #e0e0e7;
+    --light-color: #b0b0c0;
+    --dark-color: #1C4A69;
+
+    --font-small: 14px; 
+    --font-bigger: 20px; 
+}
+* {
+    margin: 0;
+    padding: 0;
+    text-align: right; 
+}
+*, ::before, ::after {
+    box-sizing: border-box;
+}
+html {
+    scroll-behavior: smooth;
+}
+body {
+    font-family: 'MyArabicFont', 'Cairo', sans-serif; 
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.8;
+    color: var(--dark-color);
+    background: white;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+ul {
+    list-style: none;
+}
+h1,h2,h3 {
+    font-weight: 700;
+    line-height: 1.25;
+    margin: 0 0 0.5em;
+}
+img {
+    max-width: 100%;
+    vertical-align: middle;
+}
+::placeholder {
+    color: var(--lighter-color);
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2em;
+}
+
+.form-box {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5em;
+    border-radius: 4px;
+    border: 2px solid var(--main-color);
+    background-color: #faf9f9;
+    position: relative;
+}
+.location_container {
+    width: 80%;
+    height: 100%;
+}
+
+/* progress */
+.form-box .progress {
+    position: relative;
+    padding: 1em;
+}
+
+.logo {
+    font-size: 1.75em;
+    font-weight: 800;
+    color: var(--secondary-color);
+    padding: 40px 48px;
+    text-align: center;
+}
+.logo span {
+    color: var(--main-color);
+}
+
+/* progress steps*/
+.progress ul.progress-steps {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 2em;
+}
+.progress ul.progress-steps li {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 2em;
+}
+/* progress steps circles*/
+.progress ul.progress-steps li > span { 
+    position: relative;
+    width: 40px;
+    height: 40px;
+    font-size: var(--font-small);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1em;
+    border-radius: 50%;
+    background-color: var(--lighter-color);
+    z-index: 1;
+}
+
+/* progress steps circles when active*/
+.progress ul.progress-steps li.active > span { 
+    color: white;
+    background-color: var(--main-color);
+    border: 4px solid var(--secondary-color);
+    z-index: 1;
+}
+
+/* small p in circles*/
+.progress ul.progress-steps li p span {
+    font-size: var(--font-small);
+    color: var(--lighter-color);
+    display: none;
+}
+.progress ul li p {
+    position: absolute;
+    top: -2em;
+    font-size: 12px;
+}
+
+/* Form styles*/
+.form-box form {
+    width: 100%;
+    padding: 3em 1em;
+    background-color: white;
+    border-radius: 30px 30px 15px 15px;
+}
+
+form > div {
+    max-width: 400px;
+    margin: 0 auto;  
+}
+form > div p {
+    color: var(--light-color);
+    margin-bottom: 2em;
+}
+form > div > div{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2em;
+}
+
+form :where(input,select) {
+    height: 40px;
+    padding: 0 1em;
+    border-radius: 7px;
+    outline-color: var(--secondary-color);
+    border: 1px solid var(--lighter-color);
+    background-color: transparent;
+}
+
+form label {
+    font-size: var(--font-small);
+    font-weight: 600;
+    margin-bottom: 0.5em;
+}
+
+form > div:not(.btn-group) {
+    display: none;
+    -webkit-animation: fadeIn .6s cubic-bezier(0.39, 0.575, 0.565, 1 ) both;
+    animation: fadeIn .6s cubic-bezier(0.39, 0.575, 0.565, 1 ) both ;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(10%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0%);
+    }
+}
+form > div.active {
+    display: block;
+}
+
+
+
+/* Buttons styles*/
+
+.btn-group {
+    display: flex;
+    gap: 4em;
+    flex-wrap: wrap;
+    margin-top: 2em;
+    justify-content: center; 
+}
+
+.btn-group [class*="btn-"] {
+    background-color: var(--main-color);
+    color: white;
+    padding: 1em 2.5em;
+    border: 4px solid var(--secondary-color);
+    border-radius: 30px;
+    cursor: pointer; 
+    transition: background-color 0.3s, border-color 0.3s ease-out;
+}
+
+.btn-group [class*="btn-"]:disabled {
+    background-color: var(--light-color);
+    border-color: var(--lighter-color);
+    cursor: not-allowed; 
+}
+
+.btn-group [class*="btn-"]:hover:not(:disabled) {
+    background-color: var(--dark-color);
+    border-color: var(--light-color);
+}
+
+
+
+/* control displying buttons */
+.btn-group .btn-submit {
+    display: none;
+}
+.btn-group .btn-press {
+    display: none;
+}
+.form-two.active ~ .btn-group .btn-next {
+    display: none;
+}
+.form-two.active ~ .btn-group .btn-submit {
+    display: block;
+}
+.form-three.active ~ .btn-group .btn-next {
+    display: none;
+}
+.form-three.active ~ .btn-group .btn-prev {
+    display: none;
+}
+/* not working */
+.form-three.active ~ .btn-group .btn-press {
+    display: block;
+}
+
+
+
+
+
+/* Responsive design */
+@media screen and (min-width: 768px) { 
+    .form-box {
+        flex-direction: row;
+    }
+    .form-box .progress {
+        flex: 1 0 35%;
+        min-width: 300px;
+        padding: 3em;
+    }
+    .logo {
+        margin: -48px -48px 48px;
+    }
+    .progress ul.progress-steps {
+        flex-direction: column;
+        gap: 0;
+    }
+    .progress ul.progress-steps li:not(:last-child)::before {
+        content: '';
+        position: absolute;
+        top: 30px;
+        left: 20px;
+        width: 2px;
+        height: 65px;
+        background-color: var(--lighter-color);
+    }
+    .form-box form {
+        padding: 3em;
+        border-radius: 0 15px 15px 0;
+    }
+    .progress ul li p {
+        position: relative;
+        top: auto;
+        font-size: inherit;
+    }
+    .progress ul.progress-steps li p span {
+        display: block;
+    }
+   
+}

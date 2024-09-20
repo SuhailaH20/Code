@@ -33,5 +33,9 @@ const createGet = (req, res) => {
       
   };
   
+//Get request form
+const formGet = (req, res) => {
+    res.render("pages/form", {});
+  }
 
-module.exports = { indexrout,createPost,createGet };
+module.exports = { indexrout,createPost,createGet,formGet };
