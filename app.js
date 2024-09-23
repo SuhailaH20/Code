@@ -3,6 +3,8 @@ const app = express()
 const port = 3001
 const mongoose = require('mongoose')
 app.use(express.urlencoded({ extended: true }));
+//for the session
+const session = require('express-session');
 //to use the template engine
 app.set('view engine', 'ejs');
 // for the auto refresh feature
@@ -29,6 +31,15 @@ liveReloadServer.server.once("connection", () => {
     }, 100);
 });
 
+
+
+// Configure session middleware
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'fallback-secret',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}));
 
 
 //connrction to the database
