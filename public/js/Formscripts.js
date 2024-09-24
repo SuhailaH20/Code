@@ -1,7 +1,7 @@
 // Sidebar items and containers
 var li_items = document.querySelectorAll(".side_bar_bottom ul li");
 var dashboardContainer = document.querySelector(".dashboard_container");
-var locationContainer = document.querySelectorAll(".location_container");
+var locationContainer = document.querySelectorAll(".location_container"); // Assuming this class is correctly applied
 var reportContainer = document.querySelector(".report_container");
 var recommendationsContainer = document.querySelector(".recommendations_container");
 
@@ -25,8 +25,9 @@ function showDashboard() {
 function showLocation() {
     hideAllContainers();
     locationContainer.forEach(function(container) {
-        container.style.display = "block";
+        container.style.display = "block"; // This ensures all location-related containers are shown
     });
+    document.querySelector('.form-box').style.display = "block"; // Ensure form content appears
 }
 
 // Show the report container
@@ -67,6 +68,7 @@ li_items.forEach(function(li_main){
 
 // dashboard container by default
 showDashboard();
+
 
 
 // buttons parts
@@ -130,3 +132,4 @@ const updateProgress = () => {
         nextButton.disabled = false;
     }
 }
+
