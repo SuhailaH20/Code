@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحة الواجهة</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body dir="rtl">
+    <%- include('./Components/navbar.ejs') %>
+
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>مرحبًا بك في انتقاء</h1>
+            <p>
+                موقع انتقاء يساعد أصحاب الأعمال في اختيار المواقع المثلى لأعمالهم بناءً على متطلبات الترخيص، استراتيجية 15 دقيقة، وتحليل الكثافة السكانية والطلب المحلي.
+                إذا كنت تسعى لاختيار موقع يضمن نجاح عملك، ابدأ الآن واحصل على توصيات مدعومة بالذكاء الاصطناعي لمواقع تضمن أفضل فرصة لنمو وازدهار عملك.
+            </p>
+            <a href="/pages/form.html">
+                <button type="button">ابدأ الآن<i class="fa fa-angle-left" aria-hidden="true"></i></button>
+            </a>
+        </div>
+        <div class="hero-image">
+            <img src="img/HeroSection.png" alt="Business Location" />
+        </div>
+        <%- include('./Components/wavy.ejs') %>
+    </section>
+    
+
+    <section class="features-section">
+        <div class="container">
+            <h2>خدماتنا</h2> 
+            <div class="row slide-in-left">
+                <div class="col-md-4">
+                    <div class="feature-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <h3>اختيار الموقع المثالي</h3>
+                        <p>يساعد موقع رخصتي أصحاب الأعمال في اختيار المواقع المثلى لأعمالهم بناءً على متطلبات الترخيص واستراتيجية 15 دقيقة.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-item">
+                        <i class="fas fa-cogs"></i>
+                        <h3>تحليل دقيق باستخدام الذكاء الاصطناعي</h3>
+                        <p>نستخدم تقنيات الذكاء الاصطناعي لتحليل البيانات وتقديم توصيات مبنية على متطلبات الترخيص، الكثافة السكانية، والطلب المحلي.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-item">
+                        <i class="fas fa-layer-group"></i>
+                        <h3>تقديم توصيات مخصصة</h3>
+                        <p>نوفر خيارات متعددة لأصحاب الأعمال، مع توصيات مدعومة بالبيانات لاختيار أفضل موقع ممكن لنمو أعمالهم.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="feature-item">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>إحصاءات وتقارير مفصلة</h3>
+                        <p>نقدم لك تقارير دقيقة وإحصاءات مفصلة تساعدك على اتخاذ قرارات مدروسة بشأن موقع عملك وتوسعه المستقبلي.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-item">
+                        <i class="fas fa-globe"></i>
+                        <h3>دعم عبر الإنترنت 24/7</h3>
+                        <p>نحن هنا لمساعدتك في أي وقت لضمان تجربة سلسة ومريحة عبر الإنترنت أو عبر الهاتف.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-item">
+                        <i class="fas fa-user-cog"></i>
+                        <h3>لوحة تحكم مخصصة</h3>
+                        <p>احصل على لوحة تحكم شخصية تتيح لك إدارة ومتابعة طلباتك وبياناتك بكل سهولة وفعالية.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+
+    <section class="how-it-works">
+        <div class="container">
+            <h2>كيف يعمل الموقع</h2>
+            <div class="timeline">
+                <div class="timeline-item left">
+                    <div class="timeline-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>تقديم المعلومات</h3>
+                        <p>ابدأ بإدخال المعلومات الأساسية حول نشاطك التجاري ونوعه. قم بتعبئة البيانات المطلوبة من خلال النموذج الموجود على الموقع.</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>تحليل البيانات والموقع</h3>
+                        <p>نقوم بتحليل بياناتك باستخدام نماذج الذكاء الاصطناعي لتحديد مدى توافق طلبك مع المتطلبات المحلية، استراتيجية 15 دقيقة، والكثافة السكانية.</p>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="timeline-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>احصل على التوصيات</h3>
+                        <p>استلم التوصيات الخاصة بالمواقع المثلى لعملك. إذا لم يتوافق الموقع الحالي مع المتطلبات، سنوفر لك ثلاثة مواقع بديلة مع احتمالية نجاح أعلى.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    
+
+    <section class="about-section">
+        <div class="container">
+            <h2>من نحن</h2>
+            <p>نحن فريق من طالبات هندسة البرمجيات، شغوفات بتطوير البرمجيات، نعمل على تقديم حلول تقنية مبتكرة من خلال مشروعنا الختامي. هدفنا هو إحداث تأثير إيجابي في المجتمع من خلال تقديم منتج يساهم في حل مشكلة حقيقية.</p>
+            <div class="team-members">
+                <div class="member">
+                    <div class="member-image">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="member-info">
+                        <h3>سهيلة</h3>
+                        <p>هندسة برمجيات</p>
+                    </div>
+                </div>
+                <div class="member">
+                    <div class="member-image">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="member-info">
+                        <h3>ليان</h3>
+                        <p>هندسة برمجيات</p>
+                    </div>
+                </div>
+                <div class="member">
+                    <div class="member-image">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="member-info">
+                        <h3>رشا</h3>
+                        <p>هندسة برمجيات</p>
+                    </div>
+                </div>
+                <div class="member">
+                    <div class="member-image">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="member-info">
+                        <h3>أماني</h3>
+                        <p>هندسة برمجيات</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    
+    
+    
+
+
+    <section class="ready-banner">
+        <div class="container">
+            <h2>هل أنت مستعد؟</h2>
+            <p><span class="multitext"> </span></p>
+            <p>ابدأ رحلتك الآن وكن جزءًا من نجاح المستقبل. نحن هنا لدعمك في كل خطوة على الطريق.</p>
+            <a href="/pages/form.html" class="btn-ready">ابدأ الآن</a>
+        </div>
+    </section>
+    
+    
+<%- include('./Components/footer.ejs') %>
+
+
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+        <script>
+            var typingEffect = new Typed(".multitext", {
+                strings: ["لبناء مستقبل مزدهر","لتحقيق أهدافك","لبناء نجاحك"],
+                loop: true,
+                typeSpeed: 90,
+                backSpeed: 80,
+            })
+        </script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+    const members = [
+        { name: 'سهيلة', role: 'هندسة برمجيات', info: 'نحن مجموعة من طالبات هندسة البرمجيات...' },
+        { name: 'ليان', role: 'هندسة برمجيات', info: 'نحن مجموعة من طالبات هندسة البرمجيات...' },
+        { name: 'رشا', role: 'هندسة برمجيات', info: 'نحن مجموعة من طالبات هندسة البرمجيات...' },
+        { name: 'أماني', role: 'هندسة برمجيات', info: 'نحن مجموعة من طالبات هندسة البرمجيات...' }
+    ];
+
+    let index = 0;
+
+    const updateCard = () => {
+        document.querySelector('.member-name').textContent = members[index].name;
+        document.querySelector('.member-role').textContent = members[index].role;
+        document.querySelector('.member-info').textContent = members[index].info;
+    };
+
+    document.querySelector('.prev-btn').addEventListener('click', () => {
+        index = (index - 1 + members.length) % members.length;
+        updateCard();
+    });
+
+    document.querySelector('.next-btn').addEventListener('click', () => {
+        index = (index + 1) % members.length;
+        updateCard();
+    });
+
+    updateCard();
+});
+
+        </script>
+</body>
+
+</html>

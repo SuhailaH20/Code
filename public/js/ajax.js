@@ -16,7 +16,7 @@ $(document).ready(function () {
           if (response.message) {
             showNotification(response.message); // Display message as pop-up notification
           } else {
-            window.location.href = '/'; // Redirect to landing page on successful login
+            window.location.href = '/pages/login.html'; // Redirect to landing page on successful login
           }
         },
         error: function (xhr, status, error) {
