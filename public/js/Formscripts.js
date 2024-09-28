@@ -98,6 +98,7 @@ showDashboard();
 const nextButton = document.querySelector('.btn-next');
 const prevButton = document.querySelector('.btn-prev');
 const submitButton = document.querySelector('.btn-submit');
+const pressButton = document.querySelector('.btn-press');
 const steps = document.querySelectorAll('.step');
 const form_steps = document.querySelectorAll('.form-step');
 const errorMessage = document.getElementById('error-message'); // Get the error message div
@@ -140,6 +141,27 @@ prevButton.addEventListener('click', () => {
     }
     updateProgress();
 });
+// Add event listener for the press button
+pressButton.addEventListener('click', () => {
+    showReport();  // Show the report container
+
+    // Remove 'active' from all items
+    li_items.forEach(function(li) {
+        li.classList.remove("active");
+    });
+
+    // Find the item and set it as active
+    const reportItem = Array.from(li_items).find(item => {
+        const itemText = item.querySelector(".item").textContent.trim(); 
+        return itemText === "التقارير"; 
+    });
+    
+    if (reportItem) {
+        reportItem.classList.add("active");  // Add 'active' class to item
+    }
+});
+
+
 
 submitButton.addEventListener('click', () => {
     errorMessage.style.display = 'none'; // Hide any previous error messages
@@ -156,29 +178,33 @@ submitButton.addEventListener('click', () => {
 });
 
 
-const updateProgress = () => {
+const updateProgress = () => { 
     console.log('step length =>' + steps.length);
     console.log('active =>' + active);
 
+    // toggle active class for steps
     steps.forEach((step, i) => {
         if (i == active - 1) {
             step.classList.add('active');
             form_steps[i].classList.add('active');
-            console.log('i =>' + i);
+            console.log('i =>'+ i);
         }
         else {
             step.classList.remove('active');
             form_steps[i].classList.remove('active');
         }
     });
-
+    //enable disable next and prev and submit and press buttons
     if (active === 1) {
         prevButton.disabled = true;
-    } else if (active === steps.length) {
+    }
+    else if (active === steps.length) {
         nextButton.disabled = true;
-    } else {
+    }
+    else {
         submitButton.disabled = false;
         prevButton.disabled = false;
         nextButton.disabled = false;
     }
 }
+
