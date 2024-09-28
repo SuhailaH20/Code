@@ -218,12 +218,16 @@ img {
 .form-box {
     display: flex;
     flex-direction: column;
-    margin-top: 5em;
     border-radius: 4px;
     border: 2px solid var(--main-color);
     background-color: #faf9f9;
     position: relative;
+    width: 1200px;
+    height: 700px;
+    margin-left: -900px;
+    padding-right: 20px;
 }
+
 
 .form-two {
     max-width: 140%; 
