@@ -1,33 +1,57 @@
-// Sidebar items and containers
+// Sidebar items and containers 
 var li_items = document.querySelectorAll(".side_bar_bottom ul li");
 var dashboardContainer = document.querySelector(".dashboard_container");
-var locationContainer = document.querySelectorAll(".location_container"); // Assuming this class is correctly applied
+var locationContainer = document.querySelectorAll(".location_container"); 
 var reportContainer = document.querySelector(".report_container");
 var recommendationsContainer = document.querySelector(".recommendations_container");
 
+// JavaScript function to show/hide content based on sidebar clicks
+function showContent(contentId) {
+    // إخفاء جميع المحتويات
+    const containers = document.querySelectorAll('.content-container');
+    containers.forEach(container => {
+        container.classList.remove('active');
+    });
+
+    // إظهار المحتوى المطلوب
+    const activeContainer = document.getElementById(contentId);
+    activeContainer.classList.add('active');
+
+    // تحديث الشريط الجانبي
+    const items = document.querySelectorAll('.side_bar_bottom ul li');
+    items.forEach(item => {
+        item.classList.remove('active');
+    });
+    const activeItem = Array.from(items).find(item => item.innerText === contentId.replace(/([a-z])([A-Z])/g, '$1 $2'));
+    if (activeItem) {
+        activeItem.classList.add('active');
+    }
+}
+
 // Hide all containers 
 function hideAllContainers() {
-    dashboardContainer.style.display = "none";
-    locationContainer.forEach(function(container) {
-        container.style.display = "none";
-    });
-    reportContainer.style.display = "none";
-    recommendationsContainer.style.display = "none";
+    if (dashboardContainer) dashboardContainer.style.display = "none";
+    if (locationContainer) {
+        locationContainer.forEach(function(container) {
+            container.style.display = "none";
+        });
+    }
+    if (reportContainer) reportContainer.style.display = "none";
+    if (recommendationsContainer) recommendationsContainer.style.display = "none";
 }
 
 // Show the dashboard container
 function showDashboard() {
     hideAllContainers();
-    dashboardContainer.style.display = "block";
+    if (dashboardContainer) dashboardContainer.style.display = "block";
 }
 
 // Show the location containers
 function showLocation() {
     hideAllContainers();
     locationContainer.forEach(function(container) {
-        container.style.display = "block"; // This ensures all location-related containers are shown
+        container.style.display = "block";
     });
-    document.querySelector('.form-box').style.display = "block"; // Ensure form content appears
 }
 
 // Show the report container
@@ -68,7 +92,6 @@ li_items.forEach(function(li_main){
 
 // dashboard container by default
 showDashboard();
-
 
 
 // buttons parts
@@ -132,4 +155,3 @@ const updateProgress = () => {
         nextButton.disabled = false;
     }
 }
-
