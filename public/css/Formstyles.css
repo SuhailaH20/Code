@@ -398,6 +398,7 @@ form > div.active {
 
 
 
+
 /* Buttons styles*/
 
 .btn-group {
@@ -406,22 +407,32 @@ form > div.active {
     flex-wrap: wrap;
     margin-top: 2em;
     justify-content: space-between;
+    text-align: center;
 }
+
 .btn-group [class*="btn-"] {
     background-color: var(--main-color);
     color: white;
-    padding: 1em 2.5em;
+    padding: 0; 
+    width: 120px;
+    height: 50px; 
     border: 4px solid var(--secondary-color);
-    border-radius: 30px;
-    cursor: poiter;
+    border-radius: 25px; 
+    cursor: pointer;
     -webkit-transition: background-color 0.3s, border-color 0.3s ease-out;
     transition: background-color 0.3s, border-color 0.3s ease-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
+
 .btn-group [class*="btn-"]:disabled {
     background-color: var(--light-color);
     border-color: var(--lighter-color);
     cursor: text;
 }
+
 .btn-group [class*="btn-"]:hover:not(:disabled) {
     background-color: var(--dark-color);
     border-color: var(--light-color);
@@ -430,15 +441,23 @@ form > div.active {
 .btn-group .btn-submit {
     display: none;
 }
+
 .form-two.active ~ .btn-group .btn-next {
     display: none;
 }
+
 .form-two.active ~ .btn-group .btn-submit {
     display: block;
 }
-.form-three.active ~ .btn-group .btn-next .btn-prev {
+
+.form-three.active ~ .btn-group .btn-next {
     display: none;
 }
+
+.form-three.active ~ .btn-group .btn-prev {
+    display: none;
+}
+
 
 @media screen and (min-width: 768px) { 
     .form-box {
