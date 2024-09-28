@@ -1,29 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>form</title>
+    <title>نموذج</title>
     <link rel="stylesheet" href="../css/Formstyles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo&display=swap">
     <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 </head>
 <body>
     <div class="wrapper">
         <!-- Include sidebar -->
-        <%- include('../components/sidebar') %>
+        <div>
+            <%- include('../components/sidebar') %>
+        </div>
 
-        <!-- Include dashboard -->
-        <%- include('../components/dashboard') %>
+        <!-- Main content area -->
+        <div class="main_content">
+            <!-- Include dashboard -->
+            <div id="dashboard" class="content-container active">
+                <%- include('../components/dashboard') %>
+            </div>
 
-        <!-- Include form -->
-            <%- include('../components/formContent') %>
-        
-        <!-- Include reports -->
-      
+            <!-- Include form -->
+            <div id="formContent" class="content-container">
+                <%- include('../components/formContent') %>
+            </div>
 
-        <!-- recommendations part -->
-        <div class="recommendations_container">
-            <p>هنا الاقتراحات.</p>    
+            <!-- Recommendations part -->
+            <div id="recommendations" class="content-container">
+                <div class="recommendations_container">
+                    <p>هنا الاقتراحات.</p>    
+                </div>
+            </div>
         </div>
     </div>
 
