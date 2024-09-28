@@ -4,45 +4,50 @@
             <img src="../img/NobackgroundLogoWhite.png" alt="logo">
         </div>
         <div class="info">
-            <h3>gggggاهلا بك</h3>
+            <h3>اهلا بك</h3>
             <p>ابدأ الآن</p>
         </div>
     </div>
     <div class="side_bar_bottom">
         <ul>
-            <li class="active">
+            <li class="active" onclick="showContent('dashboard')">
                 <span class="top_curve"></span>
-                <a href="#">
+                <a href="javascript:void(0);">
                     <span class="icon"><i class="fas fa-home"></i></span>
-                    <span class="item" class="dashboard-item">لوحة التحكم</span></a>
+                    <span class="item" class="dashboard-item">لوحة التحكم</span>
+                </a>
                 <span class="bottom_curve"></span>
             </li>
-            <li>
+            <li onclick="showContent('formContent')">
                 <span class="top_curve"></span>
-                <a href="#"  id="request-analysis">
+                <a href="javascript:void(0);">
                     <span class="icon"><i class="fas fa-fighter-jet"></i></span>
-                    <span class="item">طلب تحليل الموقع</span></a>
+                    <span class="item">طلب تحليل الموقع</span>
+                </a>
                 <span class="bottom_curve"></span>
             </li>
-            <li>
+            <li onclick="showContent('reports')">
                 <span class="top_curve"></span>
-                <a href="#">
+                <a href="javascript:void(0);">
                     <span class="icon"><i class="far fa-newspaper"></i></span>
-                    <span class="item"> التقارير</span></a>
+                    <span class="item">التقارير</span>
+                </a>
                 <span class="bottom_curve"></span>
             </li>
-            <li>
+            <li onclick="showContent('recommendations')">
                 <span class="top_curve"></span>
-                <a href="#">
+                <a href="javascript:void(0);">
                     <span class="icon"><i class="fas fa-chart-pie"></i></span>
-                    <span class="item">اقتراحات</span></a>
+                    <span class="item">اقتراحات</span>
+                </a>
                 <span class="bottom_curve"></span>
             </li>
-            <li>
+            <li onclick="showContent('settings')">
                 <span class="top_curve"></span>
-                <a href="#">
+                <a href="javascript:void(0);">
                     <span class="icon"><i class="fas fa-cog"></i></span>
-                    <span class="item">اعدادات</span></a>
+                    <span class="item">اعدادات</span>
+                </a>
                 <span class="bottom_curve"></span>
             </li>
         </ul>
