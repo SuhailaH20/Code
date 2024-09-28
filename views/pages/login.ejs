@@ -1,54 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Form</title>
+  <title>تسجيل الدخول</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../css/login.css">
+  <link rel="stylesheet" href="../css/createAccount.css">
+
 </head>
 
 <body>
-  <div class="container-fluid">
-    <div class="row no-gutter">
-      <div class="col-md-6 d-none d-md-flex bg-image"></div>
-      <div class="col-md-6 bg-light">
-        <div class="login d-flex align-items-center py-5">
-          <div class="container">
-            <div class="row">
-              <div class="col-lg-7 col-xl-6 mx-auto">
-                <h3 class="display-4 text-right">تسجيل الدخول</h3>
-                <br>
-                <div class="text-center">
-                  <img src="../img/NIC.png" alt="صورة توضيحية" class="my-4 mx-auto d-block" width="420" height="100" style="border-radius: 2%;">
-                </div>
-                <div class="form-separator">
-                  <div class="text-center">
-                    <span>أو</span>
-                  </div>
-                </div>
-                
-                <form action="/login" method="POST">
-                  <div id="popupNotification" style="display: none; color: red;"></div>
-                  <div class="form-group mb-3">
-                    <input type="text" name="idNumber" placeholder="رقم الهوية / الإقامة"  autofocus="" class="form-control rounded-pill border-0 shadow-sm px-4 text-right input-height">
-                    <span class="text-danger" id="idError"></span>
-                  </div>
-                  <div class="form-group mb-3">
-                    <input type="password" name="password" placeholder="كلمة المرور" class="form-control rounded-pill border-0 shadow-sm px-4 text-right">
-                    <span class="text-danger" id="passwordError"></span>
-                  </div>
-                  <button type="submit" class="btn btn-custom btn-block text-uppercase mb-2 rounded-pill shadow-sm">تسجيل الدخول</button>
-                  <div class="form-footer">
-                    <p class="text-right">ليس لديك حساب؟ <a href="../pages/createAccount.html" class="font-italic text-muted">انشئ حساب جديد</a></p>
-                  </div>
-                </form>
+  <div class="bg-image"></div>
+  <div class="form-container">
+    <h4 class="display-4 text-right">تسجيل الدخول</h4>
+    <form action="/login" method="POST" class="w-100">
+      <div id="popupNotification" style="display: none; color: #d81a1a;"></div>
+      
+      <div class="form-group mb-3">
+        <input type="tel" placeholder="رقم الهاتف" name="phoneNumber" autofocus="" class="form-control rounded-pill border-0 shadow-sm px-4 input-height">
+        <span class="text-danger" id="phoneNumberError"></span>
+      </div>
+     
+      <div class="form-group mb-3">
+        <input type="password" placeholder="كلمة المرور" id="password" name="password" autofocus="" class="form-control rounded-pill border-0 shadow-sm px-4 input-height">
+        <span class="text-danger" id="passwordError"></span>
+      </div>
 
-                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <div class="button-container">
+        <button type="submit" class="btn btn-custom btn-block text-uppercase rounded-pill shadow-sm">تسجيل الدخول</button>
+      </div>
 
-<script src="../js/ajax.js"></script>
-<script src="../js/script.js"></script>
+      <div class="form-footer">
+        <p>ليس لديك حساب ؟<a href="../pages/login.html" class="font-italic text-muted">انشئ حساب جديد</a></p>
+      </div>
+    </form>
+    <p id="errorMessage" style="color: red;"></p>
+  </div>
+
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="../js/script.js"></script>
+  <script src="../js/ajaxLogin.js"></script>
 </body>
-</html>
 
+</html>
