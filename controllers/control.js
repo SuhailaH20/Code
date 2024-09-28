@@ -82,7 +82,8 @@ const createPost = async (req, res) => {
 
 // Get request form
 const formGet = (req, res) => {
-    res.render("pages/form", {});
+    const userName = req.session.userName || 'تسجيل دخول';
+    res.render("pages/form", {userName});
 }
 
 module.exports = { indexrout, createPost, createGet, formGet };

@@ -11,16 +11,16 @@
                         <p>ادخل بيانات النشاط</p>
                         <div>
                             <label>اختر نوع النشاط</label>
-                            <select name="businessType" id="businessType">
-                                <option value="">الرجاء الاختيار</option>
+                            <select name="businessType" id="businessType" required>
+                                <option value="" disabled selected>الرجاء الاختيار</option>
                                 <option value="food-markets">نشاط الاغذية</option>
                             </select>
                         </div>
                         <div>
                             <label>اختر تصنيف النشاط الفرعي</label>
-                            <select name="businessType" id="businessType">
-                                <option value="">الرجاء الاختيار</option>
-                                <option value="small-food-market">تمونيات</option>
+                            <select name="businessType" id="businessType" required>
+                                <option value="" disabled selected>الرجاء الاختيار</option>
+                                <option value="cafe">مقاهي</option>
                             </select>
                         </div>
                     </div>
@@ -61,7 +61,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="parkingSpaces">عدد موقف السيارات</label>
-                                <input type="text" name="parkingSpaces" id="parkingSpaces" placeholder="٣">
+                                <input type="text" name="parkingSpaces" id="parkingSpaces" placeholder="٣" min="0" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                             </div>
                         </div>
                         
@@ -105,6 +105,7 @@
                     </div>
 
              <!-- Button groups here -->
+             <div id="error-message" style="color: red; display: none; margin-top: -15px;"></div>
                 <div class="btn-group">
                     <button type="button" class="btn-prev" disabled>السابق</button>
                     <button type="button" class="btn-next">التالي</button>
