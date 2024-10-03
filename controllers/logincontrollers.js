@@ -22,6 +22,7 @@ const UserLoginPost = async (req, res) => {
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (passwordMatch) {
       req.session.userName = user.name; // Store user name in session
+      req.session.userId = user._id;     // Store the user's ObjectId in session
       return res.redirect('/'); // Redirect to main page
     } else {
       return res.render("pages/login", { errorMessage: 'كلمة المرور خطأ' });

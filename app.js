@@ -35,10 +35,10 @@ liveReloadServer.server.once("connection", () => {
 
 // Configure session middleware
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'fallback-secret',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false }
+    secret: process.env.SESSION_SECRET || 'fallback-secret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
 }));
 
 
@@ -46,10 +46,13 @@ app.use(session({
 mongoose
     .connect('mongodb+srv://entiqaaa:VDd8LITHv8Q8YhS3@entiqawebsite.h4txi.mongodb.net/?retryWrites=true&w=majority&appName=EntiqaWebsite')
     .then(() => {
+        console.log('Connected to MongoDB');
         app.listen(port, () => {
-            console.log(`http://localhost:${port}/`)
-        })
+            console.log(`http://localhost:${port}`);
+        });
     })
-    .catch((err) => { console.log(err); });
+    .catch((err) => {
+        console.error('MongoDB connection error:', err);
+    });
 
 app.use(routes);

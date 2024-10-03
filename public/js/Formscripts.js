@@ -143,7 +143,33 @@ prevButton.addEventListener('click', () => {
 });
 // Add event listener for the press button
 pressButton.addEventListener('click', () => {
-    showReport();  // Show the report container
+    const form = document.querySelector('form'); // Get the form element
+
+    // Validate form before submitting (optional, based on existing validation rules)
+    const requiredFields = form.querySelectorAll('input, select');
+    let isValid = true;
+
+    requiredFields.forEach(field => {
+        if (!field.value) {
+            field.style.border = '2px solid red';
+            isValid = false;
+        } else {
+            field.style.border = '';
+        }
+    });
+
+    if (!isValid) {
+        alert('Please fill in all required fields.');
+        return;
+    }
+
+    // Submit the form
+    form.action = "/submitForm";  // Make sure the form action matches your route
+    form.method = "POST";  // Ensure the method is POST
+    form.submit();  // This will trigger the form submission
+
+    // Show the report container
+    showReport();
 
     // Remove 'active' from all items
     li_items.forEach(function(li) {
@@ -160,6 +186,7 @@ pressButton.addEventListener('click', () => {
         reportItem.classList.add("active");  // Add 'active' class to item
     }
 });
+
 
 
 

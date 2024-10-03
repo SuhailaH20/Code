@@ -1,5 +1,6 @@
 // control.js
 const User = require('../models/Schema');
+const FormSubmission = require('../models/BusinessSchema'); 
 const bcrypt = require('bcrypt');
 
 const indexrout = (req, res) => {
@@ -86,4 +87,50 @@ const formGet = (req, res) => {
     res.render("pages/form", {userName});
 }
 
-module.exports = { indexrout, createPost, createGet, formGet };
+
+// Controller function to handle form submission
+const submitForm = async (req, res) => {
+    try {
+      console.log('Form submission data:', req.body);
+      
+      const {
+        businessType,
+        subBusinessType,
+        activityType,
+        partOfLargerBuilding,
+        buildingType,
+        parkingSpaces,
+        onCommercialStreet,
+        logisticsArea,
+        warehouseArea
+      } = req.body;
+  
+      // Ensure the user is logged in and has an ID
+      if (!req.session.userId) {
+        return res.status(401).send('User not authenticated');
+      }
+  
+      const formSubmission = new FormSubmission({
+        userId: req.session.userId,  // Store the user's ObjectId
+        businessType,
+        subBusinessType,
+        activityType,
+        partOfLargerBuilding,
+        buildingType,
+        parkingSpaces: parkingSpaces ? parseInt(parkingSpaces, 10) : null,
+        onCommercialStreet,
+        logisticsArea,
+        warehouseArea
+      });
+  
+      await formSubmission.save();
+      console.log('Form data saved successfully');
+      
+      res.redirect('/pages/form.html');
+    } catch (error) {
+      console.error('Error saving form data:', error);
+      res.status(500).send('Internal Server Error');
+    }
+  };
+  
+module.exports = { indexrout, createPost, createGet, formGet, submitForm };

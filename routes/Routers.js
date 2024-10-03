@@ -14,5 +14,6 @@ router.get('/pages/form.html', isAuthenticated, userController.formGet);
 // POST requests
 router.post('/login', loginController.UserLoginPost);
 router.post('/createAccount', userController.createPost);
+router.post('/submitForm', userController.submitForm);
 
 module.exports = router;
