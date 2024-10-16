@@ -9,7 +9,7 @@ router.get('/', userController.indexrout);
 router.get('/pages/login.html', loginController.userLogin);
 router.get('/pages/createAccount.html', userController.createGet);
 // Protect the dashboard route
-router.get('/pages/form.html', isAuthenticated, userController.formGet); 
+router.get('/pages/Main.html', isAuthenticated, userController.MainGet); 
 
 // POST requests
 router.post('/login', loginController.UserLoginPost);

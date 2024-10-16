@@ -82,9 +82,9 @@ const createPost = async (req, res) => {
 };
 
 // Get request form
-const formGet = (req, res) => {
+const MainGet = (req, res) => {
     const userName = req.session.userName || 'تسجيل دخول';
-    res.render("pages/form", {userName});
+    res.render("pages/Main", {userName});
 }
 
 
@@ -133,4 +133,4 @@ const submitForm = async (req, res) => {
     }
   };
   
-module.exports = { indexrout, createPost, createGet, formGet, submitForm };
+module.exports = { indexrout, createPost, createGet, MainGet, submitForm };
