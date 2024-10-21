@@ -24,9 +24,9 @@
 
             <!-- Include form -->
             <div id="formContent" class="content-container">
-                <%- include('../components/formContent') %>
+                <%- include('../components/formContent', { activities: activities, neighborhoods: neighborhoods }) %>
             </div>
-
+            
             <!-- Recommendations part -->
             <div id="recommendations" class="content-container">
                 <div class="recommendations_container">
