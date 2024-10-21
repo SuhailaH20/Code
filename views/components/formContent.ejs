@@ -12,24 +12,29 @@
                             <p>ادخل بيانات النشاط</p>
                             <div>
                                 <label>اختر نوع النشاط</label>
-                                <select name="businessType" id="businessType" required>
+                                <select name="activity" required>
                                     <option value="" disabled selected>الرجاء الاختيار</option>
-                                    <option value="food-markets">نشاط الاغذية</option>
-                                </select>
+                                    <!-- Render activities passed from Node.js -->
+                                    <% activities.forEach(function(activity) { %>
+                                        <option value="<%= activity %>"><%= activity %></option>
+                                    <% }); %>
+                                </select>                                
                             </div>
                             <div>
-                                <label>اختر تصنيف النشاط الفرعي</label>
-                                <select name="subBusinessType" id="businessType" required>
+                                <label>اختر الحي</label>
+                                <select name="neighborhood" id="neighborhood" required>
                                     <option value="" disabled selected>الرجاء الاختيار</option>
-                                    <option value="cafe">مقاهي</option>
+                                    <!-- Render neighborhoods passed from Node.js -->
+                                    <% neighborhoods.forEach(function(neighborhood) { %>
+                                        <option value="<%= neighborhood %>"><%= neighborhood %></option>
+                                    <% }); %>
                                 </select>
-                            </div>
+                            </div>                            
                         </div>
                         <!-- Step 2 here -->
                         <div class="form-two form-step">
                             <h2>بيانات الموقع</h2>
                             <p>ادخل بيانات الموقع</p>
-
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="activityType">نوع النشاط ؟</label>
