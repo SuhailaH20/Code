@@ -1,26 +1,26 @@
-const express = require('express')
-const app = express()
-const port = 3001
-const mongoose = require('mongoose')
+const express = require('express');
+const app = express();
+const port = 3003;
+const mongoose = require('mongoose');
+const axios = require('axios');
 app.use(express.urlencoded({ extended: true }));
-//for the session
+
+// For session
 const session = require('express-session');
-//to use the template engine
+
+// To use the template engine
 app.set('view engine', 'ejs');
-// for the auto refresh feature
-app.use(express.static('public'))
+
+// Auto-refresh feature
+app.use(express.static('public'));
 
 const routes = require("./routes/Routers");
 
-
-
-
-// 4 auto refresh
+// For auto-refresh
 const path = require("path");
 const livereload = require("livereload");
 const liveReloadServer = livereload.createServer();
 liveReloadServer.watch(path.join(__dirname, 'public'));
-
 
 const connectLivereload = require("connect-livereload");
 app.use(connectLivereload());
@@ -31,8 +31,6 @@ liveReloadServer.server.once("connection", () => {
     }, 100);
 });
 
-
-
 // Configure session middleware
 app.use(session({
     secret: process.env.SESSION_SECRET || 'fallback-secret',
@@ -41,8 +39,7 @@ app.use(session({
     cookie: { secure: false }
 }));
 
-
-//connrction to the database
+// Connection to MongoDB 
 mongoose
     .connect('mongodb+srv://entiqaaa:VDd8LITHv8Q8YhS3@entiqawebsite.h4txi.mongodb.net/?retryWrites=true&w=majority&appName=EntiqaWebsite')
     .then(() => {
@@ -55,4 +52,27 @@ mongoose
         console.error('MongoDB connection error:', err);
     });
 
+// Route to fetch business types and neighborhoods from Flask
+app.get('/', async (req, res) => {
+    try {
+        const response = await axios.get('http://localhost:5001/'); // Flask root endpoint
+
+        //test
+        console.log(response.data);
+
+        const activities = response.data.activities;
+        const neighborhoods = response.data.neighborhoods;
+
+        // Define a username retrieved from database
+        const userName = req.session.userName;
+
+        res.render('pages/Main', { activities, neighborhoods, userName });
+    } catch (error) {
+        console.error('Error fetching data from Flask:', error);
+        res.status(500).send('Error fetching data from Flask');
+    }
+});
+
 app.use(routes);
+
+
