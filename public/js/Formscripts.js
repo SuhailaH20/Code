@@ -26,7 +26,7 @@ function validateStep(step) {
 
 nextButton.addEventListener('click', () => {
     errorMessage.style.display = 'none'; // Hide any previous error messages
-    if (validateStep(active)) { // Only move to the next step if validation passes
+    if (validateStep(active)) {  // Validate the current step before proceeding
         active++;
         if (active > steps.length) {
             active = steps.length;
@@ -39,13 +39,14 @@ nextButton.addEventListener('click', () => {
 });
 
 prevButton.addEventListener('click', () => {
-    errorMessage.style.display = 'none'; // Hide error message when going back
+    errorMessage.style.display = 'none';  // Hide error message when going back
     active--;
     if (active < 1) {
         active = 1;
     }
     updateProgress();
 });
+
 // Add event listener for the press button
 pressButton.addEventListener('click', () => {
     const form = document.querySelector('form'); // Get the form element
@@ -110,35 +111,36 @@ submitButton.addEventListener('click', () => {
 });
 
 
-const updateProgress = () => { 
-    console.log('step length =>' + steps.length);
-    console.log('active =>' + active);
-
-    // toggle active class for steps
+const updateProgress = () => {
     steps.forEach((step, i) => {
         if (i == active - 1) {
             step.classList.add('active');
             form_steps[i].classList.add('active');
-            console.log('i =>'+ i);
-        }
-        else {
+            form_steps[i].style.display = 'block';  // Show the active step
+        } else {
             step.classList.remove('active');
             form_steps[i].classList.remove('active');
+            form_steps[i].style.display = 'none';  // Hide non-active steps
         }
     });
-    //enable disable next and prev and submit and press buttons
+
+    if (active === 3) {
+        validateSiteData();  
+    }
     if (active === 1) {
-        prevButton.disabled = true;
-    }
-    else if (active === steps.length) {
-        nextButton.disabled = true;
-    }
-    else {
-        submitButton.disabled = false;
+        prevButton.disabled = true; 
+        nextButton.disabled = false; 
+        submitButton.style.display = 'none'; 
+    } else if (active === steps.length) {
+        nextButton.style.display = 'none'; 
+        submitButton.style.display = 'inline-block';
+    } else {
         prevButton.disabled = false;
-        nextButton.disabled = false;
+        nextButton.style.display = 'inline-block';
+        submitButton.style.display = 'none';
     }
-}
+};
+
 
 //Result..
 function validateSiteData() {
@@ -150,29 +152,29 @@ function validateSiteData() {
     const logisticsArea = document.getElementById("logisticsArea").value;
     const warehouseArea = document.getElementById("warehouseArea").value;
 
-    const errors = [];
+    const Reasons = [];
 
     // تحقق من الشروط المختلفة
     if (activityType === "openStore") {
         if (parkingSpaces < 1) {
-            errors.push(".يجب توفير موقف سيارات واحد على الأقل للمتجر المفتوح");
+            Reasons.push(".يجب توفير موقف سيارات واحد على الأقل للمتجر المفتوح");
         }
         if (onCommercialStreet === "no") {
-            errors.push(".يجب أن يكون الموقع على شارع تجاري أو بمنطقة تجارية");
+            Reasons.push(".يجب أن يكون الموقع على شارع تجاري أو بمنطقة تجارية");
         }
     }
 
     if (activityType === "closedStoreCity") {
         if (partOfLargerBuilding === "yes") {
             if (buildingType !== "commercial" && buildingType !== "mixed") {
-                errors.push(".إذا كان النشاط ضمن جزء من مبنى، يجب أن يكون ضمن المباني التجارية أو المختلطة");
+                Reasons.push(".إذا كان النشاط ضمن جزء من مبنى، يجب أن يكون ضمن المباني التجارية أو المختلطة");
             }
             if (onCommercialStreet === "no") {
-                errors.push(".يجب أن يكون الموقع على الشوارع التجارية");
+                Reasons.push(".يجب أن يكون الموقع على الشوارع التجارية");
             }
         } else {
             if (parkingSpaces < Math.ceil(100 / 70)) {
-                errors.push(".يجب توفير موقف سيارات واحد لكل 70 م2 للمتجر المغلق المستقل");
+                Reasons.push(".يجب توفير موقف سيارات واحد لكل 70 م2 للمتجر المغلق المستقل");
             }
         }
     }
@@ -180,7 +182,7 @@ function validateSiteData() {
     if (activityType === "closedStoreOutsideCity") {
         if (partOfLargerBuilding === "yes" || partOfLargerBuilding === "no") {
             if (logisticsArea === "no" && warehouseArea === "no") {
-                errors.push(".يجب أن يكون الموقع في منطقة الخدمات اللوجستية أو منطقة المستودعات");
+                Reasons.push(".يجب أن يكون الموقع في منطقة الخدمات اللوجستية أو منطقة المستودعات");
             }
         }
     }
@@ -188,9 +190,9 @@ function validateSiteData() {
     // عرض النتيجة
     const resultContainer = document.getElementById("resultMessage");
     resultContainer.className = ''; // إعادة تعيين أي نمط سابق
-    if (errors.length > 0) {
-        resultContainer.innerHTML = `<p>:موقعك لا يتوافق مع الاشتراطات. الأسباب</p><ul>${errors.map(error => `<li>${error}</li>`).join('')}</ul>`;
-        resultContainer.classList.add('error');
+    if (Reasons.length > 0) {
+        resultContainer.innerHTML = `<p>:موقعك لا يتوافق مع الاشتراطات. الأسباب</p><ul>${Reasons.map(Reasons => `<li>${Reasons}</li>`).join('')}</ul>`;
+        resultContainer.classList.add('Reasons');
     } else {
         resultContainer.innerHTML = "<p>.موقعك يتوافق مع الاشتراطات. يمكنك المتابعة</p>";
         resultContainer.classList.add('success');

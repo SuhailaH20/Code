@@ -16,9 +16,11 @@
                                     <option value="" disabled selected>الرجاء الاختيار</option>
                                     <!-- Render activities passed from Node.js -->
                                     <% activities.forEach(function(activity) { %>
-                                        <option value="<%= activity %>"><%= activity %></option>
-                                    <% }); %>
-                                </select>                                
+                                        <option value="<%= activity %>">
+                                            <%= activity %>
+                                        </option>
+                                        <% }); %>
+                                </select>
                             </div>
                             <div>
                                 <label>اختر الحي</label>
@@ -26,10 +28,12 @@
                                     <option value="" disabled selected>الرجاء الاختيار</option>
                                     <!-- Render neighborhoods passed from Node.js -->
                                     <% neighborhoods.forEach(function(neighborhood) { %>
-                                        <option value="<%= neighborhood %>"><%= neighborhood %></option>
-                                    <% }); %>
+                                        <option value="<%= neighborhood %>">
+                                            <%= neighborhood %>
+                                        </option>
+                                        <% }); %>
                                 </select>
-                            </div>                            
+                            </div>
                         </div>
                         <!-- Step 2 here -->
                         <div class="form-two form-step">
@@ -104,33 +108,32 @@
                         </div>
                         <!-- Step 3 here -->
                         <div class="form-three form-step">
-                            <div class="bg-svf"></div>
-                            <h2>النتيجة</h2>
-                            <div id="resultMessage" class="result-message"></div>
-                            <div class="btn-group">
-                                <button type="submit" class="btn-press">اضغط هنا</button>
+                            <div class="Step3 Result">
+                                <h2>النتيجة</h2>
+                                <div id="resultMessage" class="result-message"></div>
                             </div>
                         </div>
-                        
+
                         <!--Step 4 anlysis-->
-                       <!-- <div class="form-four form-step">
+                        <div class="form-four form-step">
                             <div class="form-group">
                                 <label for="latitude">Enter Latitude:</label>
                                 <input type="text" id="latitude" placeholder="e.g., 21.5" />
                             </div>
-                
+
                             <div class="form-group">
                                 <label for="longitude">Enter Longitude:</label>
                                 <input type="text" id="longitude" placeholder="e.g., 39.2" />
-                            </div>                
-                        </div>-->
+                            </div>
+
+                        </div>
 
                         <!-- Button groups here -->
                         <div id="error-message" style="color: red; display: none; margin-top: -15px;"></div>
                         <div class="btn-group">
                             <button type="button" class="btn-prev" disabled>السابق</button>
                             <button type="button" class="btn-next">التالي</button>
-                            <button type="button" class="btn-submit">ارسال</button>
+                            <button type="submit" class="btn-submit btn-press">ارسال</button>
                         </div>
                         <!-- End of button groups -->
                     </form>
@@ -149,6 +152,10 @@
                             <li class="step">
                                 <span>٣</span>
                                 <p>الـنــتــيــــجـة<br><span>٢٥ ثانية للاكمال</span></p>
+                            </li>
+                            <li class="step">
+                                <span>4</span>
+                                <p>تحليل الموقع<br><span>٢٥ ثانية للاكمال</span></p>
                             </li>
                         </ul>
                     </div>
