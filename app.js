@@ -52,27 +52,6 @@ mongoose
         console.error('MongoDB connection error:', err);
     });
 
-// Route to fetch business types and neighborhoods from Flask
-app.get('/', async (req, res) => {
-    try {
-        const response = await axios.get('http://localhost:5001/'); // Flask root endpoint
-
-        //test
-        console.log(response.data);
-
-        const activities = response.data.activities;
-        const neighborhoods = response.data.neighborhoods;
-
-        // Define a username retrieved from database
-        const userName = req.session.userName;
-
-        res.render('pages/Main', { activities, neighborhoods, userName });
-    } catch (error) {
-        console.error('Error fetching data from Flask:', error);
-        res.status(500).send('Error fetching data from Flask');
-    }
-});
-
 app.use(routes);
 
 
