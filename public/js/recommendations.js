@@ -1,15 +1,23 @@
 // Add OpenStreetMap tiles
-var map = L.map('map').setView([21.5, 39.2], 10);
+window.onload = function() {
+    var map = L.map('map').setView([21.4858, 39.1925], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
 
-// Set up the OpenStreetMap tile layer
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors'
-}).addTo(map);
+    // Use MutationObserver to detect changes and resize the map
+    const observer = new MutationObserver(function() {
+        map.invalidateSize();
+    });
 
-// Ensure the map is fully loaded and visible
-map.whenReady(function() {
-    map.invalidateSize();
-});
+    const config = { childList: true, subtree: true };
+    observer.observe(document.body, config);
+
+    setTimeout(function() {
+        map.invalidateSize();
+    }, 500);
+};
+
 
 /*
 const submitButton = document.querySelector('.btn-submit1');
