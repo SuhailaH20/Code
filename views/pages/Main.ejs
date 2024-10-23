@@ -5,7 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>نموذج</title>
     <link rel="stylesheet" href="../css/Formstyles.css">
+    <link rel="stylesheet" href="../css/report.css">
+    <link rel="stylesheet" href="../css/recommendations.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo&display=swap">
+    <!-- Include Leaflet CSS and JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 </head>
 <body>
@@ -33,15 +38,15 @@
             
             <!-- Recommendations part -->
             <div id="recommendations" class="content-container">
-                <div class="recommendations_container">
-                    <p>هنا الاقتراحات.</p>    
-                </div>
+                <%- include('../components/recommendations', { activities: activities, neighborhoods: neighborhoods }) %>
             </div>
         </div>
     </div>
 
     <script src="../js/Formscripts.js"></script>   
-     <script src="../js/MainScript.js"></script>
+    <script src="../js/MainScript.js"></script>
+    <script src="../js/report.js"></script>
+    <script src="../js/recommendations.js"></script>
 
 </body>
 </html>

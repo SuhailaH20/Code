@@ -1,0 +1,45 @@
+<div class="recommendation_container">
+    <div id="page" class="site">
+        <div class="container">
+            <div class="form-box">
+                <form action="/submitForm" method="POST" id="recommendation-form">
+                    <div class="form-one form-step active">
+                        <div class="bg-svg"></div>
+                        <h2>اقتراحات</h2>
+                        <p>ادخل بيانات النشاط والحي</p>
+                        <div id="error-message1" style="color: red; display: none; margin-top: -15px;"></div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>اختر الحي</label>
+                                <select name="neighborhood" id="neighborhood" required>
+                                    <option value="" disabled selected>الرجاء الاختيار</option>
+                                    <% neighborhoods.forEach(function(neighborhood) { %>
+                                        <option value="<%= neighborhood %>"><%= neighborhood %></option>
+                                    <% }); %>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>اختر نوع النشاط</label>
+                                <select name="activity" required>
+                                    <option value="" disabled selected>الرجاء الاختيار</option>
+                                    <% activities.forEach(function(activity) { %>
+                                        <option value="<%= activity %>"><%= activity %></option>
+                                    <% }); %>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Map Container -->
+                        <div class="map-section">
+                            <div id="map"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="btn-group">
+                        <button type="submit" class="btn-submit1 btn-press">ارسال</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+h2, p {
+    margin: 0 20 30px; 
+}
+
+table {
+    width: 100%; /* Make the table width 100% */
+    height: calc(100% - 60px); /* Set the table height to fill the container, accounting for spacing of the title and text */
+    border-collapse: collapse;
+    overflow-y: auto; /* Make the table scrollable if the content is large */
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.collapse-btn {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.collapse-content {
+    display: none;
+}
+
+.collapse-content.show {
+    display: block;
+}
+
+.success { color: green; }
+.Reasons { color: red; }

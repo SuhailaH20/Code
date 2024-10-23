@@ -153,6 +153,7 @@ function validateSiteData() {
     const warehouseArea = document.getElementById("warehouseArea").value;
 
     const Reasons = [];
+    const successMessages = ["موقعك يتناسب مع الاشتراطات"]; // الرسالة الناجحة
 
     // تحقق من الشروط المختلفة
     if (activityType === "openStore") {
@@ -190,11 +191,31 @@ function validateSiteData() {
     // عرض النتيجة
     const resultContainer = document.getElementById("resultMessage");
     resultContainer.className = ''; // إعادة تعيين أي نمط سابق
+
+    // تخزين الطلبات في localStorage
+    const currentRequests = JSON.parse(localStorage.getItem('requests')) || [];
+    const newRequest = {
+        reasons: Reasons,
+        createdAt: new Date().toISOString(), // تخزين تاريخ الإنشاء
+        success: Reasons.length === 0, // تحديد النجاح أو الفشل
+        successMessages: successMessages // إضافة الرسالة الناجحة
+    };
+    currentRequests.push(newRequest);
+    localStorage.setItem('requests', JSON.stringify(currentRequests));
+
     if (Reasons.length > 0) {
-        resultContainer.innerHTML = `<p>:موقعك لا يتوافق مع الاشتراطات. الأسباب</p><ul>${Reasons.map(Reasons => `<li>${Reasons}</li>`).join('')}</ul>`;
+        resultContainer.innerHTML = `<p>موقعك لا يتوافق مع الاشتراطات لمعرفة الأسباب:</p>`;
         resultContainer.classList.add('Reasons');
+
+        // إظهار زر "الذهاب إلى صفحة التقرير" وإخفاء زر "التالي"
+        document.getElementById("reportButton").style.display = "block"; // إظهار الزر
+        document.querySelector(".btn-next").style.display = "none"; // إخفاء زر "التالي"
     } else {
-        resultContainer.innerHTML = "<p>.موقعك يتوافق مع الاشتراطات. يمكنك المتابعة</p>";
+        resultContainer.innerHTML = `<p>${successMessages.join(', ')}</p>`; // عرض الرسالة الناجحة
         resultContainer.classList.add('success');
+
+        // إظهار زر "التالي" وإخفاء زر "الذهاب إلى صفحة التقرير"
+        document.querySelector(".btn-next").style.display = "block"; // إظهار زر "التالي"
+        document.getElementById("reportButton").style.display = "none"; // إخفاء الزر
     }
 }

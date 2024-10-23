@@ -1,102 +1,33 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>التقرير</title>
-    <style>
+<div class="all">
+    <h2>التقرير</h2>
+    <p>تحليل اشتراطات الموقع</p>
+    <div id="reportMessage"></div>
+    <div id="reportMessage" style="display: none; color: red;"></div> <!-- اجعل الرسالة مخفية بشكل افتراضي -->
+    <table id="reportTable" style="display: none;"> <!-- اجعل الجدول مخفيًا بشكل افتراضي -->
+        <thead>
+            <tr>
+                <th>رقم الطلب</th>
+                <th>حالة الطلب</th>
+                <th>الأسباب</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
+</div>
 
-        h2, p {
-            margin: 0 20 30px; /* تباعد بين العنوان والنص */
+<!--
+<button id="clearStorageBtn">حذف جميع البيانات</button>
+
+<script>
+    document.getElementById('clearStorageBtn').addEventListener('click', () => {
+        // يمكنك وضع شرط هنا، مثل التأكد من أن المستخدم يوافق على الحذف
+        const confirmDelete = confirm("هل أنت متأكد أنك تريد حذف جميع البيانات؟");
+        if (confirmDelete) {
+            localStorage.clear(); // حذف جميع العناصر من localStorage
+            alert("تم حذف جميع البيانات بنجاح."); // تأكيد الحذف
         }
-
-        table {
-            width: 100%; /* اجعل عرض الجدول 100% */
-            height: calc(100% - 60px); /* اجعل ارتفاع الجدول ليملأ الحاوية مع أخذ تباعد العنوان والنص في الاعتبار */
-            border-collapse: collapse;
-            overflow-y: auto; /* اجعل الجدول قابل للتمرير إذا كان المحتوى كبيرًا */
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        .collapse-btn {
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .collapse-content {
-            display: none;
-        }
-
-        .collapse-content.show {
-            display: block;
-        }
-
-        .success { color: green; }
-        .Reasons { color: red; }
-    </style>
-</head>
-<body>
-    <div class="all">
-        <h2>التقرير</h2>
-        <p>تحليل اشتراطات الموقع</p>
-        <div id="reportMessage"></div>
-        <table id="reportTable">
-            <thead>
-                <tr>
-                    <th>رقم الطلب</th>
-                    <th>حالة الطلب</th>
-                    <th>الأسباب</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </div>
-
-    <script>
-        // استرجاع الطلبات من localStorage
-        const requests = JSON.parse(localStorage.getItem('requests')) || [];
-        const reportTable = document.getElementById('reportTable');
-
-        if (requests.length === 0) {
-            reportTable.querySelector('tbody').innerHTML = "<tr><td colspan='3'>لا يوجد طلبات لعرض التقرير.</td></tr>";
-        } else {
-            // عرض الطلبات في الجدول
-            requests.forEach((request, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td class="${request.success ? 'success' : 'Reasons'}">
-                        ${request.success ? 'مقبول' : 'مرفوض'}
-                    </td>
-                    <td>
-                        <span class="collapse-btn">عرض الأسباب</span>
-                        <div class="collapse-content">
-                            <ul>${request.reasons.map(reason => `<li>${reason}</li>`).join('')}</ul>
-                        </div>
-                    </td>
-                `;
-                reportTable.querySelector('tbody').appendChild(row);
-            });
-
-            // تطبيق ميزة القابلية للطي
-            const collapseBtns = document.querySelectorAll('.collapse-btn');
-            collapseBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    btn.classList.toggle('active');
-                    const content = btn.nextElementSibling;
-                    content.style.display = content.style.display === 'block' ? 'none' : 'block';
-                });
-            });
-        }
-    </script>
-</body>
-</html>
+    });
+</script>
+-->
