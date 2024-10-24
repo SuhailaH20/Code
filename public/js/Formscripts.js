@@ -101,8 +101,6 @@ submitButton.addEventListener('click', () => {
         if (active > steps.length) {
             active = steps.length;
         }
-        event.preventDefault(); // منع الإرسال الفوري للنموذج
-        validateSiteData(); // التحقق من البيانات
         updateProgress();
     } else {
         errorMessage.textContent = 'لا تترك حقول فارغة ';
@@ -125,7 +123,7 @@ const updateProgress = () => {
     });
 
     if (active === 3) {
-        validateSiteData();  
+        validateSiteData(); // التحقق من البيانات
     }
     if (active === 1) {
         prevButton.disabled = true; 
@@ -155,39 +153,39 @@ function validateSiteData() {
     const Reasons = [];
     const successMessages = ["موقعك يتناسب مع الاشتراطات"]; // الرسالة الناجحة
 
-    // تحقق من الشروط المختلفة
-    if (activityType === "openStore") {
-        if (parkingSpaces < 1) {
-            Reasons.push(".يجب توفير موقف سيارات واحد على الأقل للمتجر المفتوح");
+  // تحقق من الشروط المختلفة
+  if (activityType === "closedStoreCity") {
+    if (partOfLargerBuilding === "yes") {
+        if (buildingType !== "mixed") {
+            Reasons.push(".(تجاري سكني) إذا كان النشاط ضمن جزء من مبنى، يجب أن يكون ضمن المباني التجارية والمختلطة");
         }
         if (onCommercialStreet === "no") {
-            Reasons.push(".يجب أن يكون الموقع على شارع تجاري أو بمنطقة تجارية");
+            Reasons.push(".يجب أن يكون النشاط على الشوارع التجارية");
+        }
+    } else {
+        if (parkingSpaces < Math.ceil(100 / 70)) {
+            Reasons.push(".يجب توفير موقف سيارات واحد لكل 70 م2 للمتجر المغلق المستقل");
         }
     }
+}
 
-    if (activityType === "closedStoreCity") {
-        if (partOfLargerBuilding === "yes") {
-            if (buildingType !== "commercial" && buildingType !== "mixed") {
-                Reasons.push(".إذا كان النشاط ضمن جزء من مبنى، يجب أن يكون ضمن المباني التجارية أو المختلطة");
-            }
-            if (onCommercialStreet === "no") {
-                Reasons.push(".يجب أن يكون الموقع على الشوارع التجارية");
-            }
-        } else {
-            if (parkingSpaces < Math.ceil(100 / 70)) {
-                Reasons.push(".يجب توفير موقف سيارات واحد لكل 70 م2 للمتجر المغلق المستقل");
-            }
+if (activityType === "closedStoreOutsideCity") {
+    if (partOfLargerBuilding === "yes") {
+        if (logisticsArea === "no" && warehouseArea === "no") {
+            Reasons.push(".يجب أن يكون الموقع في منطقة الخدمات اللوجستية أو منطقة المستودعات");
+        }
+        if (onCommercialStreet === "no") {
+            Reasons.push(".يجب أن يكون النشاط على الشوارع التجارية");
+        }
+    } else {
+        if (logisticsArea === "no" && warehouseArea === "no") {
+            Reasons.push(".يجب أن يكون الموقع في منطقة الخدمات اللوجستية أو منطقة المستودعات");
+        }
+        if (parkingSpaces < Math.ceil(100 / 70)) {
+            Reasons.push(".يجب توفير موقف سيارات واحد لكل 70 م2 للمتجر المغلق المستقل");
         }
     }
-
-    if (activityType === "closedStoreOutsideCity") {
-        if (partOfLargerBuilding === "yes" || partOfLargerBuilding === "no") {
-            if (logisticsArea === "no" && warehouseArea === "no") {
-                Reasons.push(".يجب أن يكون الموقع في منطقة الخدمات اللوجستية أو منطقة المستودعات");
-            }
-        }
-    }
-
+}
     // عرض النتيجة
     const resultContainer = document.getElementById("resultMessage");
     resultContainer.className = ''; // إعادة تعيين أي نمط سابق
