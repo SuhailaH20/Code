@@ -12,24 +12,19 @@
                             <p>ادخل بيانات النشاط</p>
                             <div>
                                 <label>اختر نوع النشاط</label>
-                                <select name="activity" required>
+                                <select name="businessType" id="businessType" required>
+                                    <option value="" disabled selected>الرجاء الاختيار</option>
+                                    <option value="food-markets">نشاط الاغذية</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label>اختر تصنيف النشاط الفرعي</label>
+                                <select name="subBusinessType" id="businessType" required>
                                     <option value="" disabled selected>الرجاء الاختيار</option>
                                     <!-- Render activities passed from Node.js -->
                                     <% activities.forEach(function(activity) { %>
                                         <option value="<%= activity %>">
                                             <%= activity %>
-                                        </option>
-                                        <% }); %>
-                                </select>
-                            </div>
-                            <div>
-                                <label>اختر الحي</label>
-                                <select name="neighborhood" id="neighborhood" required>
-                                    <option value="" disabled selected>الرجاء الاختيار</option>
-                                    <!-- Render neighborhoods passed from Node.js -->
-                                    <% neighborhoods.forEach(function(neighborhood) { %>
-                                        <option value="<%= neighborhood %>">
-                                            <%= neighborhood %>
                                         </option>
                                         <% }); %>
                                 </select>
