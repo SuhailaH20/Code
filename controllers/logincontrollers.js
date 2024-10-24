@@ -23,7 +23,7 @@ const UserLoginPost = async (req, res) => {
     if (passwordMatch) {
       req.session.userName = user.name; // Store user name in session
       req.session.userId = user._id;     // Store the user's ObjectId in session
-      return res.redirect('/'); // Redirect to main page
+      return res.redirect('/pages/Main.html'); // Redirect to main page
     } else {
       return res.render("pages/login", { errorMessage: 'كلمة المرور خطأ' });
     }
