@@ -2,7 +2,7 @@
     <div id="page" class="site">
         <div class="container">
             <div class="form-box">
-                <form action="/submitForm" method="POST" id="recommendation-form">
+                <form action="/get_recommendations" method="GET" id="recommendation-form">
                     <div class="form-one form-step active">
                         <div class="bg-svg"></div>
                         <h2>اقتراحات</h2>
@@ -14,8 +14,10 @@
                                 <select name="neighborhood" id="neighborhood" required>
                                     <option value="" disabled selected>الرجاء الاختيار</option>
                                     <% neighborhoods.forEach(function(neighborhood) { %>
-                                        <option value="<%= neighborhood %>"><%= neighborhood %></option>
-                                    <% }); %>
+                                        <option value="<%= neighborhood %>">
+                                            <%= neighborhood %>
+                                        </option>
+                                        <% }); %>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -23,22 +25,28 @@
                                 <select name="activity" required>
                                     <option value="" disabled selected>الرجاء الاختيار</option>
                                     <% activities.forEach(function(activity) { %>
-                                        <option value="<%= activity %>"><%= activity %></option>
-                                    <% }); %>
+                                        <option value="<%= activity %>">
+                                            <%= activity %>
+                                        </option>
+                                        <% }); %>
                                 </select>
                             </div>
                         </div>
-
                         <!-- Map Container -->
                         <div class="map-section">
                             <div id="map"></div>
                         </div>
                     </div>
-                    
+
                     <div class="btn-group">
                         <button type="submit" class="btn-submit1 btn-press">ارسال</button>
                     </div>
                 </form>
+                <div class="competitors-section" id="competitorsSection">
+                    <!-- Cards for competitors and nearby places will be populated here -->
+                </div>
+                <div id="recommendations-container">
+                </div>
             </div>
         </div>
     </div>
