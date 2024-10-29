@@ -17,6 +17,7 @@ window.onload = function() {
         map.invalidateSize();
     }, 500);
 };
+
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('recommendation-form');
     
@@ -45,24 +46,17 @@ document.addEventListener('DOMContentLoaded', function () {
                         <p>عدد المنافسين: ${rec.competitors_count}</p>
                         <p>نسبة النجاح: ${rec.success_rate}%</p>
                         <p>المواقع القريبة: ${rec.nearby_pois.map(poi => `${poi.name} - ${poi.type}`).join(', ')}</p>
+                        <h4>المنافسين:</h4>
+                        <ul>
+                            ${rec.competitors.map(comp => `<li>${comp}</li>`).join('')}
+                        </ul>
                     `;
                     recommendationsContainer.appendChild(recElement);
                 });
-
-                // Display competitors list
-                if (data.competitors && data.competitors.length > 0) {
-                    const competitorsContainer = document.createElement('div');
-                    competitorsContainer.innerHTML = '<h3>المنافسين:</h3>';
-                    data.competitors.forEach(function (comp) {
-                        const compElement = document.createElement('p');
-                        compElement.textContent = `${comp.title} (Lat: ${comp['location/lat']}, Lng: ${comp['location/lng']})`;
-                        competitorsContainer.appendChild(compElement);
-                    });
-                    recommendationsContainer.appendChild(competitorsContainer);
-                }
             }
         } catch (error) {
             console.error('Error fetching recommendations:', error);
         }
     });
 });
+
