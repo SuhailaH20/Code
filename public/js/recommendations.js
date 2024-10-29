@@ -36,22 +36,23 @@ document.addEventListener('DOMContentLoaded', function () {
             if (data.error) {
                 recommendationsContainer.innerHTML = `<p>${data.error}</p>`;
             } else {
-                // Display recommendations
+                // Display recommendations as cards
                 data.recommendations.forEach(function (rec) {
                     const recElement = document.createElement('div');
+                    recElement.className = 'recommendation-card'; // Add class for styling
                     recElement.innerHTML = `
-        <h3>${rec.summary}</h3>
-        <p>Number of Competitors: ${rec.competitors_count}</p>
-        <p>Success Rate: ${rec.success_rate}%</p>
-        <p>Nearby POIs: ${rec.nearby_pois.map(poi => `${poi.name} - ${poi.type}`).join(', ')}</p>
-    `;
+                        <h3>${rec.summary}</h3>
+                        <p>عدد المنافسين: ${rec.competitors_count}</p>
+                        <p>نسبة النجاح: ${rec.success_rate}%</p>
+                        <p>المواقع القريبة: ${rec.nearby_pois.map(poi => `${poi.name} - ${poi.type}`).join(', ')}</p>
+                    `;
                     recommendationsContainer.appendChild(recElement);
                 });
 
                 // Display competitors list
                 if (data.competitors && data.competitors.length > 0) {
                     const competitorsContainer = document.createElement('div');
-                    competitorsContainer.innerHTML = '<h3>Competitors:</h3>';
+                    competitorsContainer.innerHTML = '<h3>المنافسين:</h3>';
                     data.competitors.forEach(function (comp) {
                         const compElement = document.createElement('p');
                         compElement.textContent = `${comp.title} (Lat: ${comp['location/lat']}, Lng: ${comp['location/lng']})`;
@@ -65,3 +66,34 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+/*
+const submitButton = document.querySelector('.btn-submit1');
+const errorMessage1 = document.getElementById('error-message1');
+const form1 = document.getElementById('recommendation-form');
+
+function validateForm1() {
+    const fields = form1.querySelectorAll('select');
+    let isValid = true;
+    fields.forEach(field => {
+        if (field.value === "") {
+            field.style.border = "2px solid red";
+            isValid = false;
+        } else {
+            field.style.border = "";
+        }
+    });
+    console.log('Validation result:', isValid); // Log validation result
+    return isValid;
+}
+
+submitButton.addEventListener('click', (event) => {
+    errorMessage1.style.display = 'none';
+    console.log('Submit button clicked'); // Log button click
+    if (!validateForm1()) {
+        event.preventDefault();
+        errorMessage1.textContent = 'لا تترك حقول فارغة';
+        errorMessage1.style.display = 'block';
+    }
+});
+*/
