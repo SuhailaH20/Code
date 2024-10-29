@@ -7,12 +7,49 @@ const indexrout = (req, res) => {
     const userName = req.session.userName || 'تسجيل دخول'; // Ensure userName is defined
     res.render("index", { userName }); // Pass userName to the view
 }
-
+// GET Requests
 // إنشاء حساب
 const createGet = (req, res) => {
     res.render("pages/createAccount", {});
 }
+
+// Get request form
+const MainGet = async (req, res) => {
+  try {
+      const response = await axios.get('http://localhost:5001/'); // Flask root endpoint
+      //test
+      console.log(response.data);
+
+      const activities = response.data.activities;
+      const neighborhoods = response.data.neighborhoods;
+
+      // Define a username retrieved from database
+      const userName = req.session.userName;
+
+      res.render('pages/Main', { activities, neighborhoods, userName });
+  } catch (error) {
+      console.error('Error fetching data from Flask:', error);
+      res.status(500).send('Error fetching data from Flask');
+  }
+}
   
+//Get Recommendations
+const GetRecommendations = async (req, res) => {
+  const { activity_type, neighborhood } = req.query;
+
+  try {
+      const flaskResponse = await axios.get('http://localhost:5001/get_recommendations', {
+          params: { activity_type, neighborhood }
+      });
+      res.json(flaskResponse.data);
+  } catch (error) {
+      console.error('Error fetching data from Flask:', error);
+      res.status(500).json({ error: 'Error fetching recommendations.' });
+  }
+};
+
+
+// POST requests
 // POST route لإنشاء حساب
 const createPost = async (req, res) => {
   try {
@@ -81,27 +118,6 @@ const createPost = async (req, res) => {
   }
 };
 
-// Get request form
-const MainGet = async (req, res) => {
-  try {
-      const response = await axios.get('http://localhost:5001/'); // Flask root endpoint
-      //test
-      console.log(response.data);
-
-      const activities = response.data.activities;
-      const neighborhoods = response.data.neighborhoods;
-
-      // Define a username retrieved from database
-      const userName = req.session.userName;
-
-      res.render('pages/Main', { activities, neighborhoods, userName });
-  } catch (error) {
-      console.error('Error fetching data from Flask:', error);
-      res.status(500).send('Error fetching data from Flask');
-  }
-}
-
-
 // Controller function to handle form submission
 const submitForm = async (req, res) => {
     try {
@@ -147,4 +163,4 @@ const submitForm = async (req, res) => {
     }
   };
   
-module.exports = { indexrout, createPost, createGet, MainGet, submitForm };
+module.exports = { indexrout, createPost, createGet, MainGet, submitForm,GetRecommendations };
