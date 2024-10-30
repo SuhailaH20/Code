@@ -503,7 +503,7 @@ form > div.active {
    
 }
 #custom-form-box {
-    height: 1000px; /* Adjust the height as needed */
-    padding: 20px; /* Optional: Add padding for better spacing */
+    height: 1000px;
+    padding: 20px; 
 }
 
