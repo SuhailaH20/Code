@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 const port = 3003;
 const mongoose = require('mongoose');
-const axios = require('axios');
 app.use(express.urlencoded({ extended: true }));
 
 // For session
