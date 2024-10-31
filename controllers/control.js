@@ -17,9 +17,6 @@ const createGet = (req, res) => {
 const MainGet = async (req, res) => {
   try {
       const response = await axios.get('http://localhost:5001/'); // Flask root endpoint
-      //test
-      console.log(response.data);
-
       const activities = response.data.activities;
       const neighborhoods = response.data.neighborhoods;
 
