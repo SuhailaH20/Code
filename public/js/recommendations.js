@@ -40,23 +40,36 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Display recommendations as cards
                 data.recommendations.forEach(function (rec) {
                     const recElement = document.createElement('div');
-                    recElement.className = 'recommendation-card'; // Add class for styling
+                    recElement.className = 'recommendation-card';
                     recElement.innerHTML = `
                         <h3>${rec.summary}</h3>
-                        <p>عدد المنافسين: ${rec.competitors_count}</p>
-                        <p>نسبة النجاح: ${rec.success_rate}%</p>
-                        <p>المواقع القريبة: ${rec.nearby_pois.map(poi => `${poi.name} - ${poi.type}`).join(', ')}</p>
-                        <h4>المنافسين:</h4>
-                        <ul>
-                            ${rec.competitors.map(comp => `<li>${comp}</li>`).join('')}
-                        </ul>
+                        <div class="info-row">
+                            <div class="info-item">
+                                <span>نسبة النجاح</span>
+                                <span>${rec.success_rate}%</span>
+                            </div>
+                            <div class="info-item">
+                                <span>المواقع القريبة</span>
+                                <span>${rec.nearby_pois.map(poi => `${poi.name} - ${poi.type}`).join(', ')}</span>
+                            </div>
+                            <div class="info-item">
+                                <span>المنافسين</span>
+                                <span>${rec.competitors.join(', ')}</span>
+                            </div>
+                             <div class="info-item">
+                                <span>عدد المنافسين</span>
+                                <span>${rec.competitors_count}</span>
+                            </div>
+                        </div>
                     `;
                     recommendationsContainer.appendChild(recElement);
                 });
+
+                // Create or update the pie chart with the success rate data
+                createOrUpdateChart(data.recommendations);
             }
         } catch (error) {
             console.error('Error fetching recommendations:', error);
         }
     });
 });
-
