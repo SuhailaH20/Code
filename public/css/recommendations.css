@@ -1,6 +1,6 @@
 .btn-submit1 {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #1C4A69;
     color: white;
     border: none;
     border-radius: 5px;
@@ -18,52 +18,153 @@
 select {
     width: 100%; 
     padding: 0.5em; 
-    border: 1px solid #ccc;
+    border: 1px solid #ffffff;
     border-radius: 4px; 
 }
 #map {
     height: 270px;
     width: 100%;
     border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px #1C4A69;
 }
 
 /* Cards */
-
+/* Recommendations Container */
 .recommendations-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center; 
+    justify-content: center;
     gap: 20px;
-    margin-top: 20px;
+    margin-top: 90px;
+    padding: 20px;
+    width: 100%;
+    max-width: 800px;
+    background: linear-gradient(145deg, #ffffff, #f9f9f9);
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(28, 74, 105, 0.2);
+    margin-left: auto;
+    margin-right: auto;
 }
 
+/* Recommendations Card */
 .recommendation-card {
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 5px;
-    width: 80%; 
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 8px 18px rgba(28, 74, 105, 0.15);
+    padding: 20px;
+    width: 550px;
     box-sizing: border-box;
-    transition: transform 0.2s;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    margin: 10px 0;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
 }
 
+/* Hover Effect */
 .recommendation-card:hover {
-    transform: scale(1.02);
-    border-color: #1C4A69;
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1); 
+    background-color: #ffffff; 
 }
 
+.recommendation-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: transparent;
+    transition: transform 0.5s ease;
+}
+
+.recommendation-card:hover::before {
+    transform: none;
+}
+
+/* Header */
 .recommendation-card h3 {
     margin-top: 0;
+    margin-bottom: 12px;
     color: #1C4A69;
+    font-size: 1.2em;
+    font-weight: 600;
+    text-align: center;
+    position: relative;
+    padding-bottom: 5px;
 }
 
+.recommendation-card h3::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    width: 50%;
+    height: 3px; 
+    background: linear-gradient(90deg, #1C4A69, #3E8C74); 
+    border-radius: 2px;
+    transform: translateX(-50%);
+}
+
+/* Info Items styles */
+.recommendation-card .info-row {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    gap: 20px;
+}
+
+.recommendation-card .info-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+    width: calc(33% - 10px);
+    transition: transform 0.3s ease;
+    color: #333;
+}
+
+.recommendation-card .info-item:hover {
+    transform: translateY(-3px); 
+}
+
+.recommendation-card .info-item span:first-child {
+    font-weight: bold;
+    font-size: 0.9em;
+    color: #1C4A69;
+    margin-bottom: 4px;
+}
+
+.recommendation-card .info-item span:last-child {
+    font-size: 1.2em;
+    color: #3E8C74;
+}
+
+/* Competitors List Style */
 .competitors-list {
-    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
     padding: 0;
-    list-style-type: none; 
+    list-style-type: none;
+    gap: 6px;
+    margin-top: 15px;
+    justify-content: center;
 }
 
 .competitors-list li {
-    margin: 5px 0; 
+    background-color: #ffffff;
+    color: #3E8C74;
+    padding: 5px 10px;
+    font-size: 0.9em;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(28, 74, 105, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.competitors-list li:hover {
+    background-color: #ffffff; /* Pure white */
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
