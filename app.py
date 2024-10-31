@@ -211,7 +211,7 @@ def get_recommendations():
                     'id': i,
                     'lat': center[0],
                     'lng': center[1],
-                    'summary': f'Recommended location {i + 1} - Optimal business location for {activity_type}.',
+                    'summary': f'الاقتراح {i + 1} - افضل موقع للنشاط " {activity_type}".',
                     'competitors_count': num_competitors,
                     'competitors': competitor_names,
                     'success_rate': success_rate,
