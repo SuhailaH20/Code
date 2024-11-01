@@ -47,26 +47,35 @@ document.addEventListener('DOMContentLoaded', function () {
                 const nearbyCount = rec.nearby_pois.length;
                 const competitorsCount = rec.competitors.length;
 
-                // Generate recommendation card HTML with button for "للتفاصيل اضغط هنا"
-                recElement.innerHTML = `
-                    <h3>${rec.summary}</h3>
-                    <div class="info-row">
-                        <div class="info-item">
-                            <span>نسبة النجاح</span>
-                            <span>${rec.success_rate}%</span>
-                        </div>
-                        <div class="info-item">
-                            <span>عدد المواقع القريبة</span>
-                            <span>${nearbyCount}</span>
-                            ${nearbyCount > 2 ? `<button onclick="window.location.href='/components/report?type=nearby&index=${index}&neighborhood=${neighborhood}&activity=${activity}'" class="link-button">للتفاصيل اضغط هنا</button>` : ''}
-                        </div>
-                        <div class="info-item">
-                            <span>عدد المنافسين</span>
-                            <span>${competitorsCount}</span>
-                            ${competitorsCount > 2 ? `<button onclick="window.location.href='/components/report?type=competitors&index=${index}&neighborhood=${neighborhood}&activity=${activity}'" class="link-button">للتفاصيل اضغط هنا</button>` : ''}
-                        </div>
-                    </div>
-                `;
+    // Generate recommendation card HTML
+    recElement.innerHTML = `
+        <h3>${rec.summary}</h3>
+        <div class="info-row">
+            <div class="info-item">
+                <span>نسبة النجاح</span>
+                <span>${rec.success_rate}%</span>
+            </div>
+            <div class="info-item">
+                <span>عدد المواقع القريبة</span>
+                <span>${nearbyCount}</span>
+            </div>
+            <div class="info-item">
+                <span>عدد المنافسين</span>
+                <span>${competitorsCount}</span>
+            </div>
+        </div>
+    `;
+
+    // Create the "للتفاصيل اضغط هنا" button and append it to the recElement
+    const buttonElement = document.createElement('button');
+    buttonElement.className = 'link-button';
+    buttonElement.textContent = 'للتفاصيل اضغط هنا';
+    buttonElement.onclick = function() {
+        window.location.href =`/components/report?index=${index}&neighborhood=${neighborhood}&activity=${activity}`;
+    };
+
+    // Append the button to the recElement after the info-row
+    recElement.appendChild(buttonElement);
                 recommendationsContainer.appendChild(recElement);
             });
         } catch (error) {

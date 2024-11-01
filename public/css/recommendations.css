@@ -34,12 +34,12 @@ select {
     flex-direction: column;
     align-items: center;
     gap: 15px;
-    padding: 10px;
+    padding: 10px;    
     max-width: 100%;
     background: #f5f7f9;
     border-radius: 12px;
     border: 1px solid #e0e4e8;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.155);
 }
 
 /* Recommendations Card */
@@ -48,7 +48,7 @@ select {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
     padding: 12px;
-    width: 350px;
+    width: 400px;
     max-width: 500px;
     height: auto;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -62,7 +62,7 @@ select {
 /* Hover Effect */
 .recommendation-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.236);
 }
 
 /* Header */
