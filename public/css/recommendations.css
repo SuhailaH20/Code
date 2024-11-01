@@ -29,102 +29,103 @@ select {
 }
 
 /* Cards */
-/* Recommendations Container */
 .recommendations-container {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     gap: 15px;
-    padding: 15px;
-    width: 100%;
-    max-width: 350px; /* Smaller width for compact layout */
-    border: 2px solid var(--main-color); /* Green border */
+    padding: 10px;
+    max-width: 100%;
+    background: #f5f7f9;
     border-radius: 12px;
-    background: #f4f8f7; /* Light background color for contrast */
-    box-shadow: 0 4px 10px rgba(28, 74, 105, 0.1);
+    border: 1px solid #e0e4e8;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
 }
 
 /* Recommendations Card */
 .recommendation-card {
     background: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(28, 74, 105, 0.1);
-    padding: 15px; /* Increased padding for better spacing */
-    width: 90%;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    margin: 15px auto; /* Center the card */
-    position: relative;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    padding: 12px;
+    width: 350px;
+    max-width: 500px;
+    height: auto;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
+    margin: 10px; /* Adds space around each card */
 }
+
+
 /* Hover Effect */
 .recommendation-card:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1); 
-    background-color: #ffffff; 
-}
-
-.recommendation-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background: transparent;
-    transition: transform 0.5s ease;
-}
-
-.recommendation-card:hover::before {
-    transform: none;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
 /* Header */
 .recommendation-card h3 {
     color: #1C4A69;
-    font-size: 1em; /* Smaller font size */
-    font-weight: 600;
+    font-size: 1em;
+    font-weight: 700;
     text-align: center;
-    padding-bottom: 4px;
+    margin: 0 0 8px;
+    position: relative;
 }
-
 
 .recommendation-card h3::after {
     content: "";
     position: absolute;
     bottom: -5px;
     left: 50%;
-    width: 50%;
-    height: 3px; 
-    background: linear-gradient(90deg, #1C4A69, #3E8C74); 
-    border-radius: 2px;
     transform: translateX(-50%);
+    width: 30%;
+    height: 2px;
+    background: linear-gradient(90deg, #1C4A69, #3E8C74);
+    border-radius: 2px;
 }
 
-/* Info Items styles */
+/* Info Row */
 .recommendation-card .info-row {
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    width: 100%;
     gap: 10px;
+    margin-top: 5px;
 }
 
+/* Info Item Styles */
 .recommendation-card .info-item {
-    font-size: 0.85em; /* Smaller font size for compact look */
-    padding: 5px;
-}
-.recommendation-card .info-item:hover {
-    transform: translateY(-3px); 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1em;
+    color: #1C4A69;
+    font-weight: 500;
+    flex-direction: row-reverse; 
 }
 
+/*  Text on the left */
 .recommendation-card .info-item span:first-child {
     font-weight: bold;
-    font-size: 0.9em;
-    color: #1C4A69;
-    margin-bottom: 4px;
+    font-size: 1em;
+    color: #3E8C74;
+    text-align: left;
 }
 
+/*  Text on the right */
 .recommendation-card .info-item span:last-child {
-    font-size: 1.2em;
-    color: #3E8C74;
+    font-size: 1em;
+    color: #1C4A69;
+    font-weight: bold;
+    text-align: right;
+}
+
+/* Divider Line */
+.recommendation-card .info-item:not(:last-child) {
+    border-bottom: 1px solid #e0e4e8;
 }
 
 /* Competitors List Style */
@@ -133,23 +134,36 @@ select {
     flex-wrap: wrap;
     padding: 0;
     list-style-type: none;
-    gap: 6px;
-    margin-top: 15px;
+    gap: 5px;
+    margin-top: 8px;
     justify-content: center;
 }
 
 .competitors-list li {
     background-color: #ffffff;
     color: #3E8C74;
-    padding: 5px 10px;
-    font-size: 0.9em;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(28, 74, 105, 0.05);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 4px 8px;
+    font-size: 0.8em;
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(28, 74, 105, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .competitors-list li:hover {
-    background-color: #ffffff; /* Pure white */
-    transform: scale(1.1);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    background-color: #ffffff;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.link-button {
+    background: none;
+    color: #3E8C74;
+    border: none;
+    padding: 0;
+    font-size: inherit;
+    cursor: pointer;
+    text-decoration: underline;
+    margin-top: 35px; 
+}
+.link-button:hover {
+    text-decoration: none;
 }
