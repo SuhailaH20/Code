@@ -223,7 +223,7 @@ img {
     background-color: #ffffff;
     position: relative;
     width: 1200px;
-    height: 760px;
+    height: 700px;
     margin-left: -900px;
     padding-right: 20px;
 }
@@ -253,7 +253,7 @@ label {
 
 /* إضافة حدود لكل حقول الإدخال وحقول الاختيار */
 input, select {
-    border: 2px solid #b22222; /* لون الحدود */
+    border: 2px solid #cbcbcb; /* لون الحدود */
     border-radius: 4px; /* نصف قطر الزوايا */
     padding: 8px; /* مساحة داخلية */
     width: 100%; /* جعل العرض 100% */
