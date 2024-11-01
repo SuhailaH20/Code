@@ -247,7 +247,7 @@ function getResult() {
             console.log("Data received:", data);  // Confirm data is received
 
             const recommendationsContainer = document.getElementById('resultMessage1');
-
+            recommendationsContainer.innerHTML = '';
             if (data.error) {
                 recommendationsContainer.innerHTML = `<p>${data.error}</p>`;
                 console.log("Error displayed:", data.error);
