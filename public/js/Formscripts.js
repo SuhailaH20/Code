@@ -7,6 +7,7 @@ const pressButton = document.querySelector('.btn-press');
 const steps = document.querySelectorAll('.step');
 const form_steps = document.querySelectorAll('.form-step');
 const errorMessage = document.getElementById('error-message'); // Get the error message div
+
 let active = 1;
 
 // Add validation function
@@ -78,16 +79,16 @@ pressButton.addEventListener('click', () => {
     showReport();
 
     // Remove 'active' from all items
-    li_items.forEach(function(li) {
+    li_items.forEach(function (li) {
         li.classList.remove("active");
     });
 
     // Find the item and set it as active
     const reportItem = Array.from(li_items).find(item => {
-        const itemText = item.querySelector(".item").textContent.trim(); 
-        return itemText === "التقارير"; 
+        const itemText = item.querySelector(".item").textContent.trim();
+        return itemText === "التقارير";
     });
-    
+
     if (reportItem) {
         reportItem.classList.add("active");  // Add 'active' class to item
     }
@@ -125,12 +126,16 @@ const updateProgress = () => {
     if (active === 3) {
         validateSiteData(); // التحقق من البيانات
     }
+    if (active === 4) {
+        getResult();  // Call to fetch recommendations
+    }
+
     if (active === 1) {
-        prevButton.disabled = true; 
-        nextButton.disabled = false; 
-        submitButton.style.display = 'none'; 
+        prevButton.disabled = true;
+        nextButton.disabled = false;
+        submitButton.style.display = 'none';
     } else if (active === steps.length) {
-        nextButton.style.display = 'none'; 
+        nextButton.style.display = 'none';
         submitButton.style.display = 'inline-block';
     } else {
         prevButton.disabled = false;
@@ -153,39 +158,39 @@ function validateSiteData() {
     const Reasons = [];
     const successMessages = ["موقعك يتناسب مع الاشتراطات"]; // الرسالة الناجحة
 
-  // تحقق من الشروط المختلفة
-  if (activityType === "closedStoreCity") {
-    if (partOfLargerBuilding === "yes") {
-        if (buildingType !== "mixed") {
-            Reasons.push(".(تجاري سكني) إذا كان النشاط ضمن جزء من مبنى، يجب أن يكون ضمن المباني التجارية والمختلطة");
-        }
-        if (onCommercialStreet === "no") {
-            Reasons.push(".يجب أن يكون النشاط على الشوارع التجارية");
-        }
-    } else {
-        if (parkingSpaces < Math.ceil(100 / 70)) {
-            Reasons.push(".يجب توفير موقف سيارات واحد لكل 70 م2 للمتجر المغلق المستقل");
+    // تحقق من الشروط المختلفة
+    if (activityType === "closedStoreCity") {
+        if (partOfLargerBuilding === "yes") {
+            if (buildingType !== "mixed") {
+                Reasons.push(".(تجاري سكني) إذا كان النشاط ضمن جزء من مبنى، يجب أن يكون ضمن المباني التجارية والمختلطة");
+            }
+            if (onCommercialStreet === "no") {
+                Reasons.push(".يجب أن يكون النشاط على الشوارع التجارية");
+            }
+        } else {
+            if (parkingSpaces < Math.ceil(100 / 70)) {
+                Reasons.push(".يجب توفير موقف سيارات واحد لكل 70 م2 للمتجر المغلق المستقل");
+            }
         }
     }
-}
 
-if (activityType === "closedStoreOutsideCity") {
-    if (partOfLargerBuilding === "yes") {
-        if (logisticsArea === "no" && warehouseArea === "no") {
-            Reasons.push(".يجب أن يكون الموقع في منطقة الخدمات اللوجستية أو منطقة المستودعات");
-        }
-        if (onCommercialStreet === "no") {
-            Reasons.push(".يجب أن يكون النشاط على الشوارع التجارية");
-        }
-    } else {
-        if (logisticsArea === "no" && warehouseArea === "no") {
-            Reasons.push(".يجب أن يكون الموقع في منطقة الخدمات اللوجستية أو منطقة المستودعات");
-        }
-        if (parkingSpaces < Math.ceil(100 / 70)) {
-            Reasons.push(".يجب توفير موقف سيارات واحد لكل 70 م2 للمتجر المغلق المستقل");
+    if (activityType === "closedStoreOutsideCity") {
+        if (partOfLargerBuilding === "yes") {
+            if (logisticsArea === "no" && warehouseArea === "no") {
+                Reasons.push(".يجب أن يكون الموقع في منطقة الخدمات اللوجستية أو منطقة المستودعات");
+            }
+            if (onCommercialStreet === "no") {
+                Reasons.push(".يجب أن يكون النشاط على الشوارع التجارية");
+            }
+        } else {
+            if (logisticsArea === "no" && warehouseArea === "no") {
+                Reasons.push(".يجب أن يكون الموقع في منطقة الخدمات اللوجستية أو منطقة المستودعات");
+            }
+            if (parkingSpaces < Math.ceil(100 / 70)) {
+                Reasons.push(".يجب توفير موقف سيارات واحد لكل 70 م2 للمتجر المغلق المستقل");
+            }
         }
     }
-}
     // عرض النتيجة
     const resultContainer = document.getElementById("resultMessage");
     resultContainer.className = ''; // إعادة تعيين أي نمط سابق
@@ -216,4 +221,77 @@ if (activityType === "closedStoreOutsideCity") {
         document.querySelector(".btn-next").style.display = "block"; // إظهار زر "التالي"
         document.getElementById("reportButton").style.display = "none"; // إخفاء الزر
     }
+}
+
+function getResult() {
+    console.log("getResult function triggered");  // Debugging statement
+
+    const latitude = document.getElementById("latitude").value;
+    const longitude = document.getElementById("longitude").value;
+
+    if (!latitude || !longitude) {
+        alert("Please enter both latitude and longitude.");
+        return;
+    }
+
+    const url = `/get_recommendations?lat=${latitude}&lng=${longitude}`;
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Data received:", data);  // Confirm data is received
+
+            const recommendationsContainer = document.getElementById('resultMessage1');
+
+            if (data.error) {
+                recommendationsContainer.innerHTML = `<p>${data.error}</p>`;
+                console.log("Error displayed:", data.error);
+                return;
+            }
+
+            // Display recommendations as cards
+            data.recommendations.forEach(function (rec) {
+                const recElement = document.createElement('div');
+                recElement.className = 'recommendation-card';
+
+                // Count of nearby POIs and competitors
+                const nearbyCount = rec.nearby_pois.length;
+                const competitorsCount = rec.competitors.length;
+
+                // Generate recommendation card HTML
+                recElement.innerHTML = `
+                <h3>${rec.summary}</h3>
+                <div class="info-row">
+                    <div class="info-item">
+                        <span>نسبة النجاح</span>
+                        <span>${rec.success_rate}%</span>
+                    </div>
+                    <div class="info-item">
+                        <span>عدد المواقع القريبة</span>
+                        <span>${nearbyCount}</span>
+                    </div>
+                          <div class="info-item">
+                <span> المواقع القريبة</span>
+                 <span>${rec.nearby_pois.map(poi => `${poi.name}`).join(', ')}</span>
+            </div>
+                    <div class="info-item">
+                        <span>عدد المنافسين</span>
+                        <span>${competitorsCount}</span>
+                    </div>
+                </div>
+            `;
+
+                // Append each recommendation card to the container
+                recommendationsContainer.appendChild(recElement);
+            });
+
+            // Log innerHTML to confirm content was added
+            console.log("Updated innerHTML of resultMessage:", recommendationsContainer.innerHTML);
+        })
+        .catch(error => console.error('Error fetching recommendations:', error));
 }

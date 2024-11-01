@@ -109,6 +109,7 @@
                         </div>
 
                         <!--Step 4 anlysis-->
+                        <!-- Step 4 Location Analysis -->
                         <div class="form-four form-step">
                             <div class="form-group">
                                 <label for="latitude">Enter Latitude:</label>
@@ -120,7 +121,13 @@
                                 <input type="text" id="longitude" placeholder="e.g., 39.2" />
                             </div>
 
+                            <!-- "Get Result" Button to Fetch Recommendations -->
+                            <button type="button" onclick="getResult()">Get Result</button>
+                            <div id="resultMessage1" class="result-message1"></div>
                         </div>
+
+                        <!-- Container to display the result -->
+                        
 
                         <!-- Button groups here -->
                         <div id="error-message" style="color: red; display: none; margin-top: -15px;"></div>

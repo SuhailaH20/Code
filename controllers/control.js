@@ -32,11 +32,11 @@ const MainGet = async (req, res) => {
   
 //Get Recommendations
 const GetRecommendations = async (req, res) => {
-  const { activity_type, neighborhood } = req.query;
+  const { activity_type, neighborhood, lat, lng } = req.query;  // Include lat and lng
 
   try {
       const flaskResponse = await axios.get('http://localhost:5001/get_recommendations', {
-          params: { activity_type, neighborhood }
+          params: { activity_type, neighborhood, lat, lng }
       });
       res.json(flaskResponse.data);
   } catch (error) {
