@@ -166,3 +166,9 @@ select {
 .link-button:hover {
     text-decoration: none;
 }
+
+.chart-container canvas {
+    display: block;
+    margin: 0 auto;
+    position: relative;
+}

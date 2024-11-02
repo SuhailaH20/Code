@@ -149,8 +149,8 @@ def count_competitors(lat, lng, radius=0.5):
 def get_recommendations():
     activity_type = request.args.get('activity_type')
     neighborhood = request.args.get('neighborhood')
-    lat = request.args.get('lat', type=float)  # استقبل إحداثيات latitude
-    lng = request.args.get('lng', type=float)  # استقبل إحداثيات longitude
+    lat = request.args.get('lat', type=float)  # Get latitude
+    lng = request.args.get('lng', type=float)  # Get longitude
 
     # إذا تم إدخال إحداثيات، استخدمها مباشرة
     if lat is not None and lng is not None:
@@ -163,16 +163,10 @@ def get_recommendations():
         pois = fetch_pois_from_osm(lat, lng)  # جلب POIs من OpenStreetMap
         nearby_pois = get_places_within_15_minutes(lat, lng, pois)
 
-        # تحديد معدل النجاح
-        if num_competitors >= 4:
-            success_rate = 40
-        elif 2 <= num_competitors <= 3:
-            success_rate = 70
-        else:
-            success_rate = 90
+        success_rate = 40 if num_competitors >= 4 else (70 if 2 <= num_competitors <= 3 else 90)
 
         recommendation = {
-            'id': 0,  # استخدم 0 للموقع المدخل
+            'id': 0,  # Use 0 for the entered location
             'lat': lat,
             'lng': lng,
             'summary': f'Optimal business location for {activity_type}.',
@@ -200,12 +194,7 @@ def get_recommendations():
                 pois = fetch_pois_from_osm(center[0], center[1])
                 nearby_pois = get_places_within_15_minutes(center[0], center[1], pois)
 
-                if num_competitors >= 4:
-                    success_rate = 40
-                elif 2 <= num_competitors <= 3:
-                    success_rate = 70
-                else:
-                    success_rate = 90
+                success_rate = 40 if num_competitors >= 4 else (70 if 2 <= num_competitors <= 3 else 90)
 
                 recommendation = {
                     'id': i,
@@ -220,11 +209,24 @@ def get_recommendations():
 
                 success_rate_categories[success_rate].append(recommendation)
 
-        for rate in [90, 70, 40]:
-            if success_rate_categories[rate]:
-                recommendations.extend(success_rate_categories[rate])
+    # جمع التوصيات، مع التأكد من الحصول على ثلاث معدلات نجاح مختلفة
+    for rate in [90, 70, 40]:
+        if success_rate_categories[rate]:
+            recommendations.append(success_rate_categories[rate][0])  # أخذ الأولى من كل فئة
 
-        recommendations = recommendations[:3]
+    # إذا كان لدينا أقل من ثلاث توصيات، اجمع المزيد من المواقع المميزة
+    while len(recommendations) < 3:
+        for rate in [90, 70, 40]:  # Check again in the same order
+            for recommendation in success_rate_categories[rate]:
+                if recommendation not in recommendations:  # التأكد من التميز
+                    recommendations.append(recommendation)
+                if len(recommendations) >= 3:
+                    break
+            if len(recommendations) >= 3:
+                break
+
+    # التأكد من أن عدد التوصيات هو ثلاث فقط
+    recommendations = recommendations[:3]
 
     # تحليل المنافسين في الحي المحدد
     competitors = analyze_competitors(neighborhood, activity_type)
@@ -234,7 +236,7 @@ def get_recommendations():
         "recommendations": recommendations,
         "competitors": competitors_list
     })
-    
+
 # API endpoint to save the selected location
 @app.route('/select_location', methods=['POST'])
 def select_location():
