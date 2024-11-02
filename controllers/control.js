@@ -12,7 +12,9 @@ const indexrout = (req, res) => {
 const createGet = (req, res) => {
     res.render("pages/createAccount", {});
 }
-
+const ReportGet = (req, res) => {
+  res.render("pages/report")
+}
 // Get request form
 const MainGet = async (req, res) => {
   try {
@@ -117,47 +119,49 @@ const createPost = async (req, res) => {
 
 // Controller function to handle form submission
 const submitForm = async (req, res) => {
-    try {
-      console.log('Form submission data:', req.body);
-      
+  try {
       const {
-        businessType,
-        subBusinessType,
-        activityType,
-        partOfLargerBuilding,
-        buildingType,
-        parkingSpaces,
-        onCommercialStreet,
-        logisticsArea,
-        warehouseArea
+          businessType,
+          subBusinessType,
+          activityType,
+          partOfLargerBuilding,
+          buildingType,
+          parkingSpaces,
+          onCommercialStreet,
+          logisticsArea,
+          warehouseArea,
+          step3Result,
+          step3Status, 
+          step4Result
       } = req.body;
-  
-      // Ensure the user is logged in and has an ID
+
       if (!req.session.userId) {
-        return res.status(401).send('User not authenticated');
+          return res.status(401).send('User not authenticated');
       }
-  
+
       const formSubmission = new FormSubmission({
-        userId: req.session.userId,  // Store the user's ObjectId
-        businessType,
-        subBusinessType,
-        activityType,
-        partOfLargerBuilding,
-        buildingType,
-        parkingSpaces: parkingSpaces ? parseInt(parkingSpaces, 10) : null,
-        onCommercialStreet,
-        logisticsArea,
-        warehouseArea
+          userId: req.session.userId,
+          businessType,
+          subBusinessType,
+          activityType,
+          partOfLargerBuilding,
+          buildingType,
+          parkingSpaces: parkingSpaces ? parseInt(parkingSpaces, 10) : null,
+          onCommercialStreet,
+          logisticsArea,
+          warehouseArea,
+          step3Result,
+          step3Status,  
+          step4Result
       });
-  
+      console.log('Form submission data:', req.body);
       await formSubmission.save();
-      console.log('Form data saved successfully');
-      
       res.redirect('/pages/form.html');
-    } catch (error) {
+  } catch (error) {
       console.error('Error saving form data:', error);
       res.status(500).send('Internal Server Error');
-    }
-  };
+  }
+};
+
   
-module.exports = { indexrout, createPost, createGet, MainGet, submitForm,GetRecommendations };
+module.exports = { indexrout, createPost, createGet, MainGet,ReportGet, submitForm,GetRecommendations };

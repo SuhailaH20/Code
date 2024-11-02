@@ -193,8 +193,12 @@ function validateSiteData() {
     }
     // عرض النتيجة
     const resultContainer = document.getElementById("resultMessage");
-    resultContainer.className = ''; // إعادة تعيين أي نمط سابق
+    [document.getElementById('step3Result').value, document.getElementById('step3Status').value] = 
+    Reasons.length > 0 
+    ? [Reasons.join(', '), "مرفوض"] 
+    : [successMessages.join(', '), "مقبول"];
 
+    resultContainer.className = ''; // إعادة تعيين أي نمط سابق
     // تخزين الطلبات في localStorage
     const currentRequests = JSON.parse(localStorage.getItem('requests')) || [];
     const newRequest = {
@@ -289,7 +293,8 @@ function getResult() {
                 // Append each recommendation card to the container
                 recommendationsContainer.appendChild(recElement);
             });
-
+            // Assuming `data` contains the recommendations as a summary
+            document.getElementById('step4Result').value = JSON.stringify(data.recommendations);
             // Log innerHTML to confirm content was added
             console.log("Updated innerHTML of resultMessage:", recommendationsContainer.innerHTML);
         })
