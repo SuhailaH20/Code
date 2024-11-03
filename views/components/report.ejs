@@ -1,33 +1,22 @@
-<div class="all">
-    <h2>التقرير</h2>
-    <p>تحليل اشتراطات الموقع</p>
-    <div id="reportMessage"></div>
-    <div id="reportMessage" style="display: none; color: red;"></div> <!-- اجعل الرسالة مخفية بشكل افتراضي -->
-    <table id="reportTable" style="display: none;"> <!-- اجعل الجدول مخفيًا بشكل افتراضي -->
-        <thead>
+<table id="report-table">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Summary</th>
+            <th>Success Rate</th>
+            <th>Location</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% combinedData.forEach(item => { %>
             <tr>
-                <th>رقم الطلب</th>
-                <th>حالة الطلب</th>
-                <th>الأسباب</th>
+                <td><%= item.type %></td>
+                <td><%= item.summary || 'N/A' %></td>
+                <td><%= item.success_rate || 'N/A' %>%</td>
+                <td><%= item.location ? `${item.location.lat}, ${item.location.lng}` : 'N/A' %></td>
+                <td><%= new Date(item.createdAt).toLocaleDateString() %></td>
             </tr>
-        </thead>
-        <tbody>
-            
-        </tbody>
-    </table>
-</div>
-
-<!--
-<button id="clearStorageBtn">حذف جميع البيانات</button>
-
-<script>
-    document.getElementById('clearStorageBtn').addEventListener('click', () => {
-        // يمكنك وضع شرط هنا، مثل التأكد من أن المستخدم يوافق على الحذف
-        const confirmDelete = confirm("هل أنت متأكد أنك تريد حذف جميع البيانات؟");
-        if (confirmDelete) {
-            localStorage.clear(); // حذف جميع العناصر من localStorage
-            alert("تم حذف جميع البيانات بنجاح."); // تأكيد الحذف
-        }
-    });
-</script>
--->
+        <% }) %>
+    </tbody>
+</table>

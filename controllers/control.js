@@ -20,20 +20,38 @@ const createGet = (req, res) => {
 // Get request form
 const MainGet = async (req, res) => {
   try {
-      const response = await axios.get('http://localhost:5001/'); // Flask root endpoint
-      const activities = response.data.activities;
-      const neighborhoods = response.data.neighborhoods;
+    const response = await axios.get('http://localhost:5001/');
+    const activities = response.data.activities;
+    const neighborhoods = response.data.neighborhoods;
+    const userName = req.session.userName;
+    const userId = req.session.userId;
 
-      // Define a username retrieved from database
-      const userName = req.session.userName;
+    if (!userId) {
+        return res.status(401).send('User not authenticated');
+    }
 
-      res.render('pages/Main', { activities, neighborhoods, userName });
+    // Fetch data from both tables for the report
+    const formSubmissions = await FormSubmission.find({ userId }).lean();
+    formSubmissions.forEach(item => {
+        item.type = 'طلب مدخل';
+    });
+
+    const savedRecommendations = await SavedRecommendation.find({ userId }).lean();
+    savedRecommendations.forEach(item => {
+        item.type = 'اقتراح';
+    });
+
+    const combinedData = [...formSubmissions, ...savedRecommendations];
+
+    // Pass everything to the main page render, including combined data for the report
+    res.render('pages/Main', { activities, neighborhoods, userName, combinedData });
   } catch (error) {
-      console.error('Error fetching data from Flask:', error);
-      res.status(500).send('Error fetching data from Flask');
+    console.error('Error fetching data:', error);
+    res.status(500).send('Error fetching data');
   }
-}
-  
+};
+
+
 //Get Recommendations
 const GetRecommendations = async (req, res) => {
   const { activity_type, neighborhood, lat, lng } = req.query;  // Include lat and lng
