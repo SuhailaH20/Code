@@ -193,6 +193,7 @@ def get_recommendations():
 
         recommendations = []
         success_rate_categories = {40: [], 70: [], 90: []}
+        recommendation_counter = 1  # عداد التوصيات
 
         for i, center in enumerate(centers):
             if is_within_jeddah(center[0], center[1]):
@@ -208,10 +209,10 @@ def get_recommendations():
                     success_rate = 90
 
                 recommendation = {
-                    'id': i,
+                    'id': recommendation_counter,
                     'lat': center[0],
                     'lng': center[1],
-                    'summary': f'الاقتراح {i + 1} - افضل موقع للنشاط " {activity_type}".',
+                    'summary': f'الاقتراح {recommendation_counter} - افضل موقع للنشاط "{activity_type}".',
                     'competitors_count': num_competitors,
                     'competitors': competitor_names,
                     'success_rate': success_rate,
@@ -219,10 +220,20 @@ def get_recommendations():
                 }
 
                 success_rate_categories[success_rate].append(recommendation)
+                recommendation_counter += 1  # زيادة العداد بعد كل توصية
 
         for rate in [90, 70, 40]:
             if success_rate_categories[rate]:
                 recommendations.extend(success_rate_categories[rate])
+
+        # تعيين العداد إلى 1 مرة أخرى
+        recommendation_counter = 1
+
+        # تحديث التوصيات بأرقام مرتبة
+        for recommendation in recommendations:
+            recommendation['id'] = recommendation_counter
+            recommendation['summary'] = f'الاقتراح {recommendation_counter} - افضل موقع للنشاط "{activity_type}".'
+            recommendation_counter += 1
 
         recommendations = recommendations[:3]
 
