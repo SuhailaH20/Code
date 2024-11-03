@@ -12,7 +12,7 @@ app.set('view engine', 'ejs');
 
 // Auto-refresh feature
 app.use(express.static('public'));
-
+app.use(express.json());
 const routes = require("./routes/Routers");
 
 // For auto-refresh

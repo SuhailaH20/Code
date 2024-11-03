@@ -48,11 +48,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 const recElement = document.createElement('div');
                 recElement.className = 'recommendation-card';
 
-                // Only display the count of nearby sites and competitors
-                const nearbyCount = rec.nearby_pois.length;
-                const competitorsCount = rec.competitors.length;
-
-                // Create HTML for the recommendation card
                 recElement.innerHTML = `
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <div style="flex-grow: 1;">
@@ -64,11 +59,11 @@ document.addEventListener('DOMContentLoaded', function () {
                                 </div>
                                 <div class="info-item">
                                     <span>عدد المواقع القريبة</span>
-                                    <span>${nearbyCount}</span>
+                                    <span>${rec.nearby_pois.length}</span>
                                 </div>
                                 <div class="info-item">
                                     <span>عدد المنافسين</span>
-                                    <span>${competitorsCount}</span>
+                                    <span>${rec.competitors.length}</span>
                                 </div>
                             </div>
                         </div>
@@ -78,64 +73,70 @@ document.addEventListener('DOMContentLoaded', function () {
                     </div>
                 `;
 
-                // إنشاء زر "للتفاصيل اضغط هنا" وإضافته إلى recElement
+                // Create button and add onclick functionality to save recommendation
                 const buttonElement = document.createElement('button');
                 buttonElement.className = 'link-button';
                 buttonElement.textContent = 'للتفاصيل اضغط هنا';
-                buttonElement.onclick = function () {
-                    window.location.href = `/components/report?index=${index}&neighborhood=${neighborhood}&activity=${activity}`;
+                buttonElement.onclick = async function () {
+                    try {
+                        const recommendationData = {
+                            summary: rec.summary,
+                            success_rate: rec.success_rate,
+                            nearby_pois: rec.nearby_pois,
+                            competitors: rec.competitors,
+                            lat: rec.lat,
+                            lng: rec.lng
+                        };
+                        console.log("Sending recommendation data:", recommendationData); // Check data before sending
+                
+                        await fetch('/saveRecommendation', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ recommendation: recommendationData })
+                        });
+                
+                        window.location.href = `/components/report?index=${index}&neighborhood=${neighborhood}&activity=${activity}`;
+                    } catch (error) {
+                        console.error('Error saving recommendation:', error);
+                    }
                 };
-
+                
                 recElement.appendChild(buttonElement);
                 recommendationsContainer.appendChild(recElement);
 
                 // Add a circle to the map for each recommendation
-                let color;
-                if (rec.success_rate <= 40) {
-                    color = 'red';
-                } else if (rec.success_rate <= 70) {
-                    color = 'yellow';
-                } else {
-                    color = 'green';
-                }
-
-                // Add a circle for each recommended location
-                var circle = L.circle([rec.lat, rec.lng], {
+                const color = rec.success_rate <= 40 ? 'red' : rec.success_rate <= 70 ? 'yellow' : 'green';
+                const circle = L.circle([rec.lat, rec.lng], {
                     color: color,
                     fillColor: color,
                     fillOpacity: 0.5,
                     radius: 500
                 }).addTo(window.map);
 
-                // Add a popup to the circle
                 circle.bindPopup(`${rec.summary}`);
-
-                // Store the circle in the mapCircles array
                 window.mapCircles.push(circle);
 
-                // Zoom to the recommended location
                 window.map.setView([rec.lat, rec.lng], 12.5);
 
                 // Add the pie chart
-                // Add the pie chart with percentage in the center
                 Chart.register({
                     id: 'centerText',
                     afterDatasetsDraw(chart) {
                         const { ctx, chartArea: { width, height } } = chart;
                         ctx.save();
-                        ctx.font = 'bold 20px sans-serif'; // Adjust font size and weight as needed
+                        ctx.font = 'bold 20px sans-serif';
                         ctx.fillStyle = '#000';
                         ctx.textAlign = 'center';
                         ctx.textBaseline = 'middle';
                         ctx.fillText(
-                            `${chart.data.datasets[0].data[0]}%`, // Display the success rate
+                            `${chart.data.datasets[0].data[0]}%`,
                             width / 2,
                             height / 2
                         );
                         ctx.restore();
                     }
                 });
-                
+
                 const ctx = document.getElementById(`chart-${index}`).getContext('2d');
                 new Chart(ctx, {
                     type: 'doughnut',
@@ -150,18 +151,13 @@ document.addEventListener('DOMContentLoaded', function () {
                         responsive: true,
                         maintainAspectRatio: false,
                         plugins: {
-                            legend: {
-                                display: false
-                            },
-                            tooltip: {
-                                enabled: false
-                            }
+                            legend: { display: false },
+                            tooltip: { enabled: false }
                         },
-                        cutout: '75%' // Adjusts the hole size
+                        cutout: '75%'
                     },
-                    plugins: ['centerText'] // Register the custom plugin here
+                    plugins: ['centerText']
                 });
-                
             });
         } catch (error) {
             console.error('Error fetching recommendations:', error);

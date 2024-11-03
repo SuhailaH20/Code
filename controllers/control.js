@@ -1,8 +1,12 @@
 // control.js
 const User = require('../models/Schema');
 const FormSubmission = require('../models/BusinessSchema'); 
+const SavedRecommendation = require('../models/SavedRecommendation');  
 const bcrypt = require('bcrypt');
 const axios = require('axios');
+
+
+
 const indexrout = (req, res) => {
     const userName = req.session.userName || 'تسجيل دخول'; // Ensure userName is defined
     res.render("index", { userName }); // Pass userName to the view
@@ -12,9 +16,7 @@ const indexrout = (req, res) => {
 const createGet = (req, res) => {
     res.render("pages/createAccount", {});
 }
-const ReportGet = (req, res) => {
-  res.render("pages/report")
-}
+
 // Get request form
 const MainGet = async (req, res) => {
   try {
@@ -163,5 +165,41 @@ const submitForm = async (req, res) => {
   }
 };
 
-  
-module.exports = { indexrout, createPost, createGet, MainGet,ReportGet, submitForm,GetRecommendations };
+const saveRecommendation = async (req, res) => {
+  try {
+      const { userId, recommendation } = req.body;
+
+      if (!recommendation || !recommendation.summary) {
+          console.log('Incomplete recommendation data:', recommendation);
+          return res.status(400).send('Recommendation data is incomplete.');
+      }
+
+     
+      const normalizedNearbyPois = recommendation.nearby_pois.map(poi => 
+          typeof poi === 'string' 
+              ? { name: poi, type: 'unknown' }  // Assign a default `type` for string entries
+              : poi  // Keep the original object if it's already in the correct format
+      );
+
+      const savedRecommendation = new SavedRecommendation({
+          userId: req.session.userId,
+          summary: recommendation.summary,
+          success_rate: recommendation.success_rate,
+          nearby_pois: normalizedNearbyPois, 
+          competitors: recommendation.competitors,
+          location: {
+              lat: recommendation.lat,
+              lng: recommendation.lng
+          }
+      });
+
+      await savedRecommendation.save();
+      res.status(200).send('Recommendation saved successfully');
+  } catch (error) {
+      console.error('Error saving recommendation:', error);
+      res.status(500).send('Internal Server Error');
+  }
+};
+
+
+module.exports = { indexrout, createPost, createGet, MainGet,saveRecommendation, submitForm,GetRecommendations };

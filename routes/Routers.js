@@ -14,5 +14,7 @@ router.get('/pages/Main.html', isAuthenticated, userController.MainGet);
 router.post('/login', loginController.UserLoginPost);
 router.post('/createAccount', userController.createPost);
 router.post('/submitForm', userController.submitForm);
+router.post('/saveRecommendation', userController.saveRecommendation);
+
 
 module.exports = router;
