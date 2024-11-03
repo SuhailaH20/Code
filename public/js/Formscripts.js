@@ -1,4 +1,3 @@
-
 // buttons parts
 const nextButton = document.querySelector('.btn-next');
 const prevButton = document.querySelector('.btn-prev');
@@ -227,8 +226,15 @@ function validateSiteData() {
     }
 }
 
-function getResult() {
-    console.log("getResult function triggered");  // Debugging statement
+window.onload = function () {
+    console.log("Waiting for 'Get Result' button click to initialize map...");
+};
+
+// Function triggered by clicking the get result button
+// It retrieves the latitude and longitude values from the input fields displays the map container
+// initializes or updates the map and fetches recommendations based on coordinates provided by user 
+async function getResult() {
+    console.log("getResult function triggered");
 
     const latitude = document.getElementById("latitude").value;
     const longitude = document.getElementById("longitude").value;
@@ -238,65 +244,107 @@ function getResult() {
         return;
     }
 
+    // Show the map container when "Get Result" is clicked
+    document.getElementById("map2").style.display = "block";
+
+    // Initialize the map only if it hasn't been created yet
+    if (!window.map2 || typeof window.map2.addLayer !== 'function') {
+        console.log("Initializing map2...");
+        document.getElementById("map2").innerHTML = ""; // Clear any existing content
+
+        // Create the map centered on the provided coordinates
+        window.map2 = L.map('map2').setView([latitude, longitude], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(window.map2);
+    } else {
+        // If map already exists, just update its view
+        window.map2.setView([latitude, longitude], 13);
+    }
+
     const url = `/get_recommendations?lat=${latitude}&lng=${longitude}`;
-    fetch(url, {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log("Data received:", data);  // Confirm data is received
+    console.log("Fetching data from URL:", url);
 
-            const recommendationsContainer = document.getElementById('resultMessage1');
-            recommendationsContainer.innerHTML = '';
-            if (data.error) {
-                recommendationsContainer.innerHTML = `<p>${data.error}</p>`;
-                console.log("Error displayed:", data.error);
-                return;
+    // Fetch recommendations based on latitude and longitude
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             }
+        });
+        // Check if response is successful
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status} - ${response.statusText}`);
+        }
 
-            // Display recommendations as cards
-            data.recommendations.forEach(function (rec) {
-                const recElement = document.createElement('div');
-                recElement.className = 'recommendation-card';
+        const data = await response.json();
+        console.log("Data received:", data);
 
-                // Count of nearby POIs and competitors
-                const nearbyCount = rec.nearby_pois.length;
-                const competitorsCount = rec.competitors.length;
+        // Display error if there's an issue with the data
+        if (data.error) {
+            document.getElementById('resultMessage1').innerHTML = `<p>${data.error}</p>`;
+            console.log("Error displayed:", data.error);
+            return;
+        }
+        // Display the recommendations on the map and in the container
+        displayRecommendations(data);
+    } catch (error) {
+        console.error('Error fetching recommendations:', error);
+        document.getElementById('resultMessage1').innerHTML = `<p>Error fetching recommendations. ${error.message}</p>`;
+    }
+}
 
-                // Generate recommendation card HTML
-                recElement.innerHTML = `
-                <h3>${rec.summary}</h3>
-                <div class="info-row">
-                    <div class="info-item">
-                        <span>نسبة النجاح</span>
-                        <span>${rec.success_rate}%</span>
-                    </div>
-                    <div class="info-item">
-                        <span>عدد المواقع القريبة</span>
-                        <span>${nearbyCount}</span>
-                    </div>
-                          <div class="info-item">
-                <span> المواقع القريبة</span>
-                 <span>${rec.nearby_pois.map(poi => `${poi.name}`).join(', ')}</span>
-            </div>
-                    <div class="info-item">
-                        <span>عدد المنافسين</span>
-                        <span>${competitorsCount}</span>
-                    </div>
+// displays recommendation data on the map as circles markers with colors
+// and display recommendation cards
+function displayRecommendations(data) {
+    const recommendationsContainer = document.getElementById('resultMessage1');
+    recommendationsContainer.innerHTML = '';
+
+    // Clear previous circles from map
+    if (Array.isArray(window.mapCircles)) {
+        window.mapCircles.forEach(circle => window.map2.removeLayer(circle));
+    }
+    window.mapCircles = [];
+
+    // Loop through recommendations and add them to container and map
+    data.recommendations.forEach((rec) => {
+        const recElement = document.createElement('div');
+        recElement.className = 'recommendation-card';
+        recElement.innerHTML = `
+            <h3>${rec.summary}</h3>
+            <div class="info-row">
+                <div class="info-item">
+                    <span>نسبة النجاح</span>
+                    <span>${rec.success_rate}%</span>
                 </div>
-            `;
+                <div class="info-item">
+                    <span>عدد المواقع القريبة</span>
+                    <span>${rec.nearby_pois.length}</span>
+                </div>
+                <div class="info-item">
+                    <span>عدد المنافسين</span>
+                    <span>${rec.competitors.length}</span>
+                </div>
+            </div>
+        `;
+        recommendationsContainer.appendChild(recElement);
 
-                // Append each recommendation card to the container
-                recommendationsContainer.appendChild(recElement);
-            });
-            // Assuming `data` contains the recommendations as a summary
-            document.getElementById('step4Result').value = JSON.stringify(data.recommendations);
-            // Log innerHTML to confirm content was added
-            console.log("Updated innerHTML of resultMessage:", recommendationsContainer.innerHTML);
-        })
-        .catch(error => console.error('Error fetching recommendations:', error));
+        // Set marker color based on success rate
+        const color = rec.success_rate <= 40 ? 'red' : rec.success_rate <= 70 ? 'yellow' : 'green';
+        // Add a circle marker for each recommendation on the map
+        const circle = L.circle([rec.lat, rec.lng], {
+            color: color,
+            fillColor: color,
+            fillOpacity: 0.5,
+            radius: 500
+        }).addTo(window.map2);
+
+        // Bind popup to each circle marker
+        circle.bindPopup(`${rec.summary}`);
+        window.mapCircles.push(circle);
+    });
+
+    console.log("Updated innerHTML of resultMessage:", recommendationsContainer.innerHTML);
 }
