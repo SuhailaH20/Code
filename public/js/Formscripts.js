@@ -124,10 +124,9 @@ submitButton.addEventListener('click', () => {
     }
 });
 
-
 const updateProgress = () => {
     steps.forEach((step, i) => {
-        if (i == active - 1) {
+        if (i === active - 1) {
             step.classList.add('active');
             form_steps[i].classList.add('active');
             form_steps[i].style.display = 'block';  // Show the active step
@@ -142,21 +141,24 @@ const updateProgress = () => {
         validateSiteData(); // Validate site data if in the third step
     }
 
+    // Adjust button visibility based on the active step
     if (active === 4) {
-        // getResult() ; it will be handled by the result button
-    }
-
-    if (active === 1) {
-        prevButton.disabled = true;
-        nextButton.disabled = false;
-        submitButton.style.display = 'none';
-    } else if (active === steps.length) {
         nextButton.style.display = 'none';
-        submitButton.style.display = 'inline-block';
-    } else {
-        prevButton.disabled = false;
-        nextButton.style.display = 'inline-block';
+        prevButton.style.display = 'none';
         submitButton.style.display = 'none';
+        pressButton.style.display = 'none';
+        document.getElementById("reportButton").style.display = "none"; // Hide the button
+        pressResult.style.display = 'inline-block'; // Show only the Result button
+    } else {
+        if (active === 1) {
+            prevButton.disabled = true;
+            nextButton.style.display = 'inline-block'; // Show Next button
+            submitButton.style.display = 'none'; // Hide Submit button
+        } else {
+            prevButton.disabled = false; // Enable Previous button
+            nextButton.style.display = 'inline-block'; // Show Next button
+            submitButton.style.display = 'none'; // Hide Submit button
+        }
     }
 };
 
@@ -319,7 +321,7 @@ async function getResult() {
 // and display recommendation cards
 function displayRecommendations(data) {
     const recommendationsContainer = document.getElementById('resultMessage1');
-    recommendationsContainer.innerHTML = '';
+    recommendationsContainer.innerHTML = ''; // Clear previous messages, if any
 
     // Clear previous circles from map
     if (Array.isArray(window.mapCircles)) {
@@ -327,31 +329,11 @@ function displayRecommendations(data) {
     }
     window.mapCircles = [];
 
-    // Loop through recommendations and add them to container and map
+    // Loop through recommendations and add them to the map only
     data.recommendations.forEach((rec) => {
-        const recElement = document.createElement('div');
-        recElement.className = 'recommendation-card';
-        recElement.innerHTML = `
-            <h3>${rec.summary}</h3>
-            <div class="info-row">
-                <div class="info-item">
-                    <span>نسبة النجاح</span>
-                    <span>${rec.success_rate}%</span>
-                </div>
-                <div class="info-item">
-                    <span>عدد المواقع القريبة</span>
-                    <span>${rec.nearby_pois.length}</span>
-                </div>
-                <div class="info-item">
-                    <span>عدد المنافسين</span>
-                    <span>${rec.competitors.length}</span>
-                </div>
-            </div>
-        `;
-        recommendationsContainer.appendChild(recElement);
-
         // Set marker color based on success rate
         const color = rec.success_rate <= 40 ? 'red' : rec.success_rate <= 70 ? 'yellow' : 'green';
+        
         // Add a circle marker for each recommendation on the map
         const circle = L.circle([rec.lat, rec.lng], {
             color: color,
@@ -360,8 +342,16 @@ function displayRecommendations(data) {
             radius: 500
         }).addTo(window.map2);
 
-        // Bind popup to each circle marker
-        circle.bindPopup(`${rec.summary}`);
+        // Create detailed content for the popup
+        const popupContent = `
+            <h4>${rec.summary}</h4>
+            <p><strong>نسبة النجاح:</strong> ${rec.success_rate} %</p>
+            <p><strong>عدد المواقع القريبة:</strong> ${rec.nearby_pois.length}</p>
+            <p><strong>عدد المنافسين:</strong> ${rec.competitors.length}</p>
+        `;
+
+        // Bind popup to each circle marker with detailed content
+        circle.bindPopup(popupContent);
         window.mapCircles.push(circle);
     });
 

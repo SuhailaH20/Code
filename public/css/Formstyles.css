@@ -401,7 +401,30 @@ form > div.active {
 
 
 
-/* Buttons styles*/
+/* Buttons styles */
+.btn-result {
+    background-color: var(--main-color);
+    color: white;
+    padding: 0; 
+    width: 120px;
+    height: 50px; 
+    border: 4px solid var(--secondary-color);
+    border-radius: 25px; 
+    cursor: pointer;
+    -webkit-transition: background-color 0.3s, border-color 0.3s ease-out;
+    transition: background-color 0.3s, border-color 0.3s ease-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 0 auto; /* Center the button */
+}
+
+/* Hover effect for btn-result */
+.btn-result:hover {
+    background-color: var(--dark-color);
+    border-color: var(--light-color);
+}
 
 .btn-group {
     display: flex;
