@@ -3,6 +3,7 @@ const nextButton = document.querySelector('.btn-next');
 const prevButton = document.querySelector('.btn-prev');
 const submitButton = document.querySelector('.btn-submit');
 const pressButton = document.querySelector('.btn-press');
+const pressResult = document.querySelector('.btn-result');
 const steps = document.querySelectorAll('.step');
 const form_steps = document.querySelectorAll('.form-step');
 const errorMessage = document.getElementById('error-message'); // Get the error message div
@@ -25,6 +26,20 @@ function validateStep(step) {
 }
 
 nextButton.addEventListener('click', () => {
+    errorMessage.style.display = 'none'; // Hide any previous error messages
+    if (validateStep(active)) {  // Validate the current step before proceeding
+        active++;
+        if (active > steps.length) {
+            active = steps.length;
+        }
+        updateProgress();
+    } else {
+        errorMessage.textContent = 'لا تترك حقول فارغة';
+        errorMessage.style.display = 'block'; // Show the error message in red
+    }
+});
+
+pressResult.addEventListener('click', () => {
     errorMessage.style.display = 'none'; // Hide any previous error messages
     if (validateStep(active)) {  // Validate the current step before proceeding
         active++;
@@ -65,7 +80,8 @@ pressButton.addEventListener('click', () => {
     });
 
     if (!isValid) {
-        alert('Please fill in all required fields.');
+        errorMessage.textContent = 'Please fill in all required fields.'; // Display error message
+        errorMessage.style.display = 'block'; // Show the error message
         return;
     }
 
@@ -123,10 +139,11 @@ const updateProgress = () => {
     });
 
     if (active === 3) {
-        validateSiteData(); // التحقق من البيانات
+        validateSiteData(); // Validate site data if in the third step
     }
+
     if (active === 4) {
-        getResult();  // Call to fetch recommendations
+        // getResult() ; it will be handled by the result button
     }
 
     if (active === 1) {
@@ -143,7 +160,6 @@ const updateProgress = () => {
     }
 };
 
-
 //Result..
 function validateSiteData() {
     const activityType = document.getElementById("activityType").value;
@@ -155,7 +171,7 @@ function validateSiteData() {
     const warehouseArea = document.getElementById("warehouseArea").value;
 
     const Reasons = [];
-    const successMessages = ["موقعك يتناسب مع الاشتراطات"]; // الرسالة الناجحة
+    const successMessages = ["موقعك يتناسب مع الاشتراطات"]; // Success message
 
     // تحقق من الشروط المختلفة
     if (activityType === "closedStoreCity") {
@@ -190,21 +206,21 @@ function validateSiteData() {
             }
         }
     }
-    // عرض النتيجة
+    // Show Result
     const resultContainer = document.getElementById("resultMessage");
     [document.getElementById('step3Result').value, document.getElementById('step3Status').value] = 
     Reasons.length > 0 
     ? [Reasons.join(', '), "مرفوض"] 
     : [successMessages.join(', '), "مقبول"];
 
-    resultContainer.className = ''; // إعادة تعيين أي نمط سابق
-    // تخزين الطلبات في localStorage
+    resultContainer.className = ''; // Reset any previous styles
+    // Store requests in localStorage
     const currentRequests = JSON.parse(localStorage.getItem('requests')) || [];
     const newRequest = {
         reasons: Reasons,
-        createdAt: new Date().toISOString(), // تخزين تاريخ الإنشاء
-        success: Reasons.length === 0, // تحديد النجاح أو الفشل
-        successMessages: successMessages // إضافة الرسالة الناجحة
+        ccreatedAt: new Date().toISOString(), // Store the creation date
+        success: Reasons.length === 0, // Determine success or failure
+        successMessages: successMessages // Add success message
     };
     currentRequests.push(newRequest);
     localStorage.setItem('requests', JSON.stringify(currentRequests));
@@ -213,16 +229,16 @@ function validateSiteData() {
         resultContainer.innerHTML = `<p>موقعك لا يتوافق مع الاشتراطات لمعرفة الأسباب:</p>`;
         resultContainer.classList.add('Reasons');
 
-        // إظهار زر "الذهاب إلى صفحة التقرير" وإخفاء زر "التالي"
-        document.getElementById("reportButton").style.display = "block"; // إظهار الزر
-        document.querySelector(".btn-next").style.display = "none"; // إخفاء زر "التالي"
+        // Show "Go to Report Page" button and hide "Next" button
+        document.getElementById("reportButton").style.display = "block"; // Show the button
+        document.querySelector(".btn-next").style.display = "none"; // Hide "Next" button
     } else {
-        resultContainer.innerHTML = `<p>${successMessages.join(', ')}</p>`; // عرض الرسالة الناجحة
+        resultContainer.innerHTML = `<p>${successMessages.join(', ')}</p>`; // Display success message
         resultContainer.classList.add('success');
 
-        // إظهار زر "التالي" وإخفاء زر "الذهاب إلى صفحة التقرير"
-        document.querySelector(".btn-next").style.display = "block"; // إظهار زر "التالي"
-        document.getElementById("reportButton").style.display = "none"; // إخفاء الزر
+        // Show "Next" button and hide "Go to Report Page" button
+        document.querySelector(".btn-next").style.display = "block"; // Show "Next" button
+        document.getElementById("reportButton").style.display = "none"; // Hide the button
     }
 }
 
@@ -233,6 +249,7 @@ window.onload = function () {
 // Function triggered by clicking the get result button
 // It retrieves the latitude and longitude values from the input fields displays the map container
 // initializes or updates the map and fetches recommendations based on coordinates provided by user 
+// Function triggered by clicking the "Get Result" button
 async function getResult() {
     console.log("getResult function triggered");
 
@@ -240,7 +257,8 @@ async function getResult() {
     const longitude = document.getElementById("longitude").value;
 
     if (!latitude || !longitude) {
-        alert("Please enter both latitude and longitude.");
+        errorMessage.textContent = "Please enter both latitude and longitude."; // Display error message
+        errorMessage.style.display = 'block'; // Show the error message
         return;
     }
 
@@ -274,6 +292,7 @@ async function getResult() {
                 'Content-Type': 'application/json'
             }
         });
+
         // Check if response is successful
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status} - ${response.statusText}`);
