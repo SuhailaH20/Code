@@ -271,16 +271,25 @@ async function getResult() {
     if (!window.map2 || typeof window.map2.addLayer !== 'function') {
         console.log("Initializing map2...");
         document.getElementById("map2").innerHTML = ""; // Clear any existing content
-
+    
         // Create the map centered on the provided coordinates
         window.map2 = L.map('map2').setView([latitude, longitude], 13);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
         }).addTo(window.map2);
+    
+        // Add the click event listener on window.map2 to capture coordinates
+        window.map2.on('click', function(e) {
+            const { lat, lng } = e.latlng;
+            document.getElementById('latitude').value = lat.toFixed(4);
+            document.getElementById('longitude').value = lng.toFixed(4);
+            alert(`Coordinates: ${lat.toFixed(4)}, ${lng.toFixed(4)}`);
+        });
     } else {
         // If map already exists, just update its view
         window.map2.setView([latitude, longitude], 13);
     }
+    
 
     const url = `/get_recommendations?lat=${latitude}&lng=${longitude}`;
     console.log("Fetching data from URL:", url);
