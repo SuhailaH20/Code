@@ -2,7 +2,6 @@
 const nextButton = document.querySelector('.btn-next');
 const prevButton = document.querySelector('.btn-prev');
 const submitButton = document.querySelector('.btn-submit');
-const pressButton = document.querySelector('.btn-press');
 const pressResult = document.querySelector('.btn-result');
 const steps = document.querySelectorAll('.step');
 const form_steps = document.querySelectorAll('.form-step');
@@ -64,8 +63,8 @@ prevButton.addEventListener('click', () => {
     updateProgress();
 });
 
-// Add event listener for the press button
-pressButton.addEventListener('click', () => {
+// Add event listener for the sumbit button
+submitButton.addEventListener('click', () => {
     const form = document.querySelector('form'); // Get the form element
 
     // Validate form before submitting (optional, based on existing validation rules)
@@ -109,10 +108,6 @@ pressButton.addEventListener('click', () => {
     if (reportItem) {
         reportItem.classList.add("active");  // Add 'active' class to item
     }
-});
-
-
-submitButton.addEventListener('click', () => {
     errorMessage.style.display = 'none'; // Hide any previous error messages
     if (validateStep(active)) { // Ensure final validation before submitting
         active++;
