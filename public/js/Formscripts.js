@@ -142,7 +142,6 @@ const updateProgress = () => {
     if (active === 4) {
         nextButton.style.display = 'none';
         prevButton.style.display = 'none';
-        pressButton.style.display = 'none';
         document.getElementById("reportButton").style.display = "none"; // Hide the report button
         pressResult.style.display = 'inline-block'; // Show Result button
         submitButton.style.display = 'inline-block'; // Show Submit button
