@@ -121,11 +121,6 @@
                                 <div id="resultMessage1" class="result-message1"></div>
                             </div>
                             
-                            <!-- "Get Result" Button to Fetch Recommendations -->
-                            <div class="button-container">
-                                <button type="button" class="btn-result" onclick="getResult()">النتيجة</button>
-                            </div>
-                            
                             <div class="map-section2">
                                 <div id="map2" style="height: 270px; width: 100%; border-radius: 10px; box-shadow: 0 2px 10px #1C4A69;"></div>
                             </div>  
@@ -135,12 +130,10 @@
                         <input type="hidden" name="step3Status" id="step3Status">
                         <input type="hidden" name="step4Result" id="step4Result">
                         
-                        <!-- Container to display the result -->
-                        
-
                         <!-- Button groups here -->
                         <div id="error-message" style="color: red; display: none; margin-top: -15px;"></div>
                         <div class="btn-group">
+                            <button type="button" class="btn-result" onclick="getResult()">النتيجة</button>
                             <button type="button" class="btn-prev" disabled>السابق</button>
                             <button type="button" class="btn-next">التالي</button>
                             <button type="submit" class="btn-submit btn-press">ارسال</button>

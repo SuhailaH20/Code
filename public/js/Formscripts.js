@@ -39,6 +39,7 @@ nextButton.addEventListener('click', () => {
     }
 });
 
+// Add event listener to enable the submit button when pressResult is clicked
 pressResult.addEventListener('click', () => {
     errorMessage.style.display = 'none'; // Hide any previous error messages
     if (validateStep(active)) {  // Validate the current step before proceeding
@@ -47,6 +48,7 @@ pressResult.addEventListener('click', () => {
             active = steps.length;
         }
         updateProgress();
+        submitButton.disabled = false; // Enable the Submit button
     } else {
         errorMessage.textContent = 'لا تترك حقول فارغة';
         errorMessage.style.display = 'block'; // Show the error message in red
@@ -145,10 +147,11 @@ const updateProgress = () => {
     if (active === 4) {
         nextButton.style.display = 'none';
         prevButton.style.display = 'none';
-        submitButton.style.display = 'none';
         pressButton.style.display = 'none';
-        document.getElementById("reportButton").style.display = "none"; // Hide the button
-        pressResult.style.display = 'inline-block'; // Show only the Result button
+        document.getElementById("reportButton").style.display = "none"; // Hide the report button
+        pressResult.style.display = 'inline-block'; // Show Result button
+        submitButton.style.display = 'inline-block'; // Show Submit button
+        submitButton.disabled = true; // Disable the Submit button initially
     } else {
         if (active === 1) {
             prevButton.disabled = true;
@@ -358,6 +361,9 @@ function displayRecommendations(data) {
             <p><strong>عدد المواقع القريبة:</strong> ${rec.nearby_pois.length}</p>
             <p><strong>عدد المنافسين:</strong> ${rec.competitors.length}</p>
         `;
+        
+        // Assuming `data` contains the recommendations as a summary
+        document.getElementById('step4Result').value = JSON.stringify(data.recommendations);
 
         // Bind popup to each circle marker with detailed content
         circle.bindPopup(popupContent);

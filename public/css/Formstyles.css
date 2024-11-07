@@ -251,15 +251,14 @@ label {
     margin-bottom: 0.5em;
 }
 
-/* إضافة حدود لكل حقول الإدخال وحقول الاختيار */
 input, select {
-    border: 2px solid #cbcbcb; /* لون الحدود */
-    border-radius: 4px; /* نصف قطر الزوايا */
-    padding: 8px; /* مساحة داخلية */
-    width: 100%; /* جعل العرض 100% */
-    margin-top: 5px; /* مسافة علوية */
-    margin-bottom: 15px; /* مسافة سفلية */
-    background-color: #f9f9f9; /* لون خلفية */
+    border: 2px solid #cbcbcb; 
+    border-radius: 4px;
+    padding: 8px; 
+    width: 100%; 
+    margin-top: 5px;
+    margin-bottom: 15px; 
+    background-color: #f9f9f94a; 
 }
 
 /* progress */
@@ -399,10 +398,19 @@ form > div.active {
 }
 
 
+#error-message {
+    color: red;
+    display: none;
+    margin-top: -15px;
+}
+
+.form-two.active ~ #error-message {
+    margin-top: -90px; 
+}
 
 
 /* Buttons styles */
-.btn-result {
+.btn-submit1 {
     background-color: var(--main-color);
     color: white;
     padding: 0; 
@@ -421,7 +429,7 @@ form > div.active {
 }
 
 /* Hover effect for btn-result */
-.btn-result:hover {
+.btn-submit1:hover {
     background-color: var(--dark-color);
     border-color: var(--light-color);
 }
@@ -433,6 +441,13 @@ form > div.active {
     margin-top: 2em;
     justify-content: space-between;
     text-align: center;
+}
+
+.form-two.active ~ .btn-group .btn-prev {
+    margin-top: -50px; 
+}
+.form-two.active ~ .btn-group .btn-next {
+    margin-top: -50px; 
 }
 
 .btn-group [class*="btn-"] {
@@ -464,6 +479,10 @@ form > div.active {
 }
 
 .btn-group .btn-submit {
+    display: none;
+}
+
+.btn-group .btn-result {
     display: none;
 }
 

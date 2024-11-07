@@ -17,13 +17,40 @@ window.onload = function () {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('recommendation-form');
+    const submitButton = document.querySelector('.btn-submit1');
+    const errorMessage1 = document.getElementById('error-message1');
 
-    form.addEventListener('submit', async function (event) {
+    submitButton.addEventListener('click', async function (event) {
         event.preventDefault(); // Prevent the default form submission
 
-        const neighborhood = document.getElementById('neighborhood').value;
-        const activity = document.querySelector('select[name="activity"]').value;
+        const neighborhoodInput = document.getElementById('neighborhood');
+        const activityInput = document.querySelector('select[name="activity"]');
+
+        const neighborhood = neighborhoodInput.value;
+        const activity = activityInput.value;
+
+        // Reset borders
+        neighborhoodInput.style.border = '';
+        activityInput.style.border = '';
+
+        // Validation check
+        let isValid = true; 
+
+        if (!neighborhood) {
+            neighborhoodInput.style.border = '2px solid red'; 
+            isValid = false;
+        }
+        
+        if (!activity) {
+            activityInput.style.border = '2px solid red'; 
+            isValid = false; 
+        }
+
+        if (!isValid) {
+            errorMessage1.textContent = 'لا تترك حقول فارغة';
+            errorMessage1.style.display = 'block'; // Show the error message
+            return; 
+        }
 
         try {
             const response = await fetch(`/get_recommendations?neighborhood=${neighborhood}&activity_type=${activity}`);
@@ -31,9 +58,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const recommendationsContainer = document.getElementById('recommendations-container');
             recommendationsContainer.innerHTML = ''; // Clear previous recommendations
+            errorMessage1.style.display = 'none'; // Hide previous error messages
 
             if (data.error) {
-                recommendationsContainer.innerHTML = `<p>${data.error}</p>`;
+                errorMessage1.textContent = data.error; // Show error message
+                errorMessage1.style.display = 'block'; // Make the message visible
                 return;
             }
 
@@ -76,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Create button and add onclick functionality to save recommendation
                 const buttonElement = document.createElement('button');
                 buttonElement.className = 'link-button';
-                buttonElement.textContent = 'للتفاصيل اضغط هنا';
+                buttonElement.textContent = 'اختيار هذا الموقع';
                 buttonElement.onclick = async function () {
                     try {
                         const recommendationData = {
