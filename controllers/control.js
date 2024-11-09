@@ -67,6 +67,11 @@ const GetRecommendations = async (req, res) => {
   }
 };
 
+//Get success
+    const successGet = async (req, res) => {
+            res.render('pages/success');
+    };
+
 
 // POST requests
 // POST route لإنشاء حساب
@@ -176,7 +181,7 @@ const submitForm = async (req, res) => {
       });
       console.log('Form submission data:', req.body);
       await formSubmission.save();
-      res.redirect('/pages/form.html');
+      res.redirect('/pages/success.html');
   } catch (error) {
       console.error('Error saving form data:', error);
       res.status(500).send('Internal Server Error');
@@ -220,4 +225,4 @@ const saveRecommendation = async (req, res) => {
 };
 
 
-module.exports = { indexrout, createPost, createGet, MainGet,saveRecommendation, submitForm,GetRecommendations };
+module.exports = { indexrout, createPost, createGet, MainGet,saveRecommendation, submitForm,GetRecommendations,successGet };

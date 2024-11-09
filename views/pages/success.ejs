@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نجاح الإرسال</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f9f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .success-container {
+            text-align: center;
+            padding: 50px;
+            border-radius: 10px;
+            color: #3E8C74;
+            animation: fadeInUp 1s ease-in-out;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+        img {
+            height: 260px;
+
+        }
+
+        #countdown {
+            color: #337360;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="success-container">
+        <img src="../img/Successfully Done.gif" alt="Animated GIF">
+        <h2>تم إرسال النموذج بنجاح!</h2>
+        <p>يرجى مراجعة قسم التقارير.</p>
+        <p id="countdown"></p>
+    </div>
+    <script>
+        // Countdown timer
+        const countdownElement = document.getElementById('countdown');
+        let countdown = 5;
+
+        const countdownInterval = setInterval(() => {
+            countdownElement.textContent = `سيتم إعادة توجيهك خلال ${countdown} ثانية ...`;
+            countdown--;
+
+            if (countdown < 0) {
+                clearInterval(countdownInterval);
+                window.location.href = '/Main#reports'; // Adjust this path as needed
+            }
+        }, 1000
+        );
+    </script>
+</body>
+
+</html>

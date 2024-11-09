@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             body: JSON.stringify({ recommendation: recommendationData })
                         });
                 
-                        window.location.href = `/components/report?index=${index}&neighborhood=${neighborhood}&activity=${activity}`;
+                        window.location.href = `/pages/success.html`;
                     } catch (error) {
                         console.error('Error saving recommendation:', error);
                     }

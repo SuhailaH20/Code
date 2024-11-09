@@ -8,8 +8,9 @@ router.get('/', userController.indexrout);
 router.get('/pages/login.html', loginController.userLogin);
 router.get('/pages/createAccount.html', userController.createGet);
 router.get('/get_recommendations',userController.GetRecommendations )
+router.get('/pages/success.html', userController.successGet)
 // Protect the dashboard route
-router.get('/pages/Main.html', isAuthenticated, userController.MainGet); 
+router.get('/Main', isAuthenticated, userController.MainGet); 
 // POST requests
 router.post('/login', loginController.UserLoginPost);
 router.post('/createAccount', userController.createPost);
