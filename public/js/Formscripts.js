@@ -13,16 +13,32 @@ let active = 1;
 function validateStep(step) {
     const currentFields = form_steps[step - 1].querySelectorAll('input, select');
     let isValid = true;
+
     currentFields.forEach(field => {
         if (field.value === "") {
-            field.style.border = "2px solid red"; // Highlight the field in red if not filled
+            field.style.border = "2px solid red"; // Highlight empty fields in red
             isValid = false;
         } else {
-            field.style.border = ""; // Reset border if the field is filled
+            // Check for latitude and longitude fields
+            if (field.id === 'latitude' || field.id === 'longitude') {
+                const floatRegex = /^-?\d+(\.\d+)?$/; // Regex for float numbers
+                if (!floatRegex.test(field.value)) {
+                    field.style.border = "2px solid red"; // Highlight invalid fields in red
+                    errorMessage.textContent = 'Please enter a valid number for latitude and longitude.';
+                    errorMessage.style.display = 'block';
+                    isValid = false;
+                } else {
+                    field.style.border = ""; // Reset border if valid
+                }
+            } else {
+                field.style.border = ""; // Reset border for non-lat/lng fields if filled
+            }
         }
     });
+
     return isValid;
 }
+
 
 nextButton.addEventListener('click', () => {
     errorMessage.style.display = 'none'; // Hide any previous error messages
