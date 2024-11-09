@@ -1,36 +1,50 @@
-h2, p {
-    margin: 0 20 30px; 
+#reportContainer {
+    width: 1200px;
+    margin: 10px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+#reportHead {
+    font-size: 20px;
+}
+
+.table-container {
+    margin-top: 20px;
 }
 
 table {
-    width: 100%; /* Make the table width 100% */
-    height: calc(100% - 60px); /* Set the table height to fill the container, accounting for spacing of the title and text */
+    width: 100%;
     border-collapse: collapse;
-    overflow-y: auto; /* Make the table scrollable if the content is large */
+    margin-top: 10px;
+    border-radius: 8px;
+    overflow: hidden; 
 }
 
 th, td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+    padding: 15px;
+    border: 1px solid #3E8C74;
+    text-align: center; 
+    vertical-align: middle; 
 }
 
 th {
-    background-color: #f2f2f2;
-}
-
-.collapse-btn {
-    cursor: pointer;
+    background-color: #fafafa;
+    color: #1C4A69;
     font-weight: bold;
 }
 
-.collapse-content {
-    display: none;
+tr:nth-child(even) {
+    background-color: #fafafa;
 }
 
-.collapse-content.show {
-    display: block;
+tr:hover {
+    background-color: #eaeaea;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
-.success { color: green; }
-.Reasons { color: red; }
+td {
+    transition: background-color 0.3s;
+}
