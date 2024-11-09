@@ -48,3 +48,20 @@ tr:hover {
 td {
     transition: background-color 0.3s;
 }
+
+.pagination {
+    text-align: center;
+    margin-top: 10px;
+}
+.pagination a {
+    margin: 0 5px;
+    padding: 5px 10px;
+    color: 3E8C74;
+    text-decoration: none;
+    border: 1px solid #ccc;
+}
+.pagination a.active {
+    font-weight: bold;
+    background: linear-gradient(135deg, #1C4A69, #3E8C74);
+    color: white;
+}
