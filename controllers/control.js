@@ -20,6 +20,7 @@ const createGet = (req, res) => {
 // Get request form
 const MainGet = async (req, res) => {
   try {
+    // Fetch external data
     const response = await axios.get('http://localhost:5001/');
     const activities = response.data.activities;
     const neighborhoods = response.data.neighborhoods;
@@ -27,23 +28,41 @@ const MainGet = async (req, res) => {
     const userId = req.session.userId;
 
     if (!userId) {
-        return res.status(401).send('User not authenticated');
+      return res.status(401).send('User not authenticated');
     }
 
-    // Fetch data from both tables for the report
+    // Fetch data from FormSubmission collection
     const formSubmissions = await FormSubmission.find({ userId }).lean();
+
+    // Parse step4Result for each form submission and add the location info
     formSubmissions.forEach(item => {
-        item.type = 'طلب مدخل';
+      item.type = 'طلب مدخل';
+      
+      // Parse step4Result string into a JavaScript object
+      if (item.step4Result) {
+        const step4Data = JSON.parse(item.step4Result);
+        
+        // Extract relevant location data from step4Result
+        if (step4Data[0]) {
+          item.location = {
+            lat: step4Data[0].lat,
+            lng: step4Data[0].lng,
+            nearbyPOIs: step4Data[0].nearby_pois
+          };
+        }
+      }
     });
 
+    // Fetch data from SavedRecommendation collection
     const savedRecommendations = await SavedRecommendation.find({ userId }).lean();
     savedRecommendations.forEach(item => {
-        item.type = 'اقتراح';
+      item.type = 'اقتراح';
     });
 
+    // Combine data from both sources
     const combinedData = [...formSubmissions, ...savedRecommendations];
 
-    // Pass everything to the main page render, including combined data for the report
+    // Pass everything to the EJS view, including combined data and location details
     res.render('pages/Main', { activities, neighborhoods, userName, combinedData });
   } catch (error) {
     console.error('Error fetching data:', error);

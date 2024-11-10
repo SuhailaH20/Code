@@ -18,7 +18,7 @@
                         <td class="customTableData"><%= index + 1 %></td>
                         <td class="customTableData"><%= item.step3Status || 'N/A' %></td>
                         <td class="customTableData"><%= item.step3Result || 'N/A' %></td>
-                        <td class="customTableData"><%= item.location ? `${item.location.lat}, ${item.location.lng}` : 'N/A' %></td>
+                        <td class="customTableData"><%= item.location.lat %>, <%= item.location.lng %></td>
                         <td class="customTableData"><%= new Date(item.createdAt).toLocaleDateString() %></td>
                         <td class="customTableData">
                             <a href="javascript:void(0);" data-item='<%= JSON.stringify(item) %>' class="customDetailsLink" 

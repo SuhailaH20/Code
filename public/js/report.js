@@ -69,6 +69,16 @@ function showReportDetails(item) {
 
     let detailsHtml = ''; // Initialize details HTML
     if (item.type === 'طلب مدخل') { // Check if item is an input request
+        // Parse step4Result to extract necessary data
+        let step4Data = {};
+        if (item.step4Result) {
+            try {
+                step4Data = JSON.parse(item.step4Result)[0]; // Assuming the data is in the first item of the array
+            } catch (error) {
+                console.error("Error parsing step4Result:", error);
+            }
+        }
+    
         detailsHtml += `
             <div class="customInfoItem">
                 <strong>رقم الطلب:</strong> ${item.id || 'N/A'}
@@ -87,14 +97,15 @@ function showReportDetails(item) {
             </div>
             <div class="customInfoItem">
                 <strong>أسماء المنافسين:</strong>
-                <ul>${item.competitors ? item.competitors.map(comp => `<li>${comp}</li>`).join('') : '<li>N/A</li>'}</ul>
+                <ul>${step4Data.competitors && step4Data.competitors.length > 0 ? step4Data.competitors.map(comp => `<li>${comp}</li>`).join('') : '<li>N/A</li>'}</ul>
             </div>
             <div class="customInfoItem">
                 <strong>المواقع القريبة:</strong>
-                <ul>${item.nearby_pois ? item.nearby_pois.map(poi => `<li>${poi.name} - ${poi.type}</li>`).join('') : '<li>N/A</li>'}</ul>
+                <ul>${step4Data.nearby_pois && step4Data.nearby_pois.length > 0 ? step4Data.nearby_pois.map(poi => `<li>${poi.name} - ${poi.type}</li>`).join('') : '<li>N/A</li>'}</ul>
             </div>
         `;
-    } else if (item.type === 'اقتراح') { // Check if item is a recommendation
+    }
+    else if (item.type === 'اقتراح') { // Check if item is a recommendation
         detailsHtml += `
             <div class="customInfoItem">
                 <strong>ملخص:</strong> ${item.summary || 'N/A'}
