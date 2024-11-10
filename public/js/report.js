@@ -1,5 +1,5 @@
 // This function handles pagination for a specified table by showing a limited number of rows per page.
-function paginateTable(tableId, paginationId, rowsPerPage = 5) {
+function paginateTable(tableId, paginationId, rowsPerPage = 4) {
     // Get the table and pagination elements by their IDs.
     const table = document.getElementById(tableId);
     const pagination = document.getElementById(paginationId);
@@ -56,3 +56,135 @@ document.addEventListener("DOMContentLoaded", () => {
     paginateTable("inputRequestsTable", "inputRequestsPagination"); // Initialize for the input requests table.
     paginateTable("recommendationsTable", "recommendationsPagination"); // Initialize for the recommendations table.
 });
+
+//Report Details Page
+let chart; // Variable to hold the success rate chart
+let competitorsChart; // Variable to hold the competitors chart
+
+function showReportDetails(item) {
+    document.getElementById('customReportContainer').style.display = 'none'; // Hide the main report container
+    
+    const reportDetailsContainer = document.getElementById('customReportDetailsContainer'); 
+    const reportDetailsContent = document.getElementById('reportDetailsContent');
+
+    let detailsHtml = ''; // Initialize details HTML
+    if (item.type === 'طلب مدخل') { // Check if item is an input request
+        detailsHtml += `
+            <div class="customInfoItem">
+                <strong>رقم الطلب:</strong> ${item.id || 'N/A'}
+            </div>
+            <div class="customInfoItem">
+                <strong>حالة الطلب:</strong> ${item.step3Status || 'N/A'}
+            </div>
+            <div class="customInfoItem">
+                <strong>الأسباب:</strong> ${item.step3Result || 'N/A'}
+            </div>
+            <div class="customInfoItem">
+                <strong>الموقع:</strong> ${item.location ? `${item.location.lat}, ${item.location.lng}` : 'N/A'}
+            </div>
+            <div class="customInfoItem">
+                <strong>التاريخ:</strong> ${new Date(item.createdAt).toLocaleDateString() || 'N/A'}
+            </div>
+            <div class="customInfoItem">
+                <strong>أسماء المنافسين:</strong>
+                <ul>${item.competitors ? item.competitors.map(comp => `<li>${comp}</li>`).join('') : '<li>N/A</li>'}</ul>
+            </div>
+            <div class="customInfoItem">
+                <strong>المواقع القريبة:</strong>
+                <ul>${item.nearby_pois ? item.nearby_pois.map(poi => `<li>${poi.name} - ${poi.type}</li>`).join('') : '<li>N/A</li>'}</ul>
+            </div>
+        `;
+    } else if (item.type === 'اقتراح') { // Check if item is a recommendation
+        detailsHtml += `
+            <div class="customInfoItem">
+                <strong>ملخص:</strong> ${item.summary || 'N/A'}
+            </div>
+            <div class="customInfoItem">
+                <strong>نسبة النجاح:</strong> ${item.success_rate || 'N/A'}
+            </div>
+            <div class="customInfoItem">
+                <strong>الموقع:</strong> ${item.location ? `${item.location.lat}, ${item.location.lng}` : 'N/A'}
+            </div>
+            <div class="customInfoItem">
+                <strong>التاريخ:</strong> ${new Date(item.createdAt).toLocaleDateString() || 'N/A'}
+            </div>
+            <div class="customInfoItem">
+                <strong>أسماء المنافسين:</strong>
+                <ul>${item.competitors ? item.competitors.map(comp => `<li>${comp}</li>`).join('') : '<li>N/A</li>'}</ul>
+            </div>
+            <div class="customInfoItem">
+                <strong>المواقع القريبة:</strong>
+                <ul>${item.nearby_pois ? item.nearby_pois.map(poi => `<li>${poi.name} - ${poi.type}</li>`).join('') : '<li>N/A</li>'}</ul>
+            </div>
+        `;
+    }
+
+    reportDetailsContent.innerHTML = detailsHtml; // Set the inner HTML of the details content
+    reportDetailsContainer.style.display = 'block'; // Show the details container
+
+    // Update success rate and chart
+    const successRate = item.success_rate || 0; 
+
+    if (chart) {
+        chart.data.datasets[0].data = [successRate, 100 - successRate];
+        chart.update(); // Refresh the chart
+    } else { 
+        const ctx = document.getElementById('customChart').getContext('2d'); 
+        chart = new Chart(ctx, {
+            type: 'doughnut', // Set chart type to doughnut
+            data: {
+                labels: ['نجاح', 'فشل'],
+                datasets: [{
+                    data: [successRate, 100 - successRate], 
+                    backgroundColor: ['#3E8C74', '#FF3B3B'],
+                }]
+            },
+            options: {
+                responsive: true, 
+                maintainAspectRatio: false, 
+                plugins: {
+                    legend: { display: false }, 
+                    tooltip: { enabled: false } 
+                },
+                cutout: '75%' 
+            }
+        });
+    }
+
+    const competitorsCount = item.competitors ? item.competitors.length : 0; 
+    const nearbyCount = item.nearby_pois ? item.nearby_pois.length : 0; 
+
+    if (competitorsChart) { 
+        competitorsChart.data.datasets[0].data = [competitorsCount, nearbyCount];
+        competitorsChart.update(); // Refresh the chart
+    } else { 
+        const ctxCompetitors = document.getElementById('customCompetitorsChart').getContext('2d'); 
+        competitorsChart = new Chart(ctxCompetitors, {
+            type: 'bar', // Set chart type to bar
+            data: {
+                labels: ['المنافسون', 'الأماكن القريبة'], 
+                datasets: [{
+                    data: [competitorsCount, nearbyCount], // Data for competitors chart
+                    backgroundColor: ['#3E8C74', '#FF3B3B'], // Colors for the chart bars
+                }]
+            },
+            options: {
+                responsive: true, 
+                scales: {
+                    y: {
+                        beginAtZero: true 
+                    }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+    }
+}
+
+function hideReportDetails() {
+    document.getElementById('customReportContainer').style.display = 'block'; // Show the main report container
+    const reportDetailsContainer = document.getElementById('customReportDetailsContainer'); // Get details container
+    reportDetailsContainer.style.display = 'none'; // Hide details container
+}

@@ -1,24 +1,28 @@
-<div id="reportContainer">
-    <h2 id="reportHead"><i class="fas fa-chart-line"></i> طلبات تحليل الموقع</h2>
-    <div class="table-container">
-        <table id="inputRequestsTable">
+<div id="customReportContainer">
+    <h2 class="customReportTitle"><i class="fas fa-chart-line"></i> طلبات تحليل الموقع</h2>
+    <div class="customTableContainer">
+        <table class="customTable" id="inputRequestsTable">
             <thead>
                 <tr>
-                    <th>رقم الطلب</th>
-                    <th>حالة الطلب</th>
-                    <th>الأسباب</th>
-                    <th>الموقع</th>
-                    <th>التاريخ</th>
+                    <th class="customTableHeader">رقم الطلب</th>
+                    <th class="customTableHeader">حالة الطلب</th>
+                    <th class="customTableHeader">الأسباب</th>
+                    <th class="customTableHeader">الموقع</th>
+                    <th class="customTableHeader">التاريخ</th>
+                    <th class="customTableHeader">التفاصيل</th>
                 </tr>
             </thead>
             <tbody>
                 <% combinedData.filter(item => item.type === 'طلب مدخل').forEach((item, index) => { %>
                     <tr>
-                        <td><%= index + 1 %></td>
-                        <td><%= item.step3Status || 'N/A' %></td>
-                        <td><%= item.step3Result || 'N/A' %></td>
-                        <td><%= item.location ? `${item.location.lat}, ${item.location.lng}` : 'N/A' %></td>
-                        <td><%= new Date(item.createdAt).toLocaleDateString() %></td>
+                        <td class="customTableData"><%= index + 1 %></td>
+                        <td class="customTableData"><%= item.step3Status || 'N/A' %></td>
+                        <td class="customTableData"><%= item.step3Result || 'N/A' %></td>
+                        <td class="customTableData"><%= item.location ? `${item.location.lat}, ${item.location.lng}` : 'N/A' %></td>
+                        <td class="customTableData"><%= new Date(item.createdAt).toLocaleDateString() %></td>
+                        <td class="customTableData">
+                            <a href="javascript:void(0);" onclick='showReportDetails(<%= JSON.stringify(item) %>)' class="customDetailsLink">عرض تفاصيل التقرير</a>
+                        </td>
                     </tr>
                 <% }) %>
             </tbody>
@@ -26,26 +30,30 @@
     </div>
     <div class="pagination" id="inputRequestsPagination"></div>
     <br>
-    <h2 id="reportHead">الاقتراحات</h2>
-    <div class="table-container">
-        <table id="recommendationsTable">
+    <h2 class="customReportTitle">الاقتراحات</h2>
+    <div class="customTableContainer">
+        <table class="customTable" id="recommendationsTable">
             <thead>
                 <tr>
-                    <th>رقم الاقتراح</th>
-                    <th>ملخص</th>
-                    <th>نسبة النجاح</th>
-                    <th>الموقع</th>
-                    <th>التاريخ</th>
+                    <th class="customTableHeader">رقم الاقتراح</th>
+                    <th class="customTableHeader">ملخص</th>
+                    <th class="customTableHeader">نسبة النجاح</th>
+                    <th class="customTableHeader">الموقع</th>
+                    <th class="customTableHeader">التاريخ</th>
+                    <th class="customTableHeader">التفاصيل</th>
                 </tr>
             </thead>
             <tbody>
                 <% combinedData.filter(item => item.type === 'اقتراح').forEach((item, index) => { %>
                     <tr>
-                        <td><%= index + 1 %></td>
-                        <td><%= item.summary || 'N/A' %></td>
-                        <td><%= item.success_rate || 'N/A' %>%</td>
-                        <td><%= item.location ? `${item.location.lat}, ${item.location.lng}` : 'N/A' %></td>
-                        <td><%= new Date(item.createdAt).toLocaleDateString() %></td>
+                        <td class="customTableData"><%= index + 1 %></td>
+                        <td class="customTableData"><%= item.summary || 'N/A' %></td>
+                        <td class="customTableData"><%= item.success_rate || 'N/A' %></td>
+                        <td class="customTableData"><%= item.location ? `${item.location.lat}, ${item.location.lng}` : 'N/A' %></td>
+                        <td class="customTableData"><%= new Date(item.createdAt).toLocaleDateString() %></td>
+                        <td class="customTableData">
+                            <a href="javascript:void(0);" onclick='showReportDetails(<%= JSON.stringify(item) %>)' class="customDetailsLink">عرض تفاصيل التقرير</a>
+                        </td>
                     </tr>
                 <% }) %>
             </tbody>
@@ -54,4 +62,20 @@
     <div class="pagination" id="recommendationsPagination"></div>
 </div>
 
-<div id="reportMessage" style="display: none; color: red;"></div>
+<div id="customReportDetailsContainer">
+    <h3>تفاصيل التقرير <span class="customCloseIcon" onclick="hideReportDetails()">&times;</span></h3>
+    <div class="customDetailsAndCharts">
+        <div class="customChartsSection">
+            <div class="customChartContainer">
+                <div class="customChartTitle">نسبة النجاح</div>
+                <canvas id="customChart"></canvas>
+            </div>
+            <br><div class="customChartSeparator"></div><br>
+            <div class="customChartContainer">
+                <div class="customChartTitle">المنافسون والأماكن القريبة</div>
+                <canvas id="customCompetitorsChart"></canvas>
+            </div>
+        </div>
+        <div class="customDetailsSection" id="reportDetailsContent"></div>
+    </div>
+</div>
