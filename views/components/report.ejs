@@ -21,7 +21,8 @@
                         <td class="customTableData"><%= item.location ? `${item.location.lat}, ${item.location.lng}` : 'N/A' %></td>
                         <td class="customTableData"><%= new Date(item.createdAt).toLocaleDateString() %></td>
                         <td class="customTableData">
-                            <a href="javascript:void(0);" onclick='showReportDetails(<%= JSON.stringify(item) %>)' class="customDetailsLink">عرض تفاصيل التقرير</a>
+                            <a href="javascript:void(0);" data-item='<%= JSON.stringify(item) %>' class="customDetailsLink" 
+                            onclick='showReportDetails(JSON.parse(this.getAttribute("data-item")))'>عرض تفاصيل التقرير</a>
                         </td>
                     </tr>
                 <% }) %>
@@ -52,7 +53,8 @@
                         <td class="customTableData"><%= item.location ? `${item.location.lat}, ${item.location.lng}` : 'N/A' %></td>
                         <td class="customTableData"><%= new Date(item.createdAt).toLocaleDateString() %></td>
                         <td class="customTableData">
-                            <a href="javascript:void(0);" onclick='showReportDetails(<%= JSON.stringify(item) %>)' class="customDetailsLink">عرض تفاصيل التقرير</a>
+                            <a href="javascript:void(0);" data-item='<%= JSON.stringify(item) %>' class="customDetailsLink" 
+                                onclick='showReportDetails(JSON.parse(this.getAttribute("data-item")))'>عرض تفاصيل التقرير</a>
                         </td>
                     </tr>
                 <% }) %>
