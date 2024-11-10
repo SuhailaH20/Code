@@ -1,3 +1,4 @@
+/* Pagination styles */
 .pagination {
     text-align: center;
     margin-top: 10px;
@@ -5,7 +6,7 @@
 .pagination a {
     margin: 0 5px;
     padding: 5px 10px;
-    color: 3E8C74;
+    color: #3E8C74;
     text-decoration: none;
     border: 1px solid #ccc;
 }
@@ -15,41 +16,12 @@
     color: white;
 }
 
+/* Report container styles */
 #customReportContainer {
     background: #fdfdfd;
     border-radius: 10px;
     padding: 20px;
-    margin-right: 50px;
-}
-h2.customReportTitle {
-    color: #333;
-}
-.customTableContainer {
-    margin-bottom: 20px;
-}
-table.customTable {
-    width: 1000px;
-    border-collapse: collapse;
-}
-th.customTableHeader, td.customTableData {
-    border: 1px solid #ccc;
-    padding: 10px;
-    text-align: center; 
-}
-th.customTableHeader {
-    background-color: #f2f2f2;
-}
-button.customButton {
-    padding: 10px 15px;
-    background-color: #3E8C74;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-button.customButton:hover {
-    background-color: #1C4A69; 
+    margin-right: 40px;
 }
 #customReportDetailsContainer {
     width: 1200px;
@@ -63,13 +35,46 @@ button.customButton:hover {
     font-size: 18px;
     animation: fadeIn 0.5s ease-in-out; 
 }
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+
+/* Title styles */
+h2.customReportTitle {
+    color: #333;
 }
+
+/* Table styles */
+.customTableContainer {
+    margin-bottom: 20px;
+}
+table.customTable {
+    width: 1100px;
+    border-collapse: collapse;
+}
+th.customTableHeader, td.customTableData {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center; 
+}
+th.customTableHeader {
+    background-color: #f2f2f2;
+}
+
+/* Button styles */
+button.customButton {
+    padding: 10px 15px;
+    background-color: #3E8C74;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+button.customButton:hover {
+    background-color: #1C4A69; 
+}
+
+/* Flexbox layout for details and charts */
 .customDetailsAndCharts {
     display: flex;
-    flex: 1;
 }
 .customChartsSection {
     flex: 1; 
@@ -79,6 +84,7 @@ button.customButton:hover {
     background: #fefefe;
     border-radius: 5px;
     padding: 20px;
+    margin-right: 20px;
 }
 .customDetailsSection {
     flex: 2;
@@ -87,6 +93,8 @@ button.customButton:hover {
     border-radius: 5px;
     padding: 20px;
 }
+
+/* Chart container styles */
 .customChartContainer {
     width: 70%;
     height: 170px;
@@ -96,24 +104,25 @@ button.customButton:hover {
     width: 60%;
     height: 100%;
 }
-#customCompetitorsChart{
-    margin-right: 35px;
-    width: 460px;
-    height: 950px;
+#customCompetitorsChart {
+    width: 860px;
+    height: 1550px;
 }
+
+/* styles */
 .customSuccessRateContainer {
     text-align: left; 
     margin-bottom: 10px; 
 }
 .customInfoItem {
-    border-bottom: 1px solid #ccc; 
     padding: 10px 0;
+    margin-bottom: 10px;
 }
-.customChartSeparator {
-    width: 100%; 
-    height: 1px;
-    background-color: #ccc; 
-    margin: 20px 0; 
+.customChartTitle {
+    color: #ccc;
+    text-align: right; 
+    font-weight: bold; 
+    margin-bottom: 5px; 
 }
 .customCloseIcon {
     float: left; 
@@ -134,9 +143,8 @@ button.customButton:hover {
     text-decoration: underline;
     color: #1C4A69;
 }
-.customChartTitle {
-    color: #ccc;
-    text-align: right; 
-    font-weight: bold; 
-    margin-bottom: 5px; 
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }

@@ -136,6 +136,28 @@ function showReportDetails(item) {
     // Update success rate and chart
     const successRate = item.success_rate || 0; 
 
+    // Add the pie chart
+    Chart.register({
+        id: 'centerText',
+        afterDatasetsDraw(chart) {
+            if (chart.config.type === 'doughnut') { // Apply only to doughnut chart
+                const { ctx, chartArea: { width, height } } = chart;
+                ctx.save();
+                ctx.font = 'bold 20px sans-serif';
+                ctx.fillStyle = '#000';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(
+                    `${chart.data.datasets[0].data[0]}%`,
+                    width / 2,
+                    height / 2
+                );
+                ctx.restore();
+            }
+        }
+    });
+
+    // Create or update the success rate chart
     if (chart) {
         chart.data.datasets[0].data = [successRate, 100 - successRate];
         chart.update(); // Refresh the chart
@@ -162,9 +184,11 @@ function showReportDetails(item) {
         });
     }
 
+    // Data for competitors chart
     const competitorsCount = item.competitors ? item.competitors.length : 0; 
     const nearbyCount = item.nearby_pois ? item.nearby_pois.length : 0; 
 
+    // Create or update the competitors chart
     if (competitorsChart) { 
         competitorsChart.data.datasets[0].data = [competitorsCount, nearbyCount];
         competitorsChart.update(); // Refresh the chart
@@ -187,11 +211,11 @@ function showReportDetails(item) {
                     }
                 },
                 plugins: {
-                    legend: { display: false }
+                    legend: { display: false } 
                 }
             }
         });
-    }
+    }    
 }
 
 function hideReportDetails() {
