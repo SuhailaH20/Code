@@ -6,7 +6,6 @@ const pressResult = document.querySelector('.btn-result');
 const steps = document.querySelectorAll('.step');
 const form_steps = document.querySelectorAll('.form-step');
 const errorMessage = document.getElementById('error-message'); // Get the error message div
-
 let active = 1;
 
 // Add validation function
@@ -138,42 +137,87 @@ submitButton.addEventListener('click', () => {
 });
 
 const updateProgress = () => {
+    // Check if the current status is "مرفوض" and prevent moving to Step 4
+    const step3Status = document.getElementById('step3Status').value;
+    if (active === 4 && step3Status === "مرفوض") {
+        errorMessage.textContent = 'لا يمكن الانتقال للخطوة الرابعة إذا كان الطلب مرفوضاً';
+        errorMessage.style.display = 'block';
+        active = 3; // Keep the user on Step 3
+        return;
+    }
+
     steps.forEach((step, i) => {
         if (i === active - 1) {
             step.classList.add('active');
             form_steps[i].classList.add('active');
-            form_steps[i].style.display = 'block';  // Show the active step
+            form_steps[i].style.display = 'block';
         } else {
             step.classList.remove('active');
             form_steps[i].classList.remove('active');
-            form_steps[i].style.display = 'none';  // Hide non-active steps
+            form_steps[i].style.display = 'none';
         }
     });
 
+    // Rest of the code to handle button visibility based on the current step
     if (active === 3) {
         validateSiteData(); // Validate site data if in the third step
     }
 
-    // Adjust button visibility based on the active step
     if (active === 4) {
         nextButton.style.display = 'none';
         prevButton.style.display = 'none';
-        document.getElementById("reportButton").style.display = "none"; // Hide the report button
-        pressResult.style.display = 'inline-block'; // Show Result button
-        submitButton.style.display = 'inline-block'; // Show Submit button
-        submitButton.disabled = true; // Disable the Submit button initially
+        document.getElementById("reportButton").style.display = "none";
+        pressResult.style.display = 'inline-block';
+        submitButton.style.display = 'inline-block';
+        submitButton.disabled = true;
     } else {
         if (active === 1) {
             prevButton.disabled = true;
-            nextButton.style.display = 'inline-block'; // Show Next button
-            submitButton.style.display = 'none'; // Hide Submit button
+            nextButton.style.display = 'inline-block';
+            submitButton.style.display = 'none';
         } else {
-            prevButton.disabled = false; // Enable Previous button
-            nextButton.style.display = 'inline-block'; // Show Next button
-            submitButton.style.display = 'none'; // Hide Submit button
+            prevButton.disabled = false;
+            nextButton.style.display = 'inline-block';
+            submitButton.style.display = 'none';
         }
     }
 };
+
+// Add event listener to the "Report" button
+const reportButton = document.getElementById("reportButton");
+reportButton.addEventListener("click", () => {
+    // Update the URL hash to #reports
+    window.location.hash = "#reports";
+    
+    // Trigger the section display code
+    showReportsSection();
+});
+
+// Function to handle displaying the reports section
+function showReportsSection() {
+    // Hide other sections and show the #reports section
+    document.querySelectorAll('.content-container').forEach(section => {
+        section.classList.remove('active');
+    });
+    document.getElementById('reports').classList.add('active');
+    
+    // Make the "التقارير" sidebar item active
+    li_items.forEach(item => item.classList.remove("active"));
+    const reportSidebarItem = Array.from(li_items).find(item =>
+        item.querySelector(".item").textContent.trim() === "التقارير"
+    );
+    if (reportSidebarItem) {
+        reportSidebarItem.classList.add("active");
+    }
+}
+
+// Trigger showReportsSection if URL hash is #reports when page loads
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.location.hash === '#reports') {
+        showReportsSection();
+    }
+});
+
 
 //Result..
 function validateSiteData() {
