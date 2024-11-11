@@ -61,27 +61,59 @@ document.addEventListener("DOMContentLoaded", () => {
 let chart; // Variable to hold the success rate chart
 let competitorsChart; // Variable to hold the competitors chart
 
+// Register the plugin outside the function to avoid multiple registrations
+Chart.register({
+    id: 'centerText',
+    afterDatasetsDraw(chart) {
+        if (chart.config.type === 'doughnut') { // Apply only to doughnut chart
+            const { ctx, chartArea: { width, height } } = chart;
+            ctx.save();
+            ctx.font = 'bold 20px sans-serif';
+            ctx.fillStyle = '#000';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            // Use the latest successRate from chart data
+            const successData = chart.data.datasets[0].data[0];
+            const percentage = Math.round(successData); // Calculate percentage based on chart data
+            ctx.fillText(
+                `${percentage}%`, // Show percentage in the center
+                width / 2,
+                height / 2
+            );
+            ctx.restore();
+        }
+    }
+});
+
 function showReportDetails(item) {
     document.getElementById('customReportContainer').style.display = 'none'; // Hide the main report container
-    
-    const reportDetailsContainer = document.getElementById('customReportDetailsContainer'); 
+
+    const reportDetailsContainer = document.getElementById('customReportDetailsContainer');
     const reportDetailsContent = document.getElementById('reportDetailsContent');
 
     let detailsHtml = ''; // Initialize details HTML
+    let step4Data = {}; // Initialize step4Data
+
+    let successRate = 0; // Default successRate to 0
+    let competitorsCount = 0;
+    let nearbyCount = 0;
+
     if (item.type === 'طلب مدخل') { // Check if item is an input request
-        // Parse step4Result to extract necessary data
-        let step4Data = {};
         if (item.step4Result) {
             try {
-                step4Data = JSON.parse(item.step4Result)[0]; // Assuming the data is in the first item of the array
+                step4Data = JSON.parse(item.step4Result)[0];
+                successRate = step4Data.success_rate || 0;
+                competitorsCount = step4Data.competitors ? step4Data.competitors.length : 0;
+                nearbyCount = step4Data.nearby_pois ? step4Data.nearby_pois.length : 0;
             } catch (error) {
                 console.error("Error parsing step4Result:", error);
             }
         }
-    
+
         detailsHtml += `
             <div class="customInfoItem">
-                <strong>رقم الطلب:</strong> ${item.id || 'N/A'}
+                <strong>رقم الطلب:</strong> ${step4Data.summary || 'N/A'}
             </div>
             <div class="customInfoItem">
                 <strong>حالة الطلب:</strong> ${item.step3Status || 'N/A'}
@@ -104,14 +136,17 @@ function showReportDetails(item) {
                 <ul>${step4Data.nearby_pois && step4Data.nearby_pois.length > 0 ? step4Data.nearby_pois.map(poi => `<li>${poi.name} - ${poi.type}</li>`).join('') : '<li>N/A</li>'}</ul>
             </div>
         `;
-    }
-    else if (item.type === 'اقتراح') { // Check if item is a recommendation
+    } else if (item.type === 'اقتراح') {
+        successRate = item.success_rate || 0;
+        competitorsCount = item.competitors ? item.competitors.length : 0;
+        nearbyCount = item.nearby_pois ? item.nearby_pois.length : 0;
+
         detailsHtml += `
             <div class="customInfoItem">
                 <strong>ملخص:</strong> ${item.summary || 'N/A'}
             </div>
             <div class="customInfoItem">
-                <strong>نسبة النجاح:</strong> ${item.success_rate || 'N/A'}
+                <strong>نسبة النجاح:</strong> ${successRate || 'N/A'}
             </div>
             <div class="customInfoItem">
                 <strong>الموقع:</strong> ${item.location ? `${item.location.lat}, ${item.location.lng}` : 'N/A'}
@@ -130,96 +165,68 @@ function showReportDetails(item) {
         `;
     }
 
-    reportDetailsContent.innerHTML = detailsHtml; // Set the inner HTML of the details content
-    reportDetailsContainer.style.display = 'block'; // Show the details container
+    reportDetailsContent.innerHTML = detailsHtml;
+    reportDetailsContainer.style.display = 'block';
 
-    // Update success rate and chart
-    const successRate = item.success_rate || 0; 
+    console.log("Success Rate:", successRate);
 
-    // Add the pie chart
-    Chart.register({
-        id: 'centerText',
-        afterDatasetsDraw(chart) {
-            if (chart.config.type === 'doughnut') { // Apply only to doughnut chart
-                const { ctx, chartArea: { width, height } } = chart;
-                ctx.save();
-                ctx.font = 'bold 20px sans-serif';
-                ctx.fillStyle = '#000';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText(
-                    `${chart.data.datasets[0].data[0]}%`,
-                    width / 2,
-                    height / 2
-                );
-                ctx.restore();
-            }
-        }
-    });
-
-    // Create or update the success rate chart
     if (chart) {
         chart.data.datasets[0].data = [successRate, 100 - successRate];
-        chart.update(); // Refresh the chart
-    } else { 
-        const ctx = document.getElementById('customChart').getContext('2d'); 
+        chart.update();
+    } else {
+        const ctx = document.getElementById('customChart').getContext('2d');
         chart = new Chart(ctx, {
-            type: 'doughnut', // Set chart type to doughnut
+            type: 'doughnut',
             data: {
                 labels: ['نجاح', 'فشل'],
                 datasets: [{
-                    data: [successRate, 100 - successRate], 
+                    data: [successRate, 100 - successRate],
                     backgroundColor: ['#3E8C74', '#FF3B3B'],
                 }]
             },
             options: {
-                responsive: true, 
-                maintainAspectRatio: false, 
+                responsive: true,
+                maintainAspectRatio: false,
                 plugins: {
-                    legend: { display: false }, 
-                    tooltip: { enabled: false } 
+                    legend: { display: false },
+                    tooltip: { enabled: false }
                 },
-                cutout: '75%' 
+                cutout: '75%'
             }
         });
     }
 
-    // Data for competitors chart
-    const competitorsCount = item.competitors ? item.competitors.length : 0; 
-    const nearbyCount = item.nearby_pois ? item.nearby_pois.length : 0; 
-
-    // Create or update the competitors chart
-    if (competitorsChart) { 
+    if (competitorsChart) {
         competitorsChart.data.datasets[0].data = [competitorsCount, nearbyCount];
-        competitorsChart.update(); // Refresh the chart
-    } else { 
-        const ctxCompetitors = document.getElementById('customCompetitorsChart').getContext('2d'); 
+        competitorsChart.update();
+    } else {
+        const ctxCompetitors = document.getElementById('customCompetitorsChart').getContext('2d');
         competitorsChart = new Chart(ctxCompetitors, {
-            type: 'bar', // Set chart type to bar
+            type: 'bar',
             data: {
-                labels: ['المنافسون', 'الأماكن القريبة'], 
+                labels: ['المنافسون', 'الأماكن القريبة'],
                 datasets: [{
-                    data: [competitorsCount, nearbyCount], // Data for competitors chart
-                    backgroundColor: ['#3E8C74', '#FF3B3B'], // Colors for the chart bars
+                    data: [competitorsCount, nearbyCount],
+                    backgroundColor: ['#3E8C74', '#FF3B3B'],
                 }]
             },
             options: {
-                responsive: true, 
+                responsive: true,
                 scales: {
                     y: {
-                        beginAtZero: true 
+                        beginAtZero: true
                     }
                 },
                 plugins: {
-                    legend: { display: false } 
+                    legend: { display: false }
                 }
             }
         });
-    }    
+    }
 }
 
 function hideReportDetails() {
-    document.getElementById('customReportContainer').style.display = 'block'; // Show the main report container
-    const reportDetailsContainer = document.getElementById('customReportDetailsContainer'); // Get details container
-    reportDetailsContainer.style.display = 'none'; // Hide details container
+    document.getElementById('customReportContainer').style.display = 'block';
+    const reportDetailsContainer = document.getElementById('customReportDetailsContainer');
+    reportDetailsContainer.style.display = 'none';
 }
