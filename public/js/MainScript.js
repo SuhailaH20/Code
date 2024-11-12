@@ -84,7 +84,59 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
+// For Report Section
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.location.hash === '#report') {
+        document.querySelectorAll('.content-container').forEach(section => {
+            section.classList.remove('active');
+        });
+        document.getElementById('report').classList.add('active');
+        
+        li_items.forEach(item => item.classList.remove("active"));
+        const reportSidebarItem = Array.from(li_items).find(item =>
+            item.querySelector(".item").textContent.trim() === "التقارير"
+        );
+        if (reportSidebarItem) {
+            reportSidebarItem.classList.add("active");
+        }
+    }
+});
 
+// For Recommendations Section
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.location.hash === '#recommendations') {
+        document.querySelectorAll('.content-container').forEach(section => {
+            section.classList.remove('active');
+        });
+        document.getElementById('recommendations').classList.add('active');
+        
+        li_items.forEach(item => item.classList.remove("active"));
+        const recommendationsSidebarItem = Array.from(li_items).find(item =>
+            item.querySelector(".item").textContent.trim() === "الاقتراحات"
+        );
+        if (recommendationsSidebarItem) {
+            recommendationsSidebarItem.classList.add("active");
+        }
+    }
+});
+
+// For FormContent Section
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.location.hash === '#formContent') {
+        document.querySelectorAll('.content-container').forEach(section => {
+            section.classList.remove('active');
+        });
+        document.getElementById('formContent').classList.add('active');
+        
+        li_items.forEach(item => item.classList.remove("active"));
+        const formContentSidebarItem = Array.from(li_items).find(item =>
+            item.querySelector(".item").textContent.trim() === "تقديم طلب جديد"
+        );
+        if (formContentSidebarItem) {
+            formContentSidebarItem.classList.add("active");
+        }
+    }
+});
 
 // event listeners to sidebar items
 li_items.forEach(function(li_main){
