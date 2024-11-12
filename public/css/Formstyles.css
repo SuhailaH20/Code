@@ -559,3 +559,11 @@ form > div.active {
     padding: 20px; 
 }
 
+
+.content-container {
+    display: none;
+}
+.content-container.active {
+    display: block;
+}
+
