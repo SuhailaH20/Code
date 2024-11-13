@@ -21,7 +21,7 @@
 <body>
     <div class="wrapper">
         <!-- Include sidebar -->
-        <div>
+        <div id="sidebar">
             <%- include('../components/sidebar') %>
         </div>
 
@@ -37,7 +37,7 @@
                 <%- include('../components/formContent', { activities: activities, neighborhoods: neighborhoods }) %>
             </div>
             
-            <div id="reports" class="content-container">
+            <div id="reports" class="content-container" style="margin: -20px 8px 2px 2px;">
                 <%- include('../components/report', { combinedData: combinedData }) %>
             </div>
             

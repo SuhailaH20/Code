@@ -3,7 +3,7 @@ function paginateTable(tableId, paginationId, rowsPerPage = 4) {
     // Get the table and pagination elements by their IDs.
     const table = document.getElementById(tableId);
     const pagination = document.getElementById(paginationId);
-    
+
     // Retrieve all rows from the table's tbody and calculate the total pages needed.
     const rows = Array.from(table.getElementsByTagName("tbody")[0].getElementsByTagName("tr"));
     const totalRows = rows.length;
@@ -25,9 +25,9 @@ function paginateTable(tableId, paginationId, rowsPerPage = 4) {
             link.href = "#"; // Prevent default navigation.
             link.innerText = i; // Set link text to the page number.
             link.classList.add("page-link"); // Add a class for styling.
-            
+
             // Add a click event listener to update the table when a page is clicked.
-            link.addEventListener("click", function(e) {
+            link.addEventListener("click", function (e) {
                 e.preventDefault();
                 displayPage(i); // Display the selected page.
                 updateActiveLink(i); // Highlight the active link.
@@ -127,14 +127,18 @@ function showReportDetails(item) {
             <div class="customInfoItem">
                 <strong>التاريخ:</strong> ${new Date(item.createdAt).toLocaleDateString() || 'N/A'}
             </div>
-            <div class="customInfoItem">
-                <strong>أسماء المنافسين:</strong>
-                <ul>${step4Data.competitors && step4Data.competitors.length > 0 ? step4Data.competitors.map(comp => `<li>${comp}</li>`).join('') : '<li>N/A</li>'}</ul>
-            </div>
-            <div class="customInfoItem">
-                <strong>المواقع القريبة:</strong>
-                <ul>${step4Data.nearby_pois && step4Data.nearby_pois.length > 0 ? step4Data.nearby_pois.map(poi => `<li>${poi.name} - ${poi.type}</li>`).join('') : '<li>N/A</li>'}</ul>
-            </div>
+    <div class="customInfoItem">
+        <strong>أسماء المنافسين:</strong>
+        <ul>${step4Data.competitors && step4Data.competitors.length > 0 ?
+                step4Data.competitors.map(comp => `<li><i class="fas fa-store"></i> ${comp}</li>`).join('')
+                : '<li>N/A</li>'}</ul>
+    </div>
+    <div class="customInfoItem">
+        <strong>المواقع القريبة:</strong>
+        <ul>${step4Data.nearby_pois && step4Data.nearby_pois.length > 0 ?
+                step4Data.nearby_pois.map(poi => `<li><i class="fas fa-map-marker-alt"></i> ${poi.name} - ${poi.type}</li>`).join('')
+                : '<li>N/A</li>'}</ul>
+    </div>
         `;
     } else if (item.type === 'اقتراح') {
         successRate = item.success_rate || 0;
@@ -156,12 +160,19 @@ function showReportDetails(item) {
             </div>
             <div class="customInfoItem">
                 <strong>أسماء المنافسين:</strong>
-                <ul>${item.competitors ? item.competitors.map(comp => `<li>${comp}</li>`).join('') : '<li>N/A</li>'}</ul>
+                <ul>${item.competitors ? item.competitors.map(comp => `<li><i class="fas fa-store"></i>${comp}</li>`).join('') : '<li>N/A</li>'}</ul>
             </div>
-            <div class="customInfoItem">
-                <strong>المواقع القريبة:</strong>
-                <ul>${item.nearby_pois ? item.nearby_pois.map(poi => `<li>${poi.name} - ${poi.type}</li>`).join('') : '<li>N/A</li>'}</ul>
-            </div>
+<div class="customInfoItem">
+    <strong>المواقع القريبة:</strong>
+    <ul>
+        ${item.nearby_pois && item.nearby_pois.length > 0
+                ? item.nearby_pois.map(poi => `<li><i class="fas fa-map-marker-alt"></i>${poi.name} - ${poi.type}</li>`).join('')
+                : '<li>الموقع لا يتوافق مع استراتيجية ال 15 دقيقة</li>'
+            }
+    </ul>
+</div>
+
+    </div>
         `;
     }
 
@@ -229,4 +240,22 @@ function hideReportDetails() {
     document.getElementById('customReportContainer').style.display = 'block';
     const reportDetailsContainer = document.getElementById('customReportDetailsContainer');
     reportDetailsContainer.style.display = 'none';
+}
+function printCustomReport() {
+    const reportContainer = document.getElementById('customReportDetailsContainer');
+
+    if (reportContainer) {
+        // Make the customReportDetailsContainer visible
+        reportContainer.style.display = 'block';
+
+        // Hide sidebar and any other elements
+        document.getElementById('sidebar').style.display = 'none';
+
+        // Trigger the print dialog
+        window.print();
+
+        // Restore visibility after printing (if needed)
+        reportContainer.style.display = 'none';
+        document.getElementById('sidebar').style.display = 'block';
+    }
 }

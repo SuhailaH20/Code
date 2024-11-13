@@ -111,13 +111,65 @@ button.customButton:hover {
 
 /* styles */
 .customSuccessRateContainer {
-    text-align: left; 
+    text-align: right; 
     margin-bottom: 10px; 
 }
 .customInfoItem {
-    padding: 10px 0;
-    margin-bottom: 10px;
+    margin-bottom: 10px; /* Add space between sections */
+    padding: 10px; /* Add padding around each section */
+    background-color: #fff; /* Set background color for separation */
+    border-radius: 5px; /* Rounded corners for a smoother look */
+    text-align: right;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
 }
+.customInfoItem strong {
+    color: #3E8C74; /* Use a distinctive color for headings */
+}
+
+.customInfoItem ul {
+    max-height: 150px; /* Limit the height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fefefe;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight inner shadow */
+    scrollbar-width: thin; /* For Firefox */
+    scrollbar-color: #3E8C74 #f9f9f9; /* Scrollbar color for Firefox */
+    direction: rtl;
+    text-align: right;
+}
+
+/* Custom scrollbar styling for WebKit browsers */
+.customInfoItem ul::-webkit-scrollbar {
+    width: 8px;
+}
+
+.customInfoItem ul::-webkit-scrollbar-track {
+    background: #f9f9f9;
+    border-radius: 8px;
+}
+
+.customInfoItem ul::-webkit-scrollbar-thumb {
+    background-color: #3E8C74; /* Scrollbar color */
+    border-radius: 8px;
+    border: 2px solid #f9f9f9; /* Gap around scrollbar thumb */
+}
+
+/* Icon and List Item Styling */
+.customInfoItem ul li {
+    padding: 1px 0; /* Vertical spacing */
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #333;
+}
+
+.customInfoItem ul li i {
+    color: #3E8C74; /* Icon color */
+    margin-left: 8px; /* Space between icon and text */
+}
+
 .customChartTitle {
     color: #ccc;
     text-align: right; 
@@ -148,3 +200,32 @@ button.customButton:hover {
     from { opacity: 0; }
     to { opacity: 1; }
 }
+
+@media print {
+    /* Hide elements not required in print */
+    .pagination, .customButton, .customCloseIcon, #sidebar {
+        display: none !important;
+    }
+
+    /* Adjust container width for print */
+    #customReportDetailsContainer, #customReportContainer {
+        width: 100% !important;
+        height: auto !important;
+        padding: 0;
+        margin: 0;
+        box-shadow: none;
+    }
+
+    /* Ensure charts and tables fit */
+    .customChartContainer, .customCompetitorsChart {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    /* Adjust font and layout for print readability */
+    body {
+        color: #000;
+        background: #fff;
+    }
+}
+
