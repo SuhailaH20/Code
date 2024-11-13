@@ -65,6 +65,7 @@ function showRecommendations() {
     hideAllContainers();
     recommendationsContainer.style.display = "block";
 }
+
 document.addEventListener('DOMContentLoaded', () => {
     // Check if the URL has the #reports hash
     if (window.location.hash === '#reports') {
@@ -84,16 +85,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
-// For Report Section
+// Reports section handle initial page load
 document.addEventListener('DOMContentLoaded', () => {
-    if (window.location.hash === '#report') {
+    if (window.location.hash === '#reports') {
         document.querySelectorAll('.content-container').forEach(section => {
             section.classList.remove('active');
         });
-        document.getElementById('report').classList.add('active');
+        document.getElementById('reports').classList.add('active');
         
         li_items.forEach(item => item.classList.remove("active"));
-        const reportSidebarItem = Array.from(li_items).find(item =>
+        const reportSidebarItem = Array.from(li_items).find(item => 
             item.querySelector(".item").textContent.trim() === "التقارير"
         );
         if (reportSidebarItem) {
@@ -102,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// For Recommendations Section
+// Recommendations section handle initial page load
 document.addEventListener('DOMContentLoaded', () => {
     if (window.location.hash === '#recommendations') {
         document.querySelectorAll('.content-container').forEach(section => {
@@ -111,8 +112,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('recommendations').classList.add('active');
         
         li_items.forEach(item => item.classList.remove("active"));
-        const recommendationsSidebarItem = Array.from(li_items).find(item =>
-            item.querySelector(".item").textContent.trim() === "الاقتراحات"
+        const recommendationsSidebarItem = Array.from(li_items).find(item => 
+            item.querySelector(".item").textContent.trim() === "اقتراحات"
         );
         if (recommendationsSidebarItem) {
             recommendationsSidebarItem.classList.add("active");
@@ -120,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// For FormContent Section
+// Form Content section handle initial page load
 document.addEventListener('DOMContentLoaded', () => {
     if (window.location.hash === '#formContent') {
         document.querySelectorAll('.content-container').forEach(section => {
@@ -129,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('formContent').classList.add('active');
         
         li_items.forEach(item => item.classList.remove("active"));
-        const formContentSidebarItem = Array.from(li_items).find(item =>
+        const formContentSidebarItem = Array.from(li_items).find(item => 
             item.querySelector(".item").textContent.trim() === "تقديم طلب جديد"
         );
         if (formContentSidebarItem) {
@@ -137,6 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
+
 
 // event listeners to sidebar items
 li_items.forEach(function(li_main){
