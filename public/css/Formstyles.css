@@ -560,10 +560,4 @@ form > div.active {
 }
 
 
-.content-container {
-    display: none;
-}
-.content-container.active {
-    display: block;
-}
 
