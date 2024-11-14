@@ -201,6 +201,9 @@ async function displayLatestReports() {
         
         // Add a click event to show detailed report information
         reportCard.addEventListener('click', () => {
+            window.location.hash = "#report";
+            showReportSection();
+            hideReportDetails();
             showReportDetails(report.rawData);
         });
         
