@@ -4,7 +4,6 @@ report_Button.addEventListener("click", () => {
     // Update the URL hash to #report
     window.location.hash = "#report";
     showReportSection();
-    location.reload();
     displayLatestReports();
 });
 
