@@ -4,6 +4,7 @@ report_Button.addEventListener("click", () => {
     // Update the URL hash to #report
     window.location.hash = "#report";
     showReportSection();
+    location.reload();
 });
 
 // Function to handle displaying the report section
@@ -80,6 +81,8 @@ function displayLatestReports() {
     const recommendationsTable = document.getElementById('recommendationsTable');
     
     let allReports = [];
+    let approvedCount = 0;
+    let disapprovedCount = 0;
     
     // Process reports from the input requests table
     if (inputRequestsTable && inputRequestsTable.getElementsByTagName('tbody')[0]) {
@@ -103,6 +106,11 @@ function displayLatestReports() {
                                 date: new Date(itemData.createdAt),
                                 rawData: itemData
                             });
+                            if (itemData.step3Status === "مقبول") {
+                                approvedCount++;
+                            } else if (itemData.step3Status === "مرفوض") {
+                                disapprovedCount++;
+                            }
                         }
                     } catch (e) {
                         console.error('Error parsing input data:', e);
@@ -197,7 +205,18 @@ function displayLatestReports() {
         // Append the report card to the container
         reportsContainer.appendChild(reportCard);
     });
+
+    // Update the dashboard counts
+    updateDashboardCounts(allReports.length, approvedCount, disapprovedCount);
 }
+
+// Function to update the dashboard counts
+function updateDashboardCounts(total, approved, disapproved) {
+    document.getElementById('totalRequestsCount').textContent = total;
+    document.getElementById('approvedRequestsCount').textContent = approved;
+    document.getElementById('disapprovedRequestsCount').textContent = disapproved;
+}
+
 
 // Add event listener to display reports once the DOM is loaded
 document.addEventListener('DOMContentLoaded', displayLatestReports);
