@@ -502,10 +502,6 @@ form > div.active {
     display: none;
 }
 
-#reportButton {
-    display: none; /* إخفاء الزر في البداية */
-}
-
 /* Style the map on step4 */
 #map2 {
     height: 270px;
