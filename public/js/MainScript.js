@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         li_items.forEach(item => item.classList.remove("active"));
         const formContentSidebarItem = Array.from(li_items).find(item => 
-            item.querySelector(".item").textContent.trim() === "تقديم طلب جديد"
+            item.querySelector(".item").textContent.trim() === "طلب تحليل الموقع"
         );
         if (formContentSidebarItem) {
             formContentSidebarItem.classList.add("active");

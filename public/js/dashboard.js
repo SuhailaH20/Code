@@ -59,6 +59,7 @@ formContentButton.addEventListener("click", () => {
 
 // Function to handle displaying the formContent section
 function showFormContentSection() {
+    showLocation();
     document.querySelectorAll('.content-container').forEach(section => {
         section.classList.remove('active');
     });
@@ -67,7 +68,7 @@ function showFormContentSection() {
     // Activate the correct sidebar item
     li_items.forEach(item => item.classList.remove("active"));
     const formContentSidebarItem = Array.from(li_items).find(item =>
-        item.querySelector(".item").textContent.trim() === "تقديم طلب جديد"
+        item.querySelector(".item").textContent.trim() === "طلب تحليل الموقع"
     );
     if (formContentSidebarItem) {
         formContentSidebarItem.classList.add("active");
