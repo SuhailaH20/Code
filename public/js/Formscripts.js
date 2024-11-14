@@ -81,7 +81,7 @@ prevButton.addEventListener('click', () => {
 submitButton.addEventListener('click', () => {
     const form = document.querySelector('form'); // Get the form element
 
-    // تحقق من الحقول المطلوبة فقط إذا لم تكن في الخطوة 3
+    // Check required fields only if they are not in step 3
     if (active !== 3) {
         // Validate form before submitting (optional, based on existing validation rules)
         const requiredFields = form.querySelectorAll('input, select');
