@@ -5,6 +5,7 @@ report_Button.addEventListener("click", () => {
     window.location.hash = "#report";
     showReportSection();
     location.reload();
+    displayLatestReports();
 });
 
 // Function to handle displaying the report section
@@ -74,8 +75,8 @@ function showFormContentSection() {
     }
 }
 
-//Displays the latest reports by processing data from input requests and recommendations tables
-function displayLatestReports() {
+// Displays the latest reports by processing data from input requests and recommendations tables
+async function displayLatestReports() {
     // Get the tables containing input requests and recommendations
     const inputRequestsTable = document.getElementById('inputRequestsTable');
     const recommendationsTable = document.getElementById('recommendationsTable');
@@ -90,7 +91,7 @@ function displayLatestReports() {
         const inputRows = Array.from(inputRequestsTable.getElementsByTagName('tbody')[0].getElementsByTagName('tr'));
         
         // Loop through each row to extract report data
-        inputRows.forEach(row => {
+        for (const row of inputRows) {
             const cells = row.getElementsByTagName('td');
             if (cells.length >= 6) { // Ensure the row has enough cells
                 const detailsLink = cells[5].querySelector('a'); // Get the details link in the 6th cell
@@ -99,9 +100,10 @@ function displayLatestReports() {
                         // Parse the data attached to the link
                         const itemData = JSON.parse(detailsLink.getAttribute('data-item'));
                         if (itemData.type === 'طلب مدخل') { // Check if it's an input request
+                            const neighborhoodName = await getNeighborhoodName(itemData.location.lat, itemData.location.lng);
                             allReports.push({
                                 type: 'طلب مدخل',
-                                district: itemData.location ? `${itemData.location.lat}, ${itemData.location.lng}` : 'غير محدد',
+                                district: neighborhoodName || 'غير محدد',
                                 status: itemData.step3Status || 'غير محدد',
                                 date: new Date(itemData.createdAt),
                                 rawData: itemData
@@ -117,7 +119,7 @@ function displayLatestReports() {
                     }
                 }
             }
-        });
+        }
     }
     
     // Process reports from the recommendations table
@@ -126,7 +128,7 @@ function displayLatestReports() {
         const recommendationRows = Array.from(recommendationsTable.getElementsByTagName('tbody')[0].getElementsByTagName('tr'));
         
         // Loop through each row to extract recommendation data
-        recommendationRows.forEach(row => {
+        for (const row of recommendationRows) {
             const cells = row.getElementsByTagName('td');
             if (cells.length >= 6) { // Ensure the row has enough cells
                 const detailsLink = cells[5].querySelector('a'); // Get the details link in the 6th cell
@@ -135,9 +137,10 @@ function displayLatestReports() {
                         // Parse the data attached to the link
                         const itemData = JSON.parse(detailsLink.getAttribute('data-item'));
                         if (itemData.type === 'اقتراح') { // Check if it's a recommendation
+                            const neighborhoodName = await getNeighborhoodName(itemData.location.lat, itemData.location.lng);
                             allReports.push({
                                 type: 'اقتراح',
-                                district: itemData.location ? `${itemData.location.lat}, ${itemData.location.lng}` : 'غير محدد',
+                                district: neighborhoodName || 'غير محدد',
                                 successRate: itemData.success_rate ? `${itemData.success_rate}%` : 'غير محدد',
                                 date: new Date(itemData.createdAt),
                                 rawData: itemData
@@ -148,7 +151,7 @@ function displayLatestReports() {
                     }
                 }
             }
-        });
+        }
     }
     
     // Sort all reports by date (newest first)
@@ -172,7 +175,6 @@ function displayLatestReports() {
         return;
     }
     
-
     // Get the latest three reports to display
     const latestReports = allReports.slice(0, 3);
     
@@ -216,7 +218,6 @@ function updateDashboardCounts(total, approved, disapproved) {
     document.getElementById('approvedRequestsCount').textContent = approved;
     document.getElementById('disapprovedRequestsCount').textContent = disapproved;
 }
-
 
 // Add event listener to display reports once the DOM is loaded
 document.addEventListener('DOMContentLoaded', displayLatestReports);

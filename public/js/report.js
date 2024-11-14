@@ -86,7 +86,30 @@ Chart.register({
     }
 });
 
-function showReportDetails(item) {
+async function getNeighborhoodName(lat, lng) {
+    // Construct the API URL using the provided latitude and longitude
+    const apiUrl = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&addressdetails=1`;
+
+    try {
+        // Fetch the data from the API
+        const response = await fetch(apiUrl);
+        // Check if the response is OK (status in the range 200-299)
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        // Parse the JSON data from the response
+        const data = await response.json();
+
+        // Return the neighborhood name; if not available, return the city or state
+        return data.address.neighbourhood || data.address.city || data.address.state || 'Information not available';
+    } catch (error) {
+        // Log any errors that occur during the fetch process
+        console.error('Error fetching neighborhood data:', error);
+        return 'Error fetching neighborhood data';
+    }
+}
+
+async function showReportDetails(item) {
     document.getElementById('customReportContainer').style.display = 'none'; // Hide the main report container
 
     const reportDetailsContainer = document.getElementById('customReportDetailsContainer');
@@ -111,6 +134,8 @@ function showReportDetails(item) {
             }
         }
 
+        const neighborhoodName = await getNeighborhoodName(item.location.lat, item.location.lng);
+
         detailsHtml += `
             <div class="customInfoItem">
                 <strong>رقم الطلب:</strong> ${step4Data.summary || 'N/A'}
@@ -123,6 +148,9 @@ function showReportDetails(item) {
             </div>
             <div class="customInfoItem">
                 <strong>الموقع:</strong> ${item.location ? `${item.location.lat}, ${item.location.lng}` : 'N/A'}
+            </div>
+            <div class="customInfoItem">
+                <strong>اسم الحي:</strong> ${neighborhoodName}
             </div>
             <div class="customInfoItem">
                 <strong>التاريخ:</strong> ${new Date(item.createdAt).toLocaleDateString() || 'N/A'}
@@ -145,6 +173,8 @@ function showReportDetails(item) {
         competitorsCount = item.competitors ? item.competitors.length : 0;
         nearbyCount = item.nearby_pois ? item.nearby_pois.length : 0;
 
+        const neighborhoodName = await getNeighborhoodName(item.location.lat, item.location.lng);
+
         detailsHtml += `
             <div class="customInfoItem">
                 <strong>ملخص:</strong> ${item.summary || 'N/A'}
@@ -154,6 +184,9 @@ function showReportDetails(item) {
             </div>
             <div class="customInfoItem">
                 <strong>الموقع:</strong> ${item.location ? `${item.location.lat}, ${item.location.lng}` : 'N/A'}
+            </div>
+            <div class="customInfoItem">
+                <strong>اسم الحي:</strong> ${neighborhoodName}
             </div>
             <div class="customInfoItem">
                 <strong>التاريخ:</strong> ${new Date(item.createdAt).toLocaleDateString() || 'N/A'}
