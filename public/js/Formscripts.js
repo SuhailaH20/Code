@@ -77,14 +77,15 @@ prevButton.addEventListener('click', () => {
     }
     updateProgress();
 });
-
-// Add event listener for the sumbit button
+// Add event listener for the submit button
 submitButton.addEventListener('click', () => {
     const form = document.querySelector('form'); // Get the form element
 
-    // Validate form before submitting (optional, based on existing validation rules)
-    const requiredFields = form.querySelectorAll('input, select');
-    let isValid = true;
+    // تحقق من الحقول المطلوبة فقط إذا لم تكن في الخطوة 3
+    if (active !== 3) {
+        // Validate form before submitting (optional, based on existing validation rules)
+        const requiredFields = form.querySelectorAll('input, select');
+        let isValid = true;
 
     requiredFields.forEach(field => {
         if (!field.value) {
@@ -95,10 +96,11 @@ submitButton.addEventListener('click', () => {
         }
     });
 
-    if (!isValid) {
-        errorMessage.textContent = 'Please fill in all required fields.'; // Display error message
-        errorMessage.style.display = 'block'; // Show the error message
-        return;
+        if (!isValid) {
+            errorMessage.textContent = 'Please fill in all required fields.'; // Display error message
+            errorMessage.style.display = 'block'; // Show the error message
+            return;
+        }
     }
 
     // Submit the form
@@ -123,29 +125,23 @@ submitButton.addEventListener('click', () => {
     if (reportItem) {
         reportItem.classList.add("active");  // Add 'active' class to item
     }
+
     errorMessage.style.display = 'none'; // Hide any previous error messages
-    if (validateStep(active)) { // Ensure final validation before submitting
+
+    // Ensure final validation before submitting
+    if (validateStep(active)) {
         active++;
         if (active > steps.length) {
             active = steps.length;
         }
         updateProgress();
     } else {
-        errorMessage.textContent = 'لا تترك حقول فارغة ';
+        errorMessage.textContent = 'لا تترك حقول فارغة';
         errorMessage.style.display = 'block'; // Show the error message in red
     }
 });
 
 const updateProgress = () => {
-    // Check if the current status is "مرفوض" and prevent moving to Step 4
-    const step3Status = document.getElementById('step3Status').value;
-    if (active === 4 && step3Status === "مرفوض") {
-        errorMessage.textContent = 'لا يمكن الانتقال للخطوة الرابعة إذا كان الطلب مرفوضاً';
-        errorMessage.style.display = 'block';
-        active = 3; // Keep the user on Step 3
-        return;
-    }
-
     steps.forEach((step, i) => {
         if (i === active - 1) {
             step.classList.add('active');
@@ -158,15 +154,22 @@ const updateProgress = () => {
         }
     });
 
-    // Rest of the code to handle button visibility based on the current step
     if (active === 3) {
-        validateSiteData(); // Validate site data if in the third step
-    }
+        const isValid = validateSiteData(); // Validate site data if in the third step
 
-    if (active === 4) {
+        // Manage button visibility based on validation result
+        if (isValid) {
+            prevButton.disabled = true;
+            prevButton.style.display = 'inline-block';
+            nextButton.style.display = 'inline-block';
+        } else {
+            nextButton.disabled = true;
+            nextButton.style.display = 'inline-block';
+            submitButton.style.display = 'inline-block'; // Show submit button
+        }
+    } else if (active === 4) {
         nextButton.style.display = 'none';
         prevButton.style.display = 'none';
-        document.getElementById("reportButton").style.display = "none";
         pressResult.style.display = 'inline-block';
         submitButton.style.display = 'inline-block';
         submitButton.disabled = true;
@@ -182,6 +185,7 @@ const updateProgress = () => {
         }
     }
 };
+
 
 // Add event listener to the "Report" button
 const reportButton = document.getElementById("reportButton");
@@ -277,6 +281,7 @@ function validateSiteData() {
             }
         }
     }
+    
     // Show Result
     const resultContainer = document.getElementById("resultMessage");
     [document.getElementById('step3Result').value, document.getElementById('step3Status').value] = 
@@ -289,7 +294,7 @@ function validateSiteData() {
     const currentRequests = JSON.parse(localStorage.getItem('requests')) || [];
     const newRequest = {
         reasons: Reasons,
-        ccreatedAt: new Date().toISOString(), // Store the creation date
+        createdAt: new Date().toISOString(), // Store the creation date
         success: Reasons.length === 0, // Determine success or failure
         successMessages: successMessages // Add success message
     };
@@ -299,19 +304,14 @@ function validateSiteData() {
     if (Reasons.length > 0) {
         resultContainer.innerHTML = `<p>موقعك لا يتوافق مع الاشتراطات لمعرفة الأسباب:</p>`;
         resultContainer.classList.add('Reasons');
-
-        // Show "Go to Report Page" button and hide "Next" button
-        document.getElementById("reportButton").style.display = "block"; // Show the button
-        document.querySelector(".btn-next").style.display = "none"; // Hide "Next" button
+        return false; // Return false if not valid
     } else {
         resultContainer.innerHTML = `<p>${successMessages.join(', ')}</p>`; // Display success message
         resultContainer.classList.add('success');
-
-        // Show "Next" button and hide "Go to Report Page" button
-        document.querySelector(".btn-next").style.display = "block"; // Show "Next" button
-        document.getElementById("reportButton").style.display = "none"; // Hide the button
+        return true; // Return true if valid
     }
 }
+
 
 window.onload = function () {
     console.log("Waiting for 'Get Result' button click to initialize map...");
