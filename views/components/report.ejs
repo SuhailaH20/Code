@@ -24,8 +24,12 @@
                         </td>
                         <td class="customTableData"><%= new Date(item.createdAt).toLocaleDateString() %></td>
                         <td class="customTableData">
-                            <a href="javascript:void(0);" data-item='<%= JSON.stringify(item) %>' class="customDetailsLink" 
-                            onclick='showReportDetails(JSON.parse(this.getAttribute("data-item")))'>عرض تفاصيل التقرير</a>
+                            <% if (item.step3Status === 'مرفوض') { %>
+                                <span style="color: rgb(146, 145, 145);">لا يوجد تفاصيل</span>
+                            <% } else { %>
+                                <a href="javascript:void(0);" data-item='<%= JSON.stringify(item) %>' class="customDetailsLink" 
+                                onclick='showReportDetails(JSON.parse(this.getAttribute("data-item")))'>عرض تفاصيل التقرير</a>
+                            <% } %>
                         </td>
                     </tr>
                 <% }) %>

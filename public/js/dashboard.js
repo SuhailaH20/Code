@@ -100,6 +100,7 @@ function displayLatestReports() {
     let allReports = [];
     let approvedCount = 0;
     let disapprovedCount = 0;
+    let recommendationsCount = 0;
     
     // Process reports from the input requests table
     if (inputRequestsTable && inputRequestsTable.getElementsByTagName('tbody')[0]) {
@@ -132,6 +133,12 @@ function displayLatestReports() {
                     } catch (e) {
                         console.error('Error parsing input data:', e);
                     }
+                } else if (cells[5].textContent.trim() === 'لا يوجد تفاصيل') {
+                    // Handle the case where the details cell contains "لا يوجد تفاصيل"
+                    const statusCell = cells[1]; // Get the status cell
+                    if (statusCell && statusCell.textContent.trim() === 'مرفوض') {
+                        disapprovedCount++;
+                    }
                 }
             }
         });
@@ -159,6 +166,7 @@ function displayLatestReports() {
                                 date: new Date(itemData.createdAt),
                                 rawData: itemData
                             });
+                            recommendationsCount++;
                         }
                     } catch (e) {
                         console.error('Error parsing recommendation data:', e);
@@ -233,12 +241,13 @@ function displayLatestReports() {
     });
 
     // Update the dashboard counts
-    updateDashboardCounts(allReports.length, approvedCount, disapprovedCount);
+    updateDashboardCounts(allReports.length, approvedCount, disapprovedCount, recommendationsCount);
 }
 
 // Function to update the dashboard counts
-function updateDashboardCounts(total, approved, disapproved) {
-    document.getElementById('totalRequestsCount').textContent = total;
+function updateDashboardCounts(total, approved, disapproved, recommendations) {
+    const totalRequestsCount = total + recommendations; // Include recommendations in the total count
+    document.getElementById('totalRequestsCount').textContent = totalRequestsCount;
     document.getElementById('approvedRequestsCount').textContent = approved;
     document.getElementById('disapprovedRequestsCount').textContent = disapproved;
 }
