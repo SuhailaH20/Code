@@ -265,3 +265,44 @@ function printCustomReport() {
         document.getElementById('sidebar').style.display = 'block';
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const inputRequestsTable = document.getElementById('inputRequestsTable');
+    const recommendationsTable = document.getElementById('recommendationsTable');
+    const noReportsMessage = document.getElementById('noReportsMessage');
+    const inputRequestsContainer = document.getElementById('inputRequestsContainer');
+    const recommendationsContainer = document.getElementById('recommendationsContainer');
+    const recommendationsTitle = document.getElementById('recommendationsTitle');
+    const inputRequestsTitle = document.getElementById('inputRequestsTitle');
+  
+    const inputRequestsCount = inputRequestsTable.querySelectorAll('tbody tr').length;
+    const recommendationsCount = recommendationsTable.querySelectorAll('tbody tr').length;
+  
+    // Check if there are no reports
+    if (inputRequestsCount === 0 && recommendationsCount === 0) {
+        noReportsMessage.style.display = 'block'; // Show no reports message
+        inputRequestsContainer.style.display = 'none'; // Hide input requests container
+        recommendationsContainer.style.display = 'none'; // Hide recommendations container
+        inputRequestsTitle.style.display = 'none'; // Hide input requests title
+        recommendationsTitle.style.display = 'none'; // Hide recommendations title
+    } else {
+        noReportsMessage.style.display = 'none'; // Hide no reports message
+        
+        // Show relevant tables based on the counts
+        if (inputRequestsCount > 0) {
+            inputRequestsContainer.style.display = 'block'; // Show input requests if they exist
+            inputRequestsTitle.style.display = 'block'; // Show input requests title
+        } else {
+            inputRequestsContainer.style.display = 'none'; // Hide input requests container
+            inputRequestsTitle.style.display = 'none'; // Hide input requests title
+        }
+  
+        if (recommendationsCount > 0) {
+            recommendationsContainer.style.display = 'block'; // Show recommendations if they exist
+            recommendationsTitle.style.display = 'block'; // Show recommendations title
+        } else {
+            recommendationsContainer.style.display = 'none'; // Hide recommendations container
+            recommendationsTitle.style.display = 'none'; // Hide recommendations title
+        }
+    }
+  });

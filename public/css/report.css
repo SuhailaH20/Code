@@ -231,3 +231,12 @@ button.customButton:hover {
 .no-reports {
     text-align: right;
 }
+
+#noReportsMessage {
+    display: none;
+    color: rgb(127, 127, 127);
+    font-size: 20px;
+    text-align: right;
+    margin: 20px;
+    padding: 1px; 
+}
