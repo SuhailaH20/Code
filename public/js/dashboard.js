@@ -75,7 +75,7 @@ function showFormContentSection() {
     }
 }
 
-// دالة متزامنة لتحويل خطوط الطول والعرض إلى اسم الحي باستخدام XMLHttpRequest
+// Synchronous function to convert latitude and longitude to district name using XMLHttpRequest
 function getNeighborhoodNameSync(lat, lng) {
     const apiUrl = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&addressdetails=1`;
     const xhr = new XMLHttpRequest();
@@ -197,7 +197,7 @@ function displayLatestReports() {
         const reportCard = document.createElement('div');
         reportCard.className = 'report-card';
         
-        // الحصول على اسم الحي بدلاً من خطوط الطول والعرض
+        // Get the neighborhood name instead of latitude and longitude
         let districtName = 'غير محدد';
         if (report.district !== 'غير محدد') {
             const [lat, lng] = report.district.split(', ').map(Number);
