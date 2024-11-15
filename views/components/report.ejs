@@ -19,13 +19,17 @@
                         <td class="customTableData"><%= item.step3Status || 'N/A' %></td>
                         <td class="customTableData"><%= item.step3Result || 'N/A' %></td>
                         <td class="customTableData">
-                            <%= item.location ? item.location.lat : 'N/A' %>, 
-                            <%= item.location ? item.location.lng : 'N/A' %>
+                            <% if (item.step3Status === 'مرفوض') { %>
+                                <span style="color: rgb(120, 120, 120);">لا يوجد موقع</span>
+                            <% } else { %>
+                                <%= item.location ? item.location.lat : 'N/A' %>, 
+                                <%= item.location ? item.location.lng : 'N/A' %>
+                            <% } %>
                         </td>
                         <td class="customTableData"><%= new Date(item.createdAt).toLocaleDateString() %></td>
                         <td class="customTableData">
                             <% if (item.step3Status === 'مرفوض') { %>
-                                <span style="color: rgb(146, 145, 145);">لا يوجد تفاصيل</span>
+                                <span style="color:  rgb(120, 120, 120);">لا يوجد تفاصيل</span>
                             <% } else { %>
                                 <a href="javascript:void(0);" data-item='<%= JSON.stringify(item) %>' class="customDetailsLink" 
                                 onclick='showReportDetails(JSON.parse(this.getAttribute("data-item")))'>عرض تفاصيل التقرير</a>
@@ -72,7 +76,7 @@
 </div>
 
 <div id="customReportDetailsContainer">
-    <h3>تفاصيل التقرير <span class="customCloseIcon" onclick="hideReportDetails()">&times;</span></h3>
+    <h3>تفاصيل التقرير <span class="customCloseIcon" onclick="hideReportDetails()">×</span></h3>
     <div class="customDetailsAndCharts">
         <div class="customChartsSection">
             <div class="customChartContainer">
