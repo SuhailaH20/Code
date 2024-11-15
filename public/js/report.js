@@ -86,30 +86,7 @@ Chart.register({
     }
 });
 
-async function getNeighborhoodName(lat, lng) {
-    // Construct the API URL using the provided latitude and longitude
-    const apiUrl = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&addressdetails=1`;
-
-    try {
-        // Fetch the data from the API
-        const response = await fetch(apiUrl);
-        // Check if the response is OK (status in the range 200-299)
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        // Parse the JSON data from the response
-        const data = await response.json();
-
-        // Return the neighborhood name; if not available, return the city or state
-        return data.address.neighbourhood || data.address.city || data.address.state || 'Information not available';
-    } catch (error) {
-        // Log any errors that occur during the fetch process
-        console.error('Error fetching neighborhood data:', error);
-        return 'Error fetching neighborhood data';
-    }
-}
-
-async function showReportDetails(item) {
+function showReportDetails(item) {
     document.getElementById('customReportContainer').style.display = 'none'; // Hide the main report container
 
     const reportDetailsContainer = document.getElementById('customReportDetailsContainer');
@@ -134,7 +111,7 @@ async function showReportDetails(item) {
             }
         }
 
-        const neighborhoodName = await getNeighborhoodName(item.location.lat, item.location.lng);
+        const neighborhoodName = getNeighborhoodNameSync(item.location.lat, item.location.lng);
 
         detailsHtml += `
             <div class="customInfoItem">
@@ -155,25 +132,25 @@ async function showReportDetails(item) {
             <div class="customInfoItem">
                 <strong>التاريخ:</strong> ${new Date(item.createdAt).toLocaleDateString() || 'N/A'}
             </div>
-    <div class="customInfoItem">
-        <strong>أسماء المنافسين:</strong>
-        <ul>${step4Data.competitors && step4Data.competitors.length > 0 ?
-                step4Data.competitors.map(comp => `<li><i class="fas fa-store"></i> ${comp}</li>`).join('')
-                : '<li>N/A</li>'}</ul>
-    </div>
-    <div class="customInfoItem">
-        <strong>المواقع القريبة:</strong>
-        <ul>${step4Data.nearby_pois && step4Data.nearby_pois.length > 0 ?
-                step4Data.nearby_pois.map(poi => `<li><i class="fas fa-map-marker-alt"></i> ${poi.name} - ${poi.type}</li>`).join('')
-                : '<li>N/A</li>'}</ul>
-    </div>
+            <div class="customInfoItem">
+                <strong>أسماء المنافسين:</strong>
+                <ul>${step4Data.competitors && step4Data.competitors.length > 0 ?
+                    step4Data.competitors.map(comp => `<li><i class="fas fa-store"></i> ${comp}</li>`).join('')
+                    : '<li>N/A</li>'}</ul>
+            </div>
+            <div class="customInfoItem">
+                <strong>المواقع القريبة:</strong>
+                <ul>${step4Data.nearby_pois && step4Data.nearby_pois.length > 0 ?
+                    step4Data.nearby_pois.map(poi => `<li><i class="fas fa-map-marker-alt"></i> ${poi.name} - ${poi.type}</li>`).join('')
+                    : '<li>N/A</li>'}</ul>
+            </div>
         `;
     } else if (item.type === 'اقتراح') {
         successRate = item.success_rate || 0;
         competitorsCount = item.competitors ? item.competitors.length : 0;
         nearbyCount = item.nearby_pois ? item.nearby_pois.length : 0;
 
-        const neighborhoodName = await getNeighborhoodName(item.location.lat, item.location.lng);
+        const neighborhoodName = getNeighborhoodNameSync(item.location.lat, item.location.lng);
 
         detailsHtml += `
             <div class="customInfoItem">
@@ -195,17 +172,13 @@ async function showReportDetails(item) {
                 <strong>أسماء المنافسين:</strong>
                 <ul>${item.competitors ? item.competitors.map(comp => `<li><i class="fas fa-store"></i>${comp}</li>`).join('') : '<li>N/A</li>'}</ul>
             </div>
-<div class="customInfoItem">
-    <strong>المواقع القريبة:</strong>
-    <ul>
-        ${item.nearby_pois && item.nearby_pois.length > 0
-                ? item.nearby_pois.map(poi => `<li><i class="fas fa-map-marker-alt"></i>${poi.name} - ${poi.type}</li>`).join('')
-                : '<li>الموقع لا يتوافق مع استراتيجية ال 15 دقيقة</li>'
-            }
-    </ul>
-</div>
-
-    </div>
+            <div class="customInfoItem">
+                <strong>المواقع القريبة:</strong>
+                <ul>${item.nearby_pois && item.nearby_pois.length > 0
+                    ? item.nearby_pois.map(poi => `<li><i class="fas fa-map-marker-alt"></i>${poi.name} - ${poi.type}</li>`).join('')
+                    : '<li>الموقع لا يتوافق مع استراتيجية ال 15 دقيقة</li>'
+                }</ul>
+            </div>
         `;
     }
 

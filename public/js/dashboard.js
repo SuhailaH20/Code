@@ -75,8 +75,24 @@ function showFormContentSection() {
     }
 }
 
-// Displays the latest reports by processing data from input requests and recommendations tables
-async function displayLatestReports() {
+// دالة متزامنة لتحويل خطوط الطول والعرض إلى اسم الحي باستخدام XMLHttpRequest
+function getNeighborhoodNameSync(lat, lng) {
+    const apiUrl = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&addressdetails=1`;
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', apiUrl, false); // false لجعل الطلب متزامن
+    xhr.send();
+
+    if (xhr.status === 200) {
+        const data = JSON.parse(xhr.responseText);
+        return data.address.neighbourhood || data.address.city || data.address.state || 'Information not available';
+    } else {
+        console.error('Error fetching neighborhood data:', xhr.statusText);
+        return 'Error fetching neighborhood data';
+    }
+}
+
+//Displays the latest reports by processing data from input requests and recommendations tables
+function displayLatestReports() {
     // Get the tables containing input requests and recommendations
     const inputRequestsTable = document.getElementById('inputRequestsTable');
     const recommendationsTable = document.getElementById('recommendationsTable');
@@ -91,7 +107,7 @@ async function displayLatestReports() {
         const inputRows = Array.from(inputRequestsTable.getElementsByTagName('tbody')[0].getElementsByTagName('tr'));
         
         // Loop through each row to extract report data
-        for (const row of inputRows) {
+        inputRows.forEach(row => {
             const cells = row.getElementsByTagName('td');
             if (cells.length >= 6) { // Ensure the row has enough cells
                 const detailsLink = cells[5].querySelector('a'); // Get the details link in the 6th cell
@@ -100,10 +116,9 @@ async function displayLatestReports() {
                         // Parse the data attached to the link
                         const itemData = JSON.parse(detailsLink.getAttribute('data-item'));
                         if (itemData.type === 'طلب مدخل') { // Check if it's an input request
-                            const neighborhoodName = await getNeighborhoodName(itemData.location.lat, itemData.location.lng);
                             allReports.push({
                                 type: 'طلب مدخل',
-                                district: neighborhoodName || 'غير محدد',
+                                district: itemData.location ? `${itemData.location.lat}, ${itemData.location.lng}` : 'غير محدد',
                                 status: itemData.step3Status || 'غير محدد',
                                 date: new Date(itemData.createdAt),
                                 rawData: itemData
@@ -119,7 +134,7 @@ async function displayLatestReports() {
                     }
                 }
             }
-        }
+        });
     }
     
     // Process reports from the recommendations table
@@ -128,7 +143,7 @@ async function displayLatestReports() {
         const recommendationRows = Array.from(recommendationsTable.getElementsByTagName('tbody')[0].getElementsByTagName('tr'));
         
         // Loop through each row to extract recommendation data
-        for (const row of recommendationRows) {
+        recommendationRows.forEach(row => {
             const cells = row.getElementsByTagName('td');
             if (cells.length >= 6) { // Ensure the row has enough cells
                 const detailsLink = cells[5].querySelector('a'); // Get the details link in the 6th cell
@@ -137,10 +152,9 @@ async function displayLatestReports() {
                         // Parse the data attached to the link
                         const itemData = JSON.parse(detailsLink.getAttribute('data-item'));
                         if (itemData.type === 'اقتراح') { // Check if it's a recommendation
-                            const neighborhoodName = await getNeighborhoodName(itemData.location.lat, itemData.location.lng);
                             allReports.push({
                                 type: 'اقتراح',
-                                district: neighborhoodName || 'غير محدد',
+                                district: itemData.location ? `${itemData.location.lat}, ${itemData.location.lng}` : 'غير محدد',
                                 successRate: itemData.success_rate ? `${itemData.success_rate}%` : 'غير محدد',
                                 date: new Date(itemData.createdAt),
                                 rawData: itemData
@@ -151,7 +165,7 @@ async function displayLatestReports() {
                     }
                 }
             }
-        }
+        });
     }
     
     // Sort all reports by date (newest first)
@@ -183,6 +197,13 @@ async function displayLatestReports() {
         const reportCard = document.createElement('div');
         reportCard.className = 'report-card';
         
+        // الحصول على اسم الحي بدلاً من خطوط الطول والعرض
+        let districtName = 'غير محدد';
+        if (report.district !== 'غير محدد') {
+            const [lat, lng] = report.district.split(', ').map(Number);
+            districtName = getNeighborhoodNameSync(lat, lng);
+        }
+
         // Format the display for status or success rate
         let statusOrSuccessDisplay;
         if (report.type === 'اقتراح') {
@@ -194,7 +215,7 @@ async function displayLatestReports() {
         // Create the HTML content for the report card
         reportCard.innerHTML = `
             <i class="fas fa-caret-left arrow-icon"></i>
-            <p class="report-detail">الحي: ${report.district}</p>
+            <p class="report-detail">الحي: ${districtName}</p>
             <p class="report-detail">${statusOrSuccessDisplay}</p>
             <p class="report-detail">التاريخ: ${report.date.toLocaleDateString()}</p>
         `;
