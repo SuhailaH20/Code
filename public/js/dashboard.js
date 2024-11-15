@@ -138,6 +138,13 @@ function displayLatestReports() {
                     const statusCell = cells[1]; // Get the status cell
                     if (statusCell && statusCell.textContent.trim() === 'مرفوض') {
                         disapprovedCount++;
+                        allReports.push({
+                            type: 'طلب مدخل',
+                            district: 'غير محدد',
+                            status: 'مرفوض',
+                            date: new Date(cells[4].textContent.trim()),
+                            rawData: null
+                        });
                     }
                 }
             }
@@ -166,7 +173,6 @@ function displayLatestReports() {
                                 date: new Date(itemData.createdAt),
                                 rawData: itemData
                             });
-                            recommendationsCount++;
                         }
                     } catch (e) {
                         console.error('Error parsing recommendation data:', e);
