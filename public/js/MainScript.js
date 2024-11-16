@@ -184,6 +184,4 @@ li_items.forEach(function (li_main) {
     });
 });
 
-// dashboard container by default
-showDashboard();
 
