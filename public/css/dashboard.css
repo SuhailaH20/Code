@@ -133,7 +133,7 @@
   }
   
   .action-button {
-    background-color: #045c3b;
+    background: linear-gradient(135deg, #1C4A69, #3E8C74);
     color: #fff;
     border: none;
     padding: 10px 25px;
