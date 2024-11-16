@@ -139,25 +139,45 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+    const hash = window.location.hash;
+
+    if (hash === '#dashboard') {
+        showDashboard();
+    } else if (hash === '#formContent') {
+        showLocation();
+    } else if (hash === '#reports') {
+        showReport();
+    } else if (hash === '#recommendations') {
+        showRecommendations();
+    } else {
+        showDashboard(); // Default to dashboard
+    }
+});
+
 
 // event listeners to sidebar items
-li_items.forEach(function(li_main){
-    li_main.addEventListener("click", function(){
-        li_items.forEach(function(li){
-            li.classList.remove("active");
+li_items.forEach(function (li_main) {
+    li_main.addEventListener('click', function () {
+        li_items.forEach(function (li) {
+            li.classList.remove('active');
         });
-        li_main.classList.add("active");
+        li_main.classList.add('active');
 
-        // determine which container to show based on active item
-        var itemText = li_main.querySelector(".item").textContent.trim();
-        if (itemText.includes("لوحة التحكم")) {
-            showDashboard();
-        } else if (itemText.includes("طلب تحليل الموقع")) {
-            showLocation();
-        } else if (itemText.includes("التقارير")) {
-            showReport();
-        } else if (itemText.includes("اقتراحات")) {
-            showRecommendations();
+        // Determine which container to show
+        const itemText = li_main.querySelector('.item').textContent.trim();
+        if (itemText.includes('لوحة التحكم')) {
+            location.hash = '#dashboard'; // Update URL hash
+            location.reload(); // Reload the page
+        } else if (itemText.includes('طلب تحليل الموقع')) {
+            location.hash = '#formContent';
+            location.reload();
+        } else if (itemText.includes('التقارير')) {
+            location.hash = '#reports';
+            location.reload();
+        } else if (itemText.includes('اقتراحات')) {
+            location.hash = '#recommendations';
+            location.reload();
         } else {
             hideAllContainers();
         }
