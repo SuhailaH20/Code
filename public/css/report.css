@@ -8,7 +8,6 @@
     padding: 5px 10px;
     color: #3E8C74;
     text-decoration: none;
-    border: 1px solid #ccc;
     border-radius: 15px;
 }
 .pagination a.active {
@@ -20,7 +19,7 @@
 
 /* Report container styles */
 #customReportContainer {
-    background: #fdfdfd;
+    background: #ffffff;
     border-radius: 10px;
     padding: 20px;
     margin-right: 40px;
@@ -41,27 +40,61 @@
 
 /* Title styles */
 h2.customReportTitle {
-    color: #333;
+    color: #045c3b;
+    margin-bottom: 30px; 
 }
 
 /* Table styles */
 .customTableContainer {
     margin-bottom: 20px;
-}
-table.customTable {
-    width: 1100px;
-    border-collapse: collapse;
+    background: #fff; 
+    border-radius: 10px; 
+    overflow: hidden; 
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
 }
 
-th.customTableHeader,
-td.customTableData {
-    border: 1px solid #ccc;
-    padding: 10px;
-    text-align: center;
+.customTableContainer:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
 }
+
+table.customTable {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff; 
+}
+
 th.customTableHeader {
-    background-color: #f2f2f2;
+    background-color: #ffffff; /* Light gray header background */
+    color: #1C4A69; /* Dark text for readability */
+    font-weight: bold;
+    text-align: center;
+    padding: 12px 16px; 
+    text-transform: uppercase; 
+    border-bottom: 1.5px solid #1C4A69; /* border for separation */
+    font-size: 14px;
 }
+
+td.customTableData {
+    padding: 12px 16px; /* padding for better readability */
+    text-align: center;
+    color: #333; /* Dark text for table values */
+    font-size: 14px;
+    border-bottom: 1px solid #ddd; /* Subtle row separation */
+    background-color: #fff; 
+    transition: transform 0.2s ease, background-color 0.2s ease; /* Smooth hover effect */
+}
+
+td.customTableData:hover {
+    transform: scale(1.05); 
+    background-color: #fdfcfc; 
+}
+
+table.customTable tr:last-child td {
+    border-bottom: none; 
+}
+
 
 /* Button styles */
 button.customButton {

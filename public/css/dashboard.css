@@ -58,26 +58,26 @@
     font-weight: bold;
   }
   
-  /* reports Cards */
-  .reports-container {
-    display: flex;
-    gap: 20px; /* Increase the gap between cards for better spacing */
-    justify-content: space-between;
-    margin-bottom: 30px;
-  }
-  
-  .report-card {
-    flex: 1;
-    flex-basis: calc(33.333% - 20px); /* Set a larger width for each card to occupy 1/3 of the container with padding */
-    background-color: #ffffff;
-    border: 1px solid #dcdcdc;
-    border-radius: 12px;
-    padding: 30px; /* Increase padding for more inner spacing */
-    padding-left: 60px; /* Additional padding for the icon space */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    position: relative;
-    display: block; /* Ensure text inside flows naturally in vertical direction */
-  }
+/* reports Cards */
+.reports-container {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 20px;
+  margin-bottom: 30px;
+  justify-content: flex-start; 
+}
+
+.report-card {
+  background-color: #ffffff;
+  border: 1px solid #dcdcdc;
+  border-radius: 12px;
+  padding: 30px;
+  padding-left: 60px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: relative;
+  width: 344px; 
+  flex-shrink: 0; 
+}
   .report-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
