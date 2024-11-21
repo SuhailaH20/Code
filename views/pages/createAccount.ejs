@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>إنشاء حساب جديد</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../css/createAccount.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="../css/Register.css">
 
 </head>
 
@@ -15,28 +16,49 @@
   <div class="form-container">
     <h4 class="display-4 text-right">إنشاء حساب</h4>
     <form action="/createAccount" method="POST" class="w-100">
-      <div id="popupNotification" style="display: none; color: #d81a1a;"></div>
+      <div id="popupNotification"></div>
       <div class="form-group mb-3">
-        <input type="text" placeholder="الاسم" name="name" autofocus="" class="form-control rounded-pill border-0 shadow-sm px-4 input-height">
+        <div class="input-container">
+          <i class="fas fa-user"></i> <!-- User Icon -->
+          <input type="text" placeholder="الاسم" name="name" autofocus="" class="form-control rounded-pill border-0 shadow-sm px-4 input-height">
+        </div>
         <span class="text-danger" id="nameError"></span>
       </div>
+    
+      <!-- Phone Number Field with Icon -->
       <div class="form-group mb-3">
-        <input type="tel" placeholder="رقم الهاتف" name="phoneNumber" autofocus="" class="form-control rounded-pill border-0 shadow-sm px-4 input-height">
+        <div class="input-container">
+          <i class="fas fa-phone-alt"></i> <!-- Phone Icon -->
+          <input type="tel" placeholder="رقم الهاتف" name="phoneNumber" autofocus="" class="form-control rounded-pill border-0 shadow-sm px-4 input-height">
+        </div>
         <span class="text-danger" id="phoneNumberError"></span>
       </div>
+    
+      <!-- Email Field with Icon -->
       <div class="form-group mb-3">
-        <input type="email" placeholder="البريد الإلكتروني" name="email" autofocus="" class="form-control rounded-pill border-0 shadow-sm px-4 input-height">
+        <div class="input-container">
+          <i class="fas fa-envelope"></i> <!-- Email Icon -->
+          <input type="email" placeholder="البريد الإلكتروني" name="email" autofocus="" class="form-control rounded-pill border-0 shadow-sm px-4 input-height">
+        </div>
         <span class="text-danger" id="emailError"></span>
       </div>
+    
+      <!-- Password Field with Icon -->
       <div class="form-group mb-3">
-        <input type="password" placeholder="كلمة المرور" id="password" name="password" autofocus="" class="form-control rounded-pill border-0 shadow-sm px-4 input-height">
+        <div class="input-container">
+          <i class="fas fa-lock"></i> <!-- Lock Icon -->
+          <input type="password" placeholder="كلمة المرور" id="password" name="password" class="form-control rounded-pill border-0 shadow-sm px-4 input-height">
+        </div>
         <span class="text-danger" id="passwordError"></span>
       </div>
+    
 
       <div class="button-container">
         <button type="submit" class="btn btn-custom btn-block text-uppercase rounded-pill shadow-sm">تسجيل</button>
       </div>
-
+      <div class="form-separator">
+        <span>أو</span>
+      </div>  
       <div class="form-footer">
         <p>لديك حساب بالفعل؟ <a href="../pages/login.html" class="font-italic text-muted">العودة إلى تسجيل الدخول</a></p>
       </div>

@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>تسجيل الدخول</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../css/createAccount.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="../css/Register.css">
 
 </head>
 
@@ -15,26 +16,34 @@
   <div class="form-container">
     <h4 class="display-4 text-right">تسجيل الدخول</h4>
     <form action="/login" method="POST" class="w-100">
-      <div id="popupNotification" style="display: none; color: #d81a1a;"></div>
+      <div id="popupNotification"></div>
       
       <div class="form-group mb-3">
-        <input type="tel" placeholder="رقم الهاتف" name="phoneNumber" autofocus="" class="form-control rounded-pill border-0 shadow-sm px-4 input-height">
+        <div class="input-container">
+          <i class="fa fa-phone-alt"></i>
+          <input type="tel" placeholder="رقم الهاتف" name="phoneNumber" autofocus="" class="form-control rounded-pill border-0 shadow-sm px-4 input-height">
+        </div>
         <span class="text-danger" id="phoneNumberError"></span>
       </div>
      
       <div class="form-group mb-3">
-        <input type="password" placeholder="كلمة المرور" id="password" name="password" autofocus="" class="form-control rounded-pill border-0 shadow-sm px-4 input-height">
+        <div class="input-container">
+          <i class="fa fa-lock"></i>
+          <input type="password" placeholder="كلمة المرور" id="password" name="password" class="form-control rounded-pill border-0 shadow-sm px-4 input-height">
+        </div>
         <span class="text-danger" id="passwordError"></span>
       </div>
-
+    
       <div class="button-container">
         <button type="submit" class="btn btn-custom btn-block text-uppercase rounded-pill shadow-sm">تسجيل الدخول</button>
       </div>
-
+      <div class="form-separator">
+        <span>أو</span>
+      </div>      
       <div class="form-footer">
         <p>ليس لديك حساب ؟<a href="../pages/createAccount.html" class="font-italic text-muted">انشئ حساب جديد</a></p>
       </div>
-    </form>
+    </form>    
     <p id="errorMessage" style="color: red;"></p>
   </div>
 

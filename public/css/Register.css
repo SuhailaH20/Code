@@ -1,0 +1,124 @@
+body {
+  display: flex;
+  height: 100vh;
+  background-color: #fafafa;
+  margin: 0;
+}
+
+.bg-image {
+  background-image: url('../img/Group 49 (6).svg'); /* تأكد من أن المسار صحيح */
+  background-size: 100%;
+  background-position: center;
+  position: relative;
+  flex: 1;
+  z-index: 1; /* اجعل الصورة خلف المحتوى */
+}
+
+/* إضافة مسافة بين الحقول */
+.form-group {
+  margin: 27px;
+}
+
+.form-container {
+  flex: 0.4;
+  display: flex;
+  flex-direction: column; /* لجعل العناصر تتوزع عمودياً */
+  justify-content: center;
+  align-items: center;
+  margin: 100px;
+  padding: 15px;
+}
+
+.form-control {
+  direction: rtl; /* لجعل النص يظهر من اليمين إلى اليسار */
+}
+
+.btn-custom {
+  background-color: #3E8C74; 
+  color: #fafafa;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  width: 45%;
+  padding: 5px; 
+  transition: 0.3s ease;
+}
+.btn-custom:hover {
+  background-color: #1C4A69;
+  color: #fafafa;
+  transform: scale(1.05);
+}
+.button-container {
+  display: flex;
+  justify-content: center;
+  width: 100%; 
+}
+
+.form-footer {
+  text-align: center;
+  width: 100%; 
+  margin-top: 20px;
+}
+
+
+  /* Icon styling */
+  .input-container {
+    position: relative;
+  }
+  
+  .input-container i.fa,.input-container i.fas{
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #3E8C74;
+    font-size: 18px;
+    transition: 0.3s ease;
+  }
+  
+  .input-container input {
+    padding-left: 40px; /* Space for the icon */
+  }
+  
+  .input-container input:focus + i {
+    color: #1C4A69; /* Change icon color on focus */
+  }
+  
+  /* Hover effect for icon */
+  .input-container i:hover {
+    transform: scale(1.1);
+  }
+  
+/* Form separator styling */
+.form-separator {
+  position: relative;
+  text-align: center;
+  margin: 1.5rem 0;
+}
+
+.form-separator::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  border-bottom: 2px solid #3E8C74;
+  animation: lineAnimation 0.5s ease-in-out;
+}
+
+@keyframes lineAnimation {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.form-separator span {
+  position: relative;
+  background-color: #F8F9FA;
+  padding: 0 10px;
+  font-size: 16px;
+  color: #3E8C74;
+}
+
