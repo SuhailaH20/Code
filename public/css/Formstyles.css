@@ -53,7 +53,7 @@ body {
 }
 
 .side_bar .side_bar_top .picture img {
-	width: 115px;
+	width: 105px;
 	height: 150px;
 	padding: 5px;
 }
@@ -67,6 +67,8 @@ body {
 	margin-top: 5px;
 	font-size: 12px;	
     text-align: center;
+    color: #fff;
+    text-shadow: 0px 0px 7px #FFF;
 }
 
 .side_bar .side_bar_bottom {
