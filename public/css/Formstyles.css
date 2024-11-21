@@ -139,11 +139,41 @@ body {
 .side_bar .side_bar_bottom ul li.active .bottom_curve:before {
 	border-top-left-radius: 25px; 
 }
+
+/*LOGOUT STYLE*/
 .logout{
     margin-top: 50px !important;
     color: #960808 !important;
 }
 
+.swal-confirm-btn {
+    background-color: #3E8C74 !important;
+    color: #ffffff !important;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.swal-cancel-btn {
+    margin: 15px;
+    background-color: #1C4A69 !important;
+    color: #ffffff !important;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.swal-confirm-btn:hover {
+    background-color: #1C6A59 !important; /* Slightly darker green */
+}
+
+.swal-cancel-btn:hover {
+    background-color: #163B54 !important; /* Slightly darker blue */
+}
 
 /* Hide all containers initially */
 .dashboard_container,

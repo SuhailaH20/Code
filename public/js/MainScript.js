@@ -178,14 +178,28 @@ li_items.forEach(function (li_main) {
         } else if (itemText.includes('اقتراحات')) {
             location.hash = '#recommendations';
             location.reload();
-        } else if(itemText.includes('Logout')) {
-            window.location.href = '/logout'; // Redirect to logout route
-            return; // No need to reload other containers
-          }
-        else {
+        } else if (itemText.includes('تسجيل خروج')) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'هل أنت متأكد؟',
+                text: 'سيتم تسجيل خروجك من الجلسة الحالية',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'نعم, تسجيل خروج',
+                cancelButtonText: 'إالغاء',
+                buttonsStyling: false,
+                customClass: {
+                    confirmButton: 'swal-confirm-btn',
+                    cancelButton: 'swal-cancel-btn'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/logout';
+                }
+            });
+        } else {
             hideAllContainers();
         }
     });
 });
-
 
