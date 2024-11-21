@@ -9,6 +9,7 @@ router.get('/pages/login.html', loginController.userLogin);
 router.get('/pages/createAccount.html', userController.createGet);
 router.get('/get_recommendations',userController.GetRecommendations )
 router.get('/pages/success.html', userController.successGet)
+router.get('/logout', userController.logout);
 // Protect the dashboard route
 router.get('/Main', isAuthenticated, userController.MainGet); 
 // POST requests

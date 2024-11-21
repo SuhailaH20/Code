@@ -4,7 +4,7 @@ const FormSubmission = require('../models/BusinessSchema');
 const SavedRecommendation = require('../models/SavedRecommendation');  
 const bcrypt = require('bcrypt');
 const axios = require('axios');
-
+const { logout } = require('../middlewares/auth');
 
 
 const indexrout = (req, res) => {
@@ -244,4 +244,4 @@ const saveRecommendation = async (req, res) => {
 };
 
 
-module.exports = { indexrout, createPost, createGet, MainGet,saveRecommendation, submitForm,GetRecommendations,successGet };
+module.exports = { indexrout, createPost, createGet, MainGet,saveRecommendation, submitForm,GetRecommendations,successGet,logout };

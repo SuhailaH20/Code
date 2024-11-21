@@ -7,7 +7,17 @@ const isAuthenticated = (req, res, next) => {
     }
   };
   
-  module.exports = { isAuthenticated };
+  const logout = (req, res) => {
+    req.session.destroy((err) => {
+      if (err) {
+        console.error('Error destroying session:', err);
+        return res.status(500).send('Could not log out. Try again.');
+      }
+      res.redirect('/'); // Redirect to login page after logout
+    });
+  };
   
+  module.exports = { isAuthenticated, logout };
+    
 
   

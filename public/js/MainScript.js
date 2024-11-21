@@ -178,7 +178,11 @@ li_items.forEach(function (li_main) {
         } else if (itemText.includes('اقتراحات')) {
             location.hash = '#recommendations';
             location.reload();
-        } else {
+        } else if(itemText.includes('Logout')) {
+            window.location.href = '/logout'; // Redirect to logout route
+            return; // No need to reload other containers
+          }
+        else {
             hideAllContainers();
         }
     });

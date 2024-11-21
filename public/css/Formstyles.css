@@ -137,6 +137,11 @@ body {
 .side_bar .side_bar_bottom ul li.active .bottom_curve:before {
 	border-top-left-radius: 25px; 
 }
+.logout{
+    margin-top: 50px !important;
+    color: #960808 !important;
+}
+
 
 /* Hide all containers initially */
 .dashboard_container,

@@ -1,11 +1,13 @@
 <div class="side_bar">
     <div class="side_bar_top">
         <div class="picture">
-           <a href="/"> <img src="../img/NobackgroundLogoWhite.png" alt="logo"></a>
+            <a href="/"> <img src="../img/NobackgroundLogoWhite.png" alt="logo"></a>
         </div>
         <div class="info">
             <h3>اهلا بك</h3>
-            <p><%= userName %></p>
+            <p>
+                <%= userName %>
+            </p>
         </div>
     </div>
     <div class="side_bar_bottom">
@@ -20,7 +22,7 @@
             </li>
             <li onclick="showContent('formContent')">
                 <span class="top_curve"></span>
-                <a href="javascript:void(0);"> 
+                <a href="javascript:void(0);">
                     <span class="item">طلب تحليل الموقع</span>
                     <span class="icon"><i class="fas fa-fighter-jet"></i></span>
                 </a>
@@ -28,7 +30,7 @@
             </li>
             <li onclick="showContent('reports')">
                 <span class="top_curve"></span>
-                <a href="javascript:void(0);"> 
+                <a href="javascript:void(0);">
                     <span class="item">التقارير</span>
                     <span class="icon"><i class="far fa-newspaper"></i></span>
                 </a>
@@ -50,6 +52,14 @@
                 </a>
                 <span class="bottom_curve"></span>
             </li>
+            <li>
+                <a href="/logout" class="logout">
+                    <span class="item">تسجيل خروج</span>
+                    <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+                </a>
+                <span class="bottom_curve"></span>
+            </li>
         </ul>
+        
     </div>
 </div>
