@@ -246,10 +246,10 @@ function validateSiteData() {
     const warehouseArea = document.getElementById("warehouseArea").value;
 
     const Reasons = [];
-    const successReasons = []; // Reasons for success
-    const successMessages = ["موقعك يتناسب مع الاشتراطات"]; // Success message
+    const successReasons = [];
+    const successMessages = ["موقعك يتناسب مع الاشتراطات"];
 
-    // تحقق من الشروط المختلفة
+    // Compliance validation
     if (activityType === "closedStoreCity") {
         if (partOfLargerBuilding === "yes") {
             if (buildingType === "mixed") {
@@ -296,35 +296,38 @@ function validateSiteData() {
             }
         }
     }
-    
-    // Show Result
+
+    // Generate Checklist Display
     const resultContainer = document.getElementById("resultMessage");
+    const checklistHTML = `
+        <h3>نتائج التحقق</h3>
+        <ul>
+            ${successReasons.map(reason => `<li style="color: green;"> ${reason}✔️</li>`).join("")}
+            ${Reasons.map(reason => `<li style="color: red;"> ${reason}❌</li>`).join("")}
+        </ul>
+    `;
+
     [document.getElementById('step3Result').value, document.getElementById('step3Status').value] = 
     Reasons.length > 0 
     ? [Reasons.join(', '), "مرفوض"] 
-    : [successMessages.join(', '), "مقبول"];
+    : [successReasons.join(', '), "مقبول"];
 
-    resultContainer.className = ''; // Reset any previous styles
+    resultContainer.className = '';
+    resultContainer.innerHTML = checklistHTML;
+
     // Store requests in localStorage
     const currentRequests = JSON.parse(localStorage.getItem('requests')) || [];
     const newRequest = {
         reasons: Reasons,
-        createdAt: new Date().toISOString(), // Store the creation date
-        success: Reasons.length === 0, // Determine success or failure
-        successMessages: successMessages // Add success message
+        createdAt: new Date().toISOString(),
+        success: Reasons.length === 0,
+        successMessages: successMessages
     };
     currentRequests.push(newRequest);
     localStorage.setItem('requests', JSON.stringify(currentRequests));
 
-    if (Reasons.length > 0) {
-        resultContainer.innerHTML = `<p>موقعك لا يتوافق مع الاشتراطات</p>`;
-        resultContainer.classList.add('Reasons');
-        return false; // Return false if not valid
-    } else {
-        resultContainer.innerHTML = `<p>${successMessages.join(', ')}</p>`; // Display success message
-        resultContainer.classList.add('success');
-        return true; // Return true if valid
-    }
+    // Validation Status
+    return Reasons.length === 0;
 }
 
 
@@ -332,7 +335,7 @@ window.onload = function () {
     console.log("Waiting for 'Get Result' button click to initialize map...");
 };
 
-// Function triggered by clicking the get result button
+
 // It retrieves the latitude and longitude values from the input fields displays the map container
 // initializes or updates the map and fetches recommendations based on coordinates provided by user 
 // Function triggered by clicking the "Get Result" button

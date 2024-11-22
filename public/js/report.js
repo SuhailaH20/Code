@@ -121,8 +121,8 @@ function showReportDetails(item) {
                 <h4 class="section-title-Report">تحليل الاشتراطات</h4><br>
                 <strong>رقم الطلب:</strong> ${step4Data.summary || 'N/A'}<br>
                 <strong>حالة الطلب:</strong> ${item.step3Status || 'N/A'}<br>
-                <strong>الأسباب:</strong> ${item.step3Result || 'N/A'}
-                لمعرفة الأسباب <a href="#" id="showSuccessReasons">اضغط هنا</a>
+                <strong>الأسباب:</strong> موقعك يتناسب مع الاشتراطات	
+                لمعرفة التفاصيل <a href="#" id="showSuccessReasons" on>اضغط هنا</a>
             </div>
             <div class="customInfoItem">
                 <h4 class="section-title-Report">تحليل الموقع</h4><br>
@@ -187,7 +187,7 @@ const showSuccessReasonsLink = document.getElementById('showSuccessReasons');
 if (showSuccessReasonsLink) {
     showSuccessReasonsLink.addEventListener('click', function(event) {
         event.preventDefault(); // Prevent default link behavior
-        showSuccessReasonsPopup(successReasons); // Pass success reasons to the popup
+        showSuccessReasonsPopup(item); // Pass success reasons to the popup
     });
 }   
     console.log("Success Rate:", successRate);
@@ -259,30 +259,37 @@ if (showSuccessReasonsLink) {
 }
 
 // Function to display success reasons in a popup
-function showSuccessReasonsPopup(successReasons) {
+function showSuccessReasonsPopup(item) {
+    console.log('Popup item:', item); // Debugging: Check the `item` object
     const popup = document.createElement('div'); // Create the popup element
     popup.className = 'popup'; // Add CSS class for the popup
+
+    // Set the popup content
     popup.innerHTML = `
-        <div class="popup-content">
-            <span class="close-popup">&times;</span> <!-- Close button -->
-            <h2>أسباب النجاح</h2>
-            <ul>
-                ${successReasons.length > 0 ? 
-                    successReasons.map(reason => `<li>${reason}</li>`).join('')
-                    : '<li>لا توجد أسباب نجاح متاحة</li>'}
-            </ul>
-        </div>
-    `;
+    <div class="popup-content">
+        <span class="close-popup">&times;</span> <!-- Close button -->
+        <h2>تفاصيل الأسباب</h2>
+        <h3 style="color: green;">أسباب النجاح</h3>
+        <ul>
+            ${item.step3Result
+                ? item.step3Result
+                      .split(/[;,]/) // Split reasons by commas or semicolons
+                      .map(reason => `<li style="margin: 5px 0;">✔️ ${reason.trim()}</li>`)
+                      .join('')
+                : '<li>لا توجد أسباب متوفرة</li>'}
+        </ul>
+    </div>
+`;
 
     document.body.appendChild(popup); // Append the popup to the body
 
     // Event to close the popup when the close button is clicked
-    popup.querySelector('.close-popup').addEventListener('click', function() {
+    popup.querySelector('.close-popup').addEventListener('click', function () {
         document.body.removeChild(popup); // Remove the popup
     });
 
     // Close the popup when clicking anywhere outside the content
-    window.addEventListener('click', function(event) {
+    window.addEventListener('click', function (event) {
         if (event.target === popup) {
             document.body.removeChild(popup); // Remove the popup
         }

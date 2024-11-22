@@ -2,9 +2,9 @@
     <h2 class="customReportTitle" id="inputRequestsTitle" style="display: none;">
         <i class="fas fa-chart-line"></i> طلبات تحليل الموقع
     </h2>
-  
+
     <div id="noReportsMessage">لا يوجد تقارير</div>
-  
+
     <div class="customTableContainer" id="inputRequestsContainer" style="display: none;">
         <table class="customTable" id="inputRequestsTable">
             <thead>
@@ -18,40 +18,57 @@
                 </tr>
             </thead>
             <tbody>
-                <% combinedData.filter(item => item.type === 'طلب مدخل').forEach((item, index) => { %>
+                <% combinedData.filter(item=> item.type === 'طلب مدخل').forEach((item, index) => { %>
                     <tr>
-                        <td class="customTableData"><%= index + 1 %></td>
-                        <td class="customTableData"><%= item.step3Status || 'N/A' %></td>
-                        <td class="customTableData"><%= item.step3Result || 'N/A' %></td>
                         <td class="customTableData">
-                            <% if (item.step3Status === 'مرفوض') { %>
-                                <span style="color: rgb(120, 120, 120);">لا يوجد موقع</span>
-                            <% } else { %>
-                                <%= item.location ? item.location.lat : 'N/A' %>,
-                                <%= item.location ? item.location.lng : 'N/A' %>
-                            <% } %>
+                            <%= index + 1 %>
                         </td>
-                        <td class="customTableData"><%= new Date(item.createdAt).toLocaleDateString() %></td>
                         <td class="customTableData">
-                            <% if (item.step3Status === 'مرفوض') { %>
+                            <%= item.step3Status || 'N/A' %>
+                        </td>
+                        <td class="customTableData">
+                            <% if (item.step3Status==='مقبول' ) { %>
+                                موقعك يتناسب مع الاشتراطات
+                                <% } else if (item.step3Status==='مرفوض' ) { %>
+                                    <%= item.step3Result || 'N/A' %>
+                                        <% } else { %>
+                                            N/A
+                                            <% } %>
+                        </td>
+
+                        <td class="customTableData">
+                            <% if (item.step3Status==='مرفوض' ) { %>
+                                <span style="color: rgb(120, 120, 120);">لا يوجد موقع</span>
+                                <% } else { %>
+                                    <%= item.location ? item.location.lat : 'N/A' %>,
+                                        <%= item.location ? item.location.lng : 'N/A' %>
+                                            <% } %>
+                        </td>
+                        <td class="customTableData">
+                            <%= new Date(item.createdAt).toLocaleDateString() %>
+                        </td>
+                        <td class="customTableData">
+                            <% if (item.step3Status==='مرفوض' ) { %>
                                 <span style="color: rgb(120, 120, 120);">لا يوجد تفاصيل</span>
-                            <% } else { %>
-                                <a href="javascript:void(0);" data-item='<%= JSON.stringify(item) %>' class="customDetailsLink" 
-                                onclick='showReportDetails(JSON.parse(this.getAttribute("data-item")))'>عرض تفاصيل التقرير</a>
-                            <% } %>
+                                <% } else { %>
+                                    <a href="javascript:void(0);" data-item='<%= JSON.stringify(item) %>'
+                                        class="customDetailsLink"
+                                        onclick='showReportDetails(JSON.parse(this.getAttribute("data-item")))'>عرض
+                                        تفاصيل التقرير</a>
+                                    <% } %>
                         </td>
                     </tr>
-                <% }) %>
+                    <% }) %>
             </tbody>
         </table>
     </div>
-    
+
     <div class="pagination" id="inputRequestsPagination"></div>
-  
+
     <h2 class="customReportTitle" id="recommendationsTitle" style="display: none;">
         <i class="fas fa-file-alt"></i> الاقتراحات
     </h2>
-    
+
     <div class="customTableContainer" id="recommendationsContainer" style="display: none;">
         <table class="customTable" id="recommendationsTable">
             <thead>
@@ -65,27 +82,39 @@
                 </tr>
             </thead>
             <tbody>
-                <% combinedData.filter(item => item.type === 'اقتراح').forEach((item, index) => { %>
+                <% combinedData.filter(item=> item.type === 'اقتراح').forEach((item, index) => { %>
                     <tr>
-                        <td class="customTableData"><%= index + 1 %></td>
-                        <td class="customTableData"><%= item.summary || 'N/A' %></td>
-                        <td class="customTableData"><%= item.success_rate || 'N/A' %></td>
-                        <td class="customTableData"><%= item.location ? `${item.location.lat}, ${item.location.lng}` : 'N/A' %></td>
-                        <td class="customTableData"><%= new Date(item.createdAt).toLocaleDateString() %></td>
                         <td class="customTableData">
-                            <a href="javascript:void(0);" data-item='<%= JSON.stringify(item) %>' class="customDetailsLink" 
-                                onclick='showReportDetails(JSON.parse(this.getAttribute("data-item")))'>عرض تفاصيل التقرير</a>
+                            <%= index + 1 %>
+                        </td>
+                        <td class="customTableData">
+                            <%= item.summary || 'N/A' %>
+                        </td>
+                        <td class="customTableData">
+                            <%= item.success_rate || 'N/A' %>
+                        </td>
+                        <td class="customTableData">
+                            <%= item.location ? `${item.location.lat}, ${item.location.lng}` : 'N/A' %>
+                        </td>
+                        <td class="customTableData">
+                            <%= new Date(item.createdAt).toLocaleDateString() %>
+                        </td>
+                        <td class="customTableData">
+                            <a href="javascript:void(0);" data-item='<%= JSON.stringify(item) %>'
+                                class="customDetailsLink"
+                                onclick='showReportDetails(JSON.parse(this.getAttribute("data-item")))'>عرض تفاصيل
+                                التقرير</a>
                         </td>
                     </tr>
-                <% }) %>
+                    <% }) %>
             </tbody>
         </table>
     </div>
-    
+
     <div class="pagination" id="recommendationsPagination"></div>
-  </div>
-  
-  <div id="customReportDetailsContainer">
+</div>
+
+<div id="customReportDetailsContainer">
     <span class="customCloseIcon" onclick="hideReportDetails()">×</span></h3>
     <div class="customDetailsAndCharts">
         <div class="customChartsSection">
@@ -93,7 +122,8 @@
                 <div class="customChartTitle">نسبة النجاح</div>
                 <canvas id="customChart"></canvas>
             </div>
-            <br><div class="customChartSeparator"></div><br>
+            <br>
+            <div class="customChartSeparator"></div><br>
             <div class="customChartContainer">
                 <div class="customChartTitle">المنافسون والأماكن القريبة</div>
                 <canvas id="customCompetitorsChart"></canvas>
@@ -101,5 +131,4 @@
         </div>
         <div class="customDetailsSection" id="reportDetailsContent"></div>
     </div>
-  </div>
-  
+</div>
