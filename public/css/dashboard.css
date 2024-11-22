@@ -38,25 +38,52 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
   
-  /* status Cards */
-  .status-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 15px;
-    margin-bottom: 30px;
-  }
-  .status-title,
-  .report-detail {
-    font-size: 16px;
-    color: #333;
-    margin-bottom: 5px;
-  }
-  
-  .status-value {
-    font-size: 24px;
-    color: #045c3b;
-    font-weight: bold;
-  }
+/* Status Cards */
+.status-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.request-status-box {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  flex: 1;
+  gap: 10px;
+}
+
+.status-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+}
+
+.status-right {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+}
+
+.status-title,
+.report-detail {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.status-value {
+  font-size: 24px;
+  color: #045c3b;
+  font-weight: bold;
+  margin-left: 180px;
+}
+
   
 /* reports Cards */
 .reports-container {
