@@ -34,7 +34,7 @@ body {
 }
 
 .btn-custom {
-  background-color: #3E8C74; 
+  background: linear-gradient(135deg, #1C4A69, #3E8C74);
   color: #fafafa;
   margin-top: 15px;
   margin-bottom: 20px;
@@ -43,7 +43,6 @@ body {
   transition: 0.3s ease;
 }
 .btn-custom:hover {
-  background-color: #1C4A69;
   color: #fafafa;
   transform: scale(1.05);
 }
