@@ -143,10 +143,6 @@ button.customButton:hover {
     width: 60%;
     height: 100%;
 }
-#customCompetitorsChart {
-    width: 860px;
-    height: 1550px;
-}
 
 /* styles */
 .customSuccessRateContainer {

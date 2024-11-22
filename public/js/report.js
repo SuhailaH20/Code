@@ -135,14 +135,14 @@ function showReportDetails(item) {
             <div class="customInfoItem">
                 <strong>أسماء المنافسين:</strong>
                 <ul>${step4Data.competitors && step4Data.competitors.length > 0 ?
-                    step4Data.competitors.map(comp => `<li><i class="fas fa-store"></i> ${comp}</li>`).join('')
-                    : '<li>N/A</li>'}</ul>
+                step4Data.competitors.map(comp => `<li><i class="fas fa-store"></i> ${comp}</li>`).join('')
+                : '<li>N/A</li>'}</ul>
             </div>
             <div class="customInfoItem">
                 <strong>المواقع القريبة:</strong>
                 <ul>${step4Data.nearby_pois && step4Data.nearby_pois.length > 0 ?
-                    step4Data.nearby_pois.map(poi => `<li><i class="fas fa-map-marker-alt"></i> ${poi.name} - ${poi.type}</li>`).join('')
-                    : '<li>N/A</li>'}</ul>
+                step4Data.nearby_pois.map(poi => `<li><i class="fas fa-map-marker-alt"></i> ${poi.name} - ${poi.type}</li>`).join('')
+                : '<li>N/A</li>'}</ul>
             </div>
         `;
     } else if (item.type === 'اقتراح') {
@@ -175,9 +175,9 @@ function showReportDetails(item) {
             <div class="customInfoItem">
                 <strong>المواقع القريبة:</strong>
                 <ul>${item.nearby_pois && item.nearby_pois.length > 0
-                    ? item.nearby_pois.map(poi => `<li><i class="fas fa-map-marker-alt"></i>${poi.name} - ${poi.type}</li>`).join('')
-                    : '<li>الموقع لا يتوافق مع استراتيجية ال 15 دقيقة</li>'
-                }</ul>
+                ? item.nearby_pois.map(poi => `<li><i class="fas fa-map-marker-alt"></i>${poi.name} - ${poi.type}</li>`).join('')
+                : '<li>الموقع لا يتوافق مع استراتيجية ال 15 دقيقة</li>'
+            }</ul>
             </div>
         `;
     }
@@ -192,19 +192,19 @@ function showReportDetails(item) {
         chart.update();
     } else {
         const ctx = document.getElementById('customChart').getContext('2d');
-    
+
         // Create gradient for the first segment
         const gradient = ctx.createLinearGradient(0, 0, 0, ctx.canvas.height);
         gradient.addColorStop(0, '#3E8C74');
         gradient.addColorStop(1, '#1C4A69');
-    
+
         chart = new Chart(ctx, {
             type: 'doughnut',
             data: {
                 labels: ['نجاح', 'فشل'],
                 datasets: [{
                     data: [successRate, 100 - successRate],
-                    backgroundColor: [gradient, '#f0eded'], 
+                    backgroundColor: [gradient, '#f0eded'],
 
                 }]
             },
@@ -225,6 +225,10 @@ function showReportDetails(item) {
         competitorsChart.update();
     } else {
         const ctxCompetitors = document.getElementById('customCompetitorsChart').getContext('2d');
+        // Set the chart canvas size explicitly
+        const chartCanvas = document.getElementById('customCompetitorsChart');
+        chartCanvas.width = 1860; // Set width
+        chartCanvas.height = 1550; // Set height
         competitorsChart = new Chart(ctxCompetitors, {
             type: 'bar',
             data: {
@@ -273,7 +277,7 @@ function printCustomReport() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const inputRequestsTable = document.getElementById('inputRequestsTable');
     const recommendationsTable = document.getElementById('recommendationsTable');
     const noReportsMessage = document.getElementById('noReportsMessage');
@@ -281,10 +285,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const recommendationsContainer = document.getElementById('recommendationsContainer');
     const recommendationsTitle = document.getElementById('recommendationsTitle');
     const inputRequestsTitle = document.getElementById('inputRequestsTitle');
-  
+
     const inputRequestsCount = inputRequestsTable.querySelectorAll('tbody tr').length;
     const recommendationsCount = recommendationsTable.querySelectorAll('tbody tr').length;
-  
+
     // Check if there are no reports
     if (inputRequestsCount === 0 && recommendationsCount === 0) {
         noReportsMessage.style.display = 'block'; // Show no reports message
@@ -294,7 +298,7 @@ document.addEventListener('DOMContentLoaded', function() {
         recommendationsTitle.style.display = 'none'; // Hide recommendations title
     } else {
         noReportsMessage.style.display = 'none'; // Hide no reports message
-        
+
         // Show relevant tables based on the counts
         if (inputRequestsCount > 0) {
             inputRequestsContainer.style.display = 'block'; // Show input requests if they exist
@@ -303,7 +307,7 @@ document.addEventListener('DOMContentLoaded', function() {
             inputRequestsContainer.style.display = 'none'; // Hide input requests container
             inputRequestsTitle.style.display = 'none'; // Hide input requests title
         }
-  
+
         if (recommendationsCount > 0) {
             recommendationsContainer.style.display = 'block'; // Show recommendations if they exist
             recommendationsTitle.style.display = 'block'; // Show recommendations title
@@ -312,4 +316,4 @@ document.addEventListener('DOMContentLoaded', function() {
             recommendationsTitle.style.display = 'none'; // Hide recommendations title
         }
     }
-  });
+});
