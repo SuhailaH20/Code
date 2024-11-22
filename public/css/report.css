@@ -26,12 +26,12 @@
 }
 #customReportDetailsContainer {
     width: 1200px;
-    height: 750px;
+    height: 800px;
     display: none;
     /* Hide report details initially */
     margin-top: 20px;
     background: #fefefe;
-    padding: 20px;
+    padding: 15px;
     border-radius: 5px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     font-size: 18px;
@@ -120,6 +120,8 @@ button.customButton:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
+    transform: translateY(80px);
+    height: 50%;
     background: #fefefe;
     border-radius: 5px;
     padding: 20px;
@@ -127,10 +129,10 @@ button.customButton:hover {
 }
 .customDetailsSection {
     flex: 2;
-    padding-left: 20px;
+    padding-left: 1px;
     background: #fefefe;
     border-radius: 5px;
-    padding: 20px;
+    padding: 2px;
 }
 
 /* Chart container styles */
@@ -166,11 +168,12 @@ button.customButton:hover {
 
 .customInfoItem strong {
     color: #3E8C74;
+    font-size: 16px;
     /* Use a distinctive color for headings */
 }
 
 .customInfoItem ul {
-    max-height: 150px;
+    max-height: 100px;
     /* Limit the height */
     overflow-y: auto;
     /* Enable vertical scrolling */
@@ -274,7 +277,6 @@ button.customButton:hover {
     }
 
     /* Adjust container width for print */
-    #customReportDetailsContainer,
     #customReportContainer {
         width: 100% !important;
         height: auto !important;
@@ -299,4 +301,14 @@ button.customButton:hover {
 
 .no-reports {
     text-align: right;
+}
+
+.section-title-Report {
+    font-size: 19px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #d9d9d972;
+    padding-bottom: 3px;
+    display: inline-block; 
 }

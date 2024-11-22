@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
     paginateTable("recommendationsTable", "recommendationsPagination"); // Initialize for the recommendations table.
 });
 
-//Report Details Page
+// Report Details Page
 let chart; // Variable to hold the success rate chart
 let competitorsChart; // Variable to hold the competitors chart
 
@@ -115,34 +115,29 @@ function showReportDetails(item) {
 
         detailsHtml += `
             <div class="customInfoItem">
-                <strong>رقم الطلب:</strong> ${step4Data.summary || 'N/A'}
+                <h4 class="section-title-Report">تحليل الاشتراطات</h4><br>
+                <strong>رقم الطلب:</strong> ${step4Data.summary || 'N/A'}<br>
+                <strong>حالة الطلب:</strong> ${item.step3Status || 'N/A'}<br>
+                <strong>الأسباب:</strong> ${item.step3Result || 'N/A'} 
             </div>
             <div class="customInfoItem">
-                <strong>حالة الطلب:</strong> ${item.step3Status || 'N/A'}
+                <h4 class="section-title-Report">تحليل الموقع</h4><br>
+                <strong>الحي:</strong> ${neighborhoodName}<br>
+                <strong>الموقع:</strong> ${item.location ? `${item.location.lat}, ${item.location.lng}` : 'N/A'}<br>
+                <strong>نسبة النجاح :</strong> ${successRate || 'N/A'}
             </div>
             <div class="customInfoItem">
-                <strong>الأسباب:</strong> ${item.step3Result || 'N/A'}
+                <h4 class="section-title-Report">تحليل المنافسين</h4><br>
+                <strong>:أسماء المنافسين</strong>
+                    <ul>${item.competitors ? item.competitors.map(comp => `<li><i class="fas fa-store"></i>${comp}</li>`).join('') : '<li>N/A</li>'}</ul>
             </div>
             <div class="customInfoItem">
-                <strong>الموقع:</strong> ${item.location ? `${item.location.lat}, ${item.location.lng}` : 'N/A'}
-            </div>
-            <div class="customInfoItem">
-                <strong>اسم الحي:</strong> ${neighborhoodName}
-            </div>
-            <div class="customInfoItem">
-                <strong>التاريخ:</strong> ${new Date(item.createdAt).toLocaleDateString() || 'N/A'}
-            </div>
-            <div class="customInfoItem">
-                <strong>أسماء المنافسين:</strong>
-                <ul>${step4Data.competitors && step4Data.competitors.length > 0 ?
-                step4Data.competitors.map(comp => `<li><i class="fas fa-store"></i> ${comp}</li>`).join('')
-                : '<li>N/A</li>'}</ul>
-            </div>
-            <div class="customInfoItem">
-                <strong>المواقع القريبة:</strong>
-                <ul>${step4Data.nearby_pois && step4Data.nearby_pois.length > 0 ?
-                step4Data.nearby_pois.map(poi => `<li><i class="fas fa-map-marker-alt"></i> ${poi.name} - ${poi.type}</li>`).join('')
-                : '<li>N/A</li>'}</ul>
+                <h4 class="section-title-Report">تحليل استراتيجية ال15 دقيقة</h4><br>
+                <strong>:المواقع القريبة</strong>
+                    <ul>${item.nearby_pois && item.nearby_pois.length > 0
+                    ? item.nearby_pois.map(poi => `<li><i class="fas fa-map-marker-alt"></i>${poi.name} - ${poi.type}</li>`).join('')
+                    : '<li>الموقع لا يتوافق مع استراتيجية ال 15 دقيقة</li>'
+                }</ul>
             </div>
         `;
     } else if (item.type === 'اقتراح') {
@@ -153,33 +148,31 @@ function showReportDetails(item) {
         const neighborhoodName = getNeighborhoodNameSync(item.location.lat, item.location.lng);
 
         detailsHtml += `
-            <div class="customInfoItem">
-                <strong>ملخص:</strong> ${item.summary || 'N/A'}
-            </div>
-            <div class="customInfoItem">
-                <strong>نسبة النجاح:</strong> ${successRate || 'N/A'}
-            </div>
-            <div class="customInfoItem">
-                <strong>الموقع:</strong> ${item.location ? `${item.location.lat}, ${item.location.lng}` : 'N/A'}
-            </div>
-            <div class="customInfoItem">
-                <strong>اسم الحي:</strong> ${neighborhoodName}
-            </div>
-            <div class="customInfoItem">
-                <strong>التاريخ:</strong> ${new Date(item.createdAt).toLocaleDateString() || 'N/A'}
-            </div>
-            <div class="customInfoItem">
-                <strong>أسماء المنافسين:</strong>
+        <div class="customInfoItem">
+            <h4 class="section-title-Report">تفاصيل الاقتراح</h4>
+            <p>${item.summary || 'N/A'}</p>
+            <strong>التاريخ:</strong> ${new Date(item.createdAt).toLocaleDateString() || 'N/A'}
+        </div>
+        <div class="customInfoItem">
+            <h4 class="section-title-Report">تحليل الموقع</h4><br>
+            <strong>نسبة النجاح:</strong> ${successRate || 'N/A'}<br>
+            <strong>الحي:</strong> ${neighborhoodName}<br>
+            <strong>الموقع:</strong> ${item.location ? `${item.location.lat}, ${item.location.lng}` : 'N/A'}
+        </div>
+        <div class="customInfoItem">
+            <h4 class="section-title-Report">تحليل المنافسين</h4><br>
+            <strong>:أسماء المنافسين</strong>
                 <ul>${item.competitors ? item.competitors.map(comp => `<li><i class="fas fa-store"></i>${comp}</li>`).join('') : '<li>N/A</li>'}</ul>
-            </div>
-            <div class="customInfoItem">
-                <strong>المواقع القريبة:</strong>
+        </div>
+        <div class="customInfoItem">
+            <h4 class="section-title-Report">تحليل استراتيجية ال15 دقيقة</h4><br>
+            <strong>:المواقع القريبة</strong>
                 <ul>${item.nearby_pois && item.nearby_pois.length > 0
                 ? item.nearby_pois.map(poi => `<li><i class="fas fa-map-marker-alt"></i>${poi.name} - ${poi.type}</li>`).join('')
                 : '<li>الموقع لا يتوافق مع استراتيجية ال 15 دقيقة</li>'
             }</ul>
-            </div>
-        `;
+        </div>
+    `;
     }
 
     reportDetailsContent.innerHTML = detailsHtml;
@@ -205,7 +198,6 @@ function showReportDetails(item) {
                 datasets: [{
                     data: [successRate, 100 - successRate],
                     backgroundColor: [gradient, '#f0eded'],
-
                 }]
             },
             options: {
@@ -220,6 +212,7 @@ function showReportDetails(item) {
         });
     }
 
+    // Update competitors chart
     if (competitorsChart) {
         competitorsChart.data.datasets[0].data = [competitorsCount, nearbyCount];
         competitorsChart.update();
@@ -232,7 +225,7 @@ function showReportDetails(item) {
         competitorsChart = new Chart(ctxCompetitors, {
             type: 'bar',
             data: {
-                labels: ['المنافسون', 'الأماكن القريبة'],
+                labels: ['المنافسين', 'الأماكن القريبة'],
                 datasets: [{
                     data: [competitorsCount, nearbyCount],
                     backgroundColor: ['#3E8C74', '#1C4A69'],
@@ -256,8 +249,9 @@ function showReportDetails(item) {
 function hideReportDetails() {
     document.getElementById('customReportContainer').style.display = 'block';
     const reportDetailsContainer = document.getElementById('customReportDetailsContainer');
-    reportDetailsContainer.style.display = 'none';
+    reportDetailsContainer.style.display = 'none'; // Hide the report details container
 }
+
 function printCustomReport() {
     const reportContainer = document.getElementById('customReportDetailsContainer');
 
@@ -285,10 +279,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const recommendationsContainer = document.getElementById('recommendationsContainer');
     const recommendationsTitle = document.getElementById('recommendationsTitle');
     const inputRequestsTitle = document.getElementById('inputRequestsTitle');
-
+  
     const inputRequestsCount = inputRequestsTable.querySelectorAll('tbody tr').length;
     const recommendationsCount = recommendationsTable.querySelectorAll('tbody tr').length;
-
+  
     // Check if there are no reports
     if (inputRequestsCount === 0 && recommendationsCount === 0) {
         noReportsMessage.style.display = 'block'; // Show no reports message
@@ -298,7 +292,7 @@ document.addEventListener('DOMContentLoaded', function () {
         recommendationsTitle.style.display = 'none'; // Hide recommendations title
     } else {
         noReportsMessage.style.display = 'none'; // Hide no reports message
-
+        
         // Show relevant tables based on the counts
         if (inputRequestsCount > 0) {
             inputRequestsContainer.style.display = 'block'; // Show input requests if they exist
@@ -307,7 +301,7 @@ document.addEventListener('DOMContentLoaded', function () {
             inputRequestsContainer.style.display = 'none'; // Hide input requests container
             inputRequestsTitle.style.display = 'none'; // Hide input requests title
         }
-
+  
         if (recommendationsCount > 0) {
             recommendationsContainer.style.display = 'block'; // Show recommendations if they exist
             recommendationsTitle.style.display = 'block'; // Show recommendations title
