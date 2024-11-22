@@ -192,13 +192,20 @@ function showReportDetails(item) {
         chart.update();
     } else {
         const ctx = document.getElementById('customChart').getContext('2d');
+    
+        // Create gradient for the first segment
+        const gradient = ctx.createLinearGradient(0, 0, 0, ctx.canvas.height);
+        gradient.addColorStop(0, '#3E8C74');
+        gradient.addColorStop(1, '#1C4A69');
+    
         chart = new Chart(ctx, {
             type: 'doughnut',
             data: {
                 labels: ['نجاح', 'فشل'],
                 datasets: [{
                     data: [successRate, 100 - successRate],
-                    backgroundColor: ['#3E8C74', '#FF3B3B'],
+                    backgroundColor: [gradient, '#f0eded'], 
+
                 }]
             },
             options: {
@@ -224,7 +231,7 @@ function showReportDetails(item) {
                 labels: ['المنافسون', 'الأماكن القريبة'],
                 datasets: [{
                     data: [competitorsCount, nearbyCount],
-                    backgroundColor: ['#3E8C74', '#FF3B3B'],
+                    backgroundColor: ['#3E8C74', '#1C4A69'],
                 }]
             },
             options: {

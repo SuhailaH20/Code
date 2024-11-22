@@ -34,22 +34,22 @@ document.addEventListener('DOMContentLoaded', function () {
         activityInput.style.border = '';
 
         // Validation check
-        let isValid = true; 
+        let isValid = true;
 
         if (!neighborhood) {
-            neighborhoodInput.style.border = '2px solid red'; 
+            neighborhoodInput.style.border = '2px solid red';
             isValid = false;
         }
-        
+
         if (!activity) {
-            activityInput.style.border = '2px solid red'; 
-            isValid = false; 
+            activityInput.style.border = '2px solid red';
+            isValid = false;
         }
 
         if (!isValid) {
             errorMessage1.textContent = 'لا تترك حقول فارغة';
             errorMessage1.style.display = 'block'; // Show the error message
-            return; 
+            return;
         }
 
         try {
@@ -117,19 +117,19 @@ document.addEventListener('DOMContentLoaded', function () {
                             lng: rec.lng
                         };
                         console.log("Sending recommendation data:", recommendationData); // Check data before sending
-                
+
                         await fetch('/saveRecommendation', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ recommendation: recommendationData })
                         });
-                
+
                         window.location.href = `/pages/success.html`;
                     } catch (error) {
                         console.error('Error saving recommendation:', error);
                     }
                 };
-                
+
                 recElement.appendChild(buttonElement);
                 recommendationsContainer.appendChild(recElement);
 
@@ -167,13 +167,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
 
                 const ctx = document.getElementById(`chart-${index}`).getContext('2d');
+                // Create gradient for the first segment
+                const gradient = ctx.createLinearGradient(0, 0, 0, ctx.canvas.height);
+                gradient.addColorStop(0, '#3E8C74');
+                gradient.addColorStop(1, '#1C4A69');
                 new Chart(ctx, {
                     type: 'doughnut',
                     data: {
                         labels: ['نجاح', 'فشل'],
                         datasets: [{
                             data: [rec.success_rate, 100 - rec.success_rate],
-                            backgroundColor: ['#3E8C74', '#FF3B3B'],
+                            backgroundColor: [gradient, '#f0eded'],
                         }]
                     },
                     options: {
