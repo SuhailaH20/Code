@@ -246,38 +246,53 @@ function validateSiteData() {
     const warehouseArea = document.getElementById("warehouseArea").value;
 
     const Reasons = [];
+    const successReasons = []; // Reasons for success
     const successMessages = ["موقعك يتناسب مع الاشتراطات"]; // Success message
 
     // تحقق من الشروط المختلفة
     if (activityType === "closedStoreCity") {
         if (partOfLargerBuilding === "yes") {
-            if (buildingType !== "mixed") {
-                Reasons.push(".(تجاري سكني) إذا كان النشاط ضمن جزء من مبنى، يجب أن يكون ضمن المباني التجارية والمختلطة");
+            if (buildingType === "mixed") {
+                successReasons.push("النشاط ضمن مبنى مختلط.");
+            } else {
+                Reasons.push(". (تجاري سكني) إذا كان النشاط ضمن جزء من مبنى، يجب أن يكون ضمن المباني التجارية والمختلطة");
             }
-            if (onCommercialStreet === "no") {
-                Reasons.push(".يجب أن يكون النشاط على الشوارع التجارية");
+            if (onCommercialStreet === "yes") {
+                successReasons.push("النشاط يقع على شارع تجاري.");
+            } else {
+                Reasons.push(". يجب أن يكون النشاط على الشوارع التجارية");
             }
         } else {
-            if (parkingSpaces < Math.ceil(100 / 70)) {
-                Reasons.push(".يجب توفير موقف سيارات واحد لكل 70 م2 للمتجر المغلق المستقل");
+            if (parkingSpaces >= Math.ceil(100 / 70)) {
+                successReasons.push("يوجد عدد كافٍ من مواقف السيارات.");
+            } else {
+                Reasons.push(". يجب توفير موقف سيارات واحد لكل 70 م2 للمتجر المغلق المستقل");
             }
         }
     }
 
     if (activityType === "closedStoreOutsideCity") {
         if (partOfLargerBuilding === "yes") {
-            if (logisticsArea === "no" && warehouseArea === "no") {
-                Reasons.push(".يجب أن يكون الموقع في منطقة الخدمات اللوجستية أو منطقة المستودعات");
+            if (logisticsArea === "yes" || warehouseArea === "yes") {
+                successReasons.push("الموقع في منطقة الخدمات اللوجستية أو المستودعات.");
+            } else {
+                Reasons.push(". يجب أن يكون الموقع في منطقة الخدمات اللوجستية أو منطقة المستودعات");
             }
-            if (onCommercialStreet === "no") {
-                Reasons.push(".يجب أن يكون النشاط على الشوارع التجارية");
+            if (onCommercialStreet === "yes") {
+                successReasons.push("النشاط يقع على شارع تجاري.");
+            } else {
+                Reasons.push(". يجب أن يكون النشاط على الشوارع التجارية");
             }
         } else {
-            if (logisticsArea === "no" && warehouseArea === "no") {
-                Reasons.push(".يجب أن يكون الموقع في منطقة الخدمات اللوجستية أو منطقة المستودعات");
+            if (logisticsArea === "yes" || warehouseArea === "yes") {
+                successReasons.push("الموقع في منطقة الخدمات اللوجستية أو المستودعات.");
+            } else {
+                Reasons.push(". يجب أن يكون الموقع في منطقة الخدمات اللوجستية أو منطقة المستودعات");
             }
-            if (parkingSpaces < Math.ceil(100 / 70)) {
-                Reasons.push(".يجب توفير موقف سيارات واحد لكل 70 م2 للمتجر المغلق المستقل");
+            if (parkingSpaces >= Math.ceil(100 / 70)) {
+                successReasons.push("يوجد عدد كافٍ من مواقف السيارات.");
+            } else {
+                Reasons.push(". يجب توفير موقف سيارات واحد لكل 70 م2 للمتجر المغلق المستقل");
             }
         }
     }
@@ -302,7 +317,7 @@ function validateSiteData() {
     localStorage.setItem('requests', JSON.stringify(currentRequests));
 
     if (Reasons.length > 0) {
-        resultContainer.innerHTML = `<p>موقعك لا يتوافق مع الاشتراطات لمعرفة الأسباب:</p>`;
+        resultContainer.innerHTML = `<p>موقعك لا يتوافق مع الاشتراطات</p>`;
         resultContainer.classList.add('Reasons');
         return false; // Return false if not valid
     } else {
