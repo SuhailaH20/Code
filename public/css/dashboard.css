@@ -105,6 +105,17 @@
   width: 344px; 
   flex-shrink: 0; 
 }
+.report-card::before {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0; 
+  width: 10px;
+  background: linear-gradient(135deg, #1C4A69, #3E8C74);
+  border-top-right-radius: 12px; /* Match the card's border radius */
+  border-bottom-right-radius: 12px; /* Match the card's border radius */
+}
   .report-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
