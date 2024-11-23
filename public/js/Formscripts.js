@@ -147,6 +147,18 @@ const updateProgress = () => {
             step.classList.add('active');
             form_steps[i].classList.add('active');
             form_steps[i].style.display = 'block';
+            
+            // Show the map if we are at step 4
+            if (active === 4) {
+                document.getElementById("map2").style.display = "block"; // Show the map container
+                // Optionally, you can also initialize or update the map here
+                const latitude = document.getElementById("latitude").value;
+                const longitude = document.getElementById("longitude").value;
+                if (latitude && longitude) {
+                    window.map2.setView([latitude, longitude], 13); // Center the map on the provided coordinates
+                }
+            }
+      
         } else {
             step.classList.remove('active');
             form_steps[i].classList.remove('active');
