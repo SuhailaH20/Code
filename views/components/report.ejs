@@ -27,13 +27,14 @@
                             <%= item.step3Status || 'N/A' %>
                         </td>
                         <td class="customTableData">
-                            <% if (item.step3Status==='مقبول' ) { %>
-                                موقعك يتناسب مع الاشتراطات
-                                <% } else if (item.step3Status==='مرفوض' ) { %>
-                                    <%= item.step3Result || 'N/A' %>
-                                        <% } else { %>
-                                            N/A
-                                            <% } %>
+                            <% if (item.step3Status === 'مقبول') { %>
+                                .موقعك يتناسب مع الاشتراطات
+                            <% } else if (item.step3Status === 'مرفوض') { %>
+                                موقعك لا يتناسب مع الاشتراطات. لمعرفة التفاصيل
+                                <a href="#" class="show-rejection-reasons" data-reasons="<%= item.step3Result || '' %>">اضغط هنا</a>
+                            <% } else { %>
+                                N/A
+                            <% } %>
                         </td>
 
                         <td class="customTableData">

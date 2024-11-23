@@ -313,31 +313,71 @@ button.customButton:hover {
     display: inline-block; 
 }
 
+/*Popup window style for reasons*/
 .popup {
     position: fixed;
-    left: 0;
     top: 0;
-    width: 100%;
-    height: 100%;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     z-index: 1000;
 }
 
 .popup-content {
-    background: white;
+    background-color: #fefefe;
     padding: 20px;
-    border-radius: 5px;
-    position: relative;
-    min-width: 300px;
+    border-radius: 10px; 
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); 
+    width: 400px; 
+    max-width: 90%; 
+    text-align: right;
+}
+
+.reason-item {
+    margin: 10px 0; 
+    display: flex;
+    justify-content: flex-end; 
+    align-items: center;
+}
+
+.check-mark {
+    margin-left: 10px; 
+    color: #3E8C74; 
+    font-size: 20px;
 }
 
 .close-popup {
-    position: absolute;
-    top: 10px;
-    right: 10px;
     cursor: pointer;
     font-size: 20px;
+    float: left; 
+    top: 40px;
+    color: #afafaf;
+}
+
+.close-popup:hover {
+    color: #3E8C74;
+}
+
+.show-rejection-reasons {
+    color: #3E8C74;
+    text-decoration: underline;
+    cursor: pointer; 
+}
+
+.show-rejection-reasons:hover {
+    color: #1C4A69; 
+}
+
+#showSuccessReasons {
+    color: #3E8C74;
+    text-decoration: underline; 
+    cursor: pointer; 
+}
+
+#showSuccessReasons:hover {
+    color: #1C4A69;
 }

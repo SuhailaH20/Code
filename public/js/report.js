@@ -266,15 +266,58 @@ function showSuccessReasonsPopup(item) {
 
     // Set the popup content
     popup.innerHTML = `
-    <div class="popup-content">
-        <span class="close-popup">&times;</span> <!-- Close button -->
-        <h2>تفاصيل الأسباب</h2>
-        <h3 style="color: green;">أسباب النجاح</h3>
+    <div class="popup-content" style="width: 500px; max-width: 90%; height: auto; max-height: 80%; overflow-y: auto;">
+        <span class="close-popup">&times;</span><!-- Close button -->
+        <h3>تفاصيل أسباب النجاح</h3>
+        <hr style="border: 1px solid #d9d9d972; margin: 10px 0;">
         <ul>
             ${item.step3Result
-                ? item.step3Result
-                      .split(/[;,]/) // Split reasons by commas or semicolons
-                      .map(reason => `<li style="margin: 5px 0;">✔️ ${reason.trim()}</li>`)
+                ? item.step3Result.split(/[;,]/) // Split reasons by commas or semicolons
+                      .map(reason => `
+                          <li class="reason-item">
+                              <span>${reason.trim()}</span>
+                              <span class="check-mark">✔️</span>
+                          </li>`)
+                      .join('')
+                : '<li>لا توجد أسباب متوفرة</li>'}
+        </ul>
+    </div>
+`;
+
+    document.body.appendChild(popup);
+
+    // Event to close the popup when the close button is clicked
+    popup.querySelector('.close-popup').addEventListener('click', function () {
+        document.body.removeChild(popup); // Remove the popup
+    });
+
+    // Close the popup when clicking anywhere outside the content
+    window.addEventListener('click', function (event) {
+        if (event.target === popup) {
+            document.body.removeChild(popup); // Remove the popup
+        }
+    });
+}
+
+// Function to show rejection reasons in a popup
+function showRejectionReasonsPopup(reasons) {
+    const popup = document.createElement('div');
+    popup.className = 'popup';
+
+    // Set the popup content for rejection reasons
+    popup.innerHTML = `
+    <div class="popup-content" style="width: 700px; max-width: 90%; height: auto; max-height: 80%; overflow-y: auto;">
+        <span class="close-popup">&times;</span>
+        <h3>تفاصيل أسباب الرفض</h3>
+        <hr style="border: 1px solid #d9d9d972; margin: 10px 0;"> <!-- إضافة خط هنا -->
+        <ul>
+            ${reasons
+                ? reasons.split(/[;,]/) // Split reasons by commas or semicolons
+                      .map(reason => `
+                          <li class="reason-item">
+                              <span>${reason.trim()}</span>
+                              <span class="check-mark">❌</span>
+                          </li>`)
                       .join('')
                 : '<li>لا توجد أسباب متوفرة</li>'}
         </ul>
@@ -295,6 +338,18 @@ function showSuccessReasonsPopup(item) {
         }
     });
 }
+
+// Add click event for all "اضغط هنا" links
+document.addEventListener('DOMContentLoaded', () => {
+    const showRejectionReasonsLinks = document.querySelectorAll('.show-rejection-reasons');
+    showRejectionReasonsLinks.forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default link behavior
+            const reasons = this.getAttribute('data-reasons');
+            showRejectionReasonsPopup(reasons); // Pass reasons to the popup
+        });
+    });
+});
 
 function hideReportDetails() {
     document.getElementById('customReportContainer').style.display = 'block';
