@@ -150,14 +150,29 @@ const updateProgress = () => {
             
             // Show the map if we are at step 4 
             if (active === 4) {
-                document.getElementById("map2").style.display = "block"; // Show the map container
-                // Optionally, you can also initialize or update the map here
-                const latitude = document.getElementById("latitude").value;
-                const longitude = document.getElementById("longitude").value;
-                if (latitude && longitude) {
-                    window.map2.setView([latitude, longitude], 13); // Center the map on the provided coordinates
+                const mapContainer = document.getElementById("map2");
+                mapContainer.style.display = "block"; // Show map container
+            
+                const latitude = parseFloat(document.getElementById("latitude").value) || 0; // Default latitude
+                const longitude = parseFloat(document.getElementById("longitude").value) || 0; // Default longitude
+            
+                // Initialize map if not already created
+                if (!window.map2 || typeof window.map2.addLayer !== 'function') {
+                    window.map2 = L.map("map2").setView([21.4858, 39.1925], 13);
+                    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                        attribution: "© OpenStreetMap contributors",
+                    }).addTo(window.map2);
+                    window.map2.on('click', function(e) {
+                        const { lat, lng } = e.latlng;
+                        document.getElementById('latitude').value = lat.toFixed(4);
+                        document.getElementById('longitude').value = lng.toFixed(4);
+                        alert(`Coordinates: ${lat.toFixed(4)}, ${lng.toFixed(4)}`);
+                    });
+                } else {
+                    // Update the map view
+                    window.map2.setView([latitude, longitude], 13);
                 }
-            }
+            }    
       
         } else {
             step.classList.remove('active');
@@ -343,10 +358,6 @@ function validateSiteData() {
 }
 
 
-window.onload = function () {
-    console.log("Waiting for 'Get Result' button click to initialize map...");
-};
-
 
 // It retrieves the latitude and longitude values from the input fields displays the map container
 // initializes or updates the map and fetches recommendations based on coordinates provided by user 
@@ -362,34 +373,6 @@ async function getResult() {
         errorMessage.style.display = 'block'; // Show the error message
         return;
     }
-
-    // Show the map container when "Get Result" is clicked
-    document.getElementById("map2").style.display = "block";
-
-    // Initialize the map only if it hasn't been created yet
-    if (!window.map2 || typeof window.map2.addLayer !== 'function') {
-        console.log("Initializing map2...");
-        document.getElementById("map2").innerHTML = ""; // Clear any existing content
-    
-        // Create the map centered on the provided coordinates
-        window.map2 = L.map('map2').setView([latitude, longitude], 13);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(window.map2);
-    
-        // Add the click event listener on window.map2 to capture coordinates
-        window.map2.on('click', function(e) {
-            const { lat, lng } = e.latlng;
-            document.getElementById('latitude').value = lat.toFixed(4);
-            document.getElementById('longitude').value = lng.toFixed(4);
-            alert(`Coordinates: ${lat.toFixed(4)}, ${lng.toFixed(4)}`);
-        });
-    } else {
-        // If map already exists, just update its view
-        window.map2.setView([latitude, longitude], 13);
-    }
-    
-
     const url = `/get_recommendations?lat=${latitude}&lng=${longitude}`;
     console.log("Fetching data from URL:", url);
 
