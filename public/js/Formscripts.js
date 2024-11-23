@@ -148,7 +148,7 @@ const updateProgress = () => {
             form_steps[i].classList.add('active');
             form_steps[i].style.display = 'block';
             
-            // Show the map if we are at step 4
+            // Show the map if we are at step 4 
             if (active === 4) {
                 document.getElementById("map2").style.display = "block"; // Show the map container
                 // Optionally, you can also initialize or update the map here
