@@ -13,6 +13,10 @@ app = Flask(__name__)
 # Load the dataset
 data = pd.read_csv('cafe.csv')
 
+# Ensure 'location/lat' and 'location/lng' columns are strings before cleaning
+data['location/lat'] = data['location/lat'].astype(str).str.replace(',', '').astype(float)
+data['location/lng'] = data['location/lng'].astype(str).str.replace(',', '').astype(float)
+
 # Initialize the database and its tables
 def init_db():
     conn = sqlite3.connect('recommendations.db')
