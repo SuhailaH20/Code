@@ -6,6 +6,8 @@ const pressResult = document.querySelector('.btn-result');
 const steps = document.querySelectorAll('.step');
 const form_steps = document.querySelectorAll('.form-step');
 const errorMessage = document.getElementById('error-message'); // Get the error message div
+const partOfLargerBuilding = document.getElementById("partOfLargerBuilding");
+const buildingType = document.getElementById("buildingType");
 let active = 1;
 
 // Add validation function
@@ -38,18 +40,69 @@ function validateStep(step) {
     return isValid;
 }
 
+// Function to handle step 2 logic
+function handleStepTwo() {
+    let isValid = true;
 
-nextButton.addEventListener('click', () => {
-    errorMessage.style.display = 'none'; // Hide any previous error messages
-    if (validateStep(active)) {  // Validate the current step before proceeding
-        active++;
-        if (active > steps.length) {
-            active = steps.length;
+    // Select all fields in step 2
+    const stepTwoFields = document.querySelectorAll('.form-two input, .form-two select');
+
+    stepTwoFields.forEach(field => {
+        // Validate only enabled fields
+        if (!field.disabled) {
+            if (field.value.trim() === "") {
+                field.style.border = "2px solid red"; // Highlight invalid fields in red
+                isValid = false;
+            } else {
+                field.style.border = ""; // Reset border for fields
+            }
+        } else {
+            field.style.border = ""; // Ensure disabled fields have no red border
         }
-        updateProgress();
+    });
+
+    // Display error message if validation fails
+    if (!isValid) {
+        errorMessage.textContent = 'لا تترك حقول فارغة'; // Error message
+        errorMessage.style.display = 'block'; // Show error message
     } else {
-        errorMessage.textContent = 'لا تترك حقول فارغة';
-        errorMessage.style.display = 'block'; // Show the error message in red
+        errorMessage.style.display = 'none'; // Hide error message
+    }
+
+    return isValid; // Return validation status
+}
+
+// Add an event listener to handle changes in the values regarding the part Of Larger Building question
+partOfLargerBuilding.addEventListener('change', () => {
+    if (partOfLargerBuilding.value === "no") { 
+        buildingType.disabled = true; // Disable the field
+        buildingType.value = ""; 
+        buildingType.style.border = ""; // Clear any validation
+    } else if (partOfLargerBuilding.value === "yes") { 
+        buildingType.disabled = false; // Enable the field
+    }
+});
+
+// Add an event listener for the next button
+nextButton.addEventListener('click', () => {
+    errorMessage.style.display = 'none'; // Hide previous error messages
+
+    // Check if active step is step 2
+    if (document.querySelector('.form-two').classList.contains('active')) {
+        if (handleStepTwo()) {
+            // Proceed to the next step if step 2 validation passes
+            active++;
+            updateProgress(); // Update progress function for step transitions
+        }
+    } else {
+        // Handle other steps if not step 2
+        if (validateStep(active)) {
+            active++;
+            updateProgress();
+        } else {
+            errorMessage.textContent = 'لا تترك حقول فارغة'; //Error message
+            errorMessage.style.display = 'block';
+        }
     }
 });
 
