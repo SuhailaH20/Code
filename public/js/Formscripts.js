@@ -6,6 +6,7 @@ const pressResult = document.querySelector('.btn-result');
 const steps = document.querySelectorAll('.step');
 const form_steps = document.querySelectorAll('.form-step');
 const errorMessage = document.getElementById('error-message'); // Get the error message div
+const errorMessageStep2 = document.getElementById('error-message-step2'); // Get the error message div
 const partOfLargerBuilding = document.getElementById("partOfLargerBuilding");
 const buildingType = document.getElementById("buildingType");
 let active = 1;
@@ -63,10 +64,10 @@ function handleStepTwo() {
 
     // Display error message if validation fails
     if (!isValid) {
-        errorMessage.textContent = 'لا تترك حقول فارغة'; // Error message
-        errorMessage.style.display = 'block'; // Show error message
+        errorMessageStep2.textContent = 'لا تترك حقول فارغة'; // Error message
+        errorMessageStep2.style.display = 'block'; // Show error message
     } else {
-        errorMessage.style.display = 'none'; // Hide error message
+        errorMessageStep2.style.display = 'none'; // Hide error message
     }
 
     return isValid; // Return validation status
@@ -91,7 +92,7 @@ nextButton.addEventListener('click', () => {
     if (document.querySelector('.form-two').classList.contains('active')) {
         if (handleStepTwo()) {
             // Proceed to the next step if step 2 validation passes
-            active++;
+        active++;
             updateProgress(); // Update progress function for step transitions
         }
     } else {

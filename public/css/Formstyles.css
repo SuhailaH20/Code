@@ -239,7 +239,7 @@ img {
     background-color: #ffffff;
     position: relative;
     width: 1200px;
-    height: 730px;
+    height: 750px;
     margin-left: -900px;
     padding-right: 20px;
 }
@@ -420,6 +420,13 @@ form > div.active {
     margin-top: -15px;
 }
 
+#error-message-step2 {
+    color: red;
+    display: none;
+    margin-top: -85px;
+    margin-right: 137px;
+}
+
 .form-two.active ~ #error-message {
     margin-top: -90px; 
 }
@@ -460,10 +467,10 @@ form > div.active {
 }
 
 .form-two.active ~ .btn-group .btn-prev {
-    margin-top: -50px; 
+    margin-top: -56px; 
 }
 .form-two.active ~ .btn-group .btn-next {
-    margin-top: -50px; 
+    margin-top: -60px; 
 }
 
 .btn-group [class*="btn-"] {
