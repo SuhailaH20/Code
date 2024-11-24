@@ -470,7 +470,7 @@ form > div.active {
     margin-top: -56px; 
 }
 .form-two.active ~ .btn-group .btn-next {
-    margin-top: -60px; 
+    margin-top: -50px; 
 }
 
 .btn-group [class*="btn-"] {
