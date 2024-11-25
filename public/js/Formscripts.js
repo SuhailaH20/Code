@@ -207,27 +207,33 @@ const updateProgress = () => {
                 const mapContainer = document.getElementById("map2");
                 mapContainer.style.display = "block"; // Show map container
             
-                const latitude = parseFloat(document.getElementById("latitude").value) || 0; // Default latitude
-                const longitude = parseFloat(document.getElementById("longitude").value) || 0; // Default longitude
+                // Reposition error message for step 4
+                const errorMessageContainer = document.getElementById('error-message');
+                if (errorMessageContainer) {
+                    mapContainer.parentNode.insertBefore(errorMessageContainer, mapContainer);
+                    errorMessageContainer.style.display = 'none'; // Ensure it starts hidden
+                }
             
-                // Initialize map if not already created
+                // Handle map initialization or update
+                const latitude = parseFloat(document.getElementById("latitude").value) || 0;
+                const longitude = parseFloat(document.getElementById("longitude").value) || 0;
+            
                 if (!window.map2 || typeof window.map2.addLayer !== 'function') {
                     window.map2 = L.map("map2").setView([21.4858, 39.1925], 13);
                     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
                         attribution: "© OpenStreetMap contributors",
                     }).addTo(window.map2);
-                    window.map2.on('click', function(e) {
+                    window.map2.on('click', function (e) {
                         const { lat, lng } = e.latlng;
                         document.getElementById('latitude').value = lat.toFixed(4);
                         document.getElementById('longitude').value = lng.toFixed(4);
                         alert(`Coordinates: ${lat.toFixed(4)}, ${lng.toFixed(4)}`);
                     });
                 } else {
-                    // Update the map view
                     window.map2.setView([latitude, longitude], 13);
                 }
-            }    
-      
+            }
+            
         } else {
             step.classList.remove('active');
             form_steps[i].classList.remove('active');
