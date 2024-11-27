@@ -339,10 +339,10 @@ function validateSiteData() {
     // Compliance validation
     if (activityType === "closedStoreCity") {
         if (partOfLargerBuilding === "yes") {
-            if (buildingType === "mixed") {
-                successReasons.push("النشاط ضمن مبنى مختلط.");
+            if (buildingType === "mixed"  ||buildingType==="commercial") {
+                successReasons.push("النشاط ضمن المباني التجارية اوالمختلطة(تجاري سكني).");
             } else {
-                Reasons.push(". (تجاري سكني) إذا كان النشاط ضمن جزء من مبنى، يجب أن يكون ضمن المباني التجارية والمختلطة");
+                Reasons.push(". (تجاري سكني) إذا كان النشاط ضمن جزء من مبنى، يجب أن يكون ضمن المباني التجارية اوالمختلطة");
             }
             if (onCommercialStreet === "yes") {
                 successReasons.push("النشاط يقع على شارع تجاري.");
