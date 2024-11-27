@@ -223,15 +223,22 @@ const updateProgress = () => {
                     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
                         attribution: "© OpenStreetMap contributors",
                     }).addTo(window.map2);
+                
                     window.map2.on('click', function (e) {
                         const { lat, lng } = e.latlng;
                         document.getElementById('latitude').value = lat.toFixed(4);
                         document.getElementById('longitude').value = lng.toFixed(4);
-                        alert(`Coordinates: ${lat.toFixed(4)}, ${lng.toFixed(4)}`);
+                
+                        // Create a popup at the clicked location
+                        const popup = L.popup()
+                            .setLatLng(e.latlng)
+                            .setContent(`Coordinates: ${lat.toFixed(4)}, ${lng.toFixed(4)}`)
+                            .openOn(window.map2);
                     });
                 } else {
                     window.map2.setView([latitude, longitude], 13);
                 }
+                
             }
             
         } else {

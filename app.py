@@ -179,7 +179,7 @@ def get_recommendations():
             'id': 0,  # استخدم 0 للموقع المدخل
             'lat': lat,
             'lng': lng,
-            'summary': f'Optimal business location for {activity_type}.',
+            'summary': f'تحليل .',
             'competitors_count': num_competitors,
             'competitors': competitor_names,
             'success_rate': success_rate,
