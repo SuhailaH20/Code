@@ -239,7 +239,7 @@ img {
     background-color: #ffffff;
     position: relative;
     width: 1200px;
-    height: 750px;
+    height: 760px;
     margin-left: -900px;
     padding-right: 20px;
 }
@@ -262,7 +262,10 @@ img {
     display: flex;
     flex-direction: column; 
 }
-
+.form-group label,
+.form-group input {
+    margin-bottom: 5px;
+}
 label {
     margin-bottom: 0.5em;
 }
@@ -273,6 +276,7 @@ input, select {
     padding: 8px; 
     width: 100%; 
     margin-top: 5px;
+    margin-bottom: 15px; 
     background-color: #f9f9f94a; 
 }
 
@@ -466,10 +470,17 @@ form > div.active {
 }
 
 .form-two.active ~ .btn-group .btn-prev {
-    margin-top: -56px; 
+    margin-top: -50px; 
 }
 .form-two.active ~ .btn-group .btn-next {
     margin-top: -50px; 
+}
+
+.form-four.active ~ .btn-group .btn-result {
+    margin-top: 15px; 
+}
+.form-four.active ~ .btn-group .btn-submit {
+    margin-top: 15px; 
 }
 
 .btn-group [class*="btn-"] {
