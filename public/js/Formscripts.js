@@ -149,12 +149,6 @@ submitButton.addEventListener('click', () => {
             field.style.border = '';
         }
     });
-
-        if (!isValid) {
-            errorMessage.textContent = 'Please fill in all required fields.'; // Display error message
-            errorMessage.style.display = 'block'; // Show the error message
-            return;
-        }
     }
 
     // Submit the form
