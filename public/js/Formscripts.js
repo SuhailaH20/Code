@@ -135,20 +135,23 @@ prevButton.addEventListener('click', () => {
 submitButton.addEventListener('click', () => {
     const form = document.querySelector('form'); // Get the form element
 
-    // Check required fields only if they are not in step 3
-    if (active !== 3) {
-        // Validate form before submitting (optional, based on existing validation rules)
-        const requiredFields = form.querySelectorAll('input, select');
-        let isValid = true;
+    // Select all enabled fields only
+    const requiredFields = form.querySelectorAll('input:enabled, select:enabled');
+    let isValid = true;
 
     requiredFields.forEach(field => {
-        if (!field.value) {
-            field.style.border = '2px solid red';
+        if (!field.value.trim()) {
+            field.style.border = '2px solid red'; // Highlight invalid fields
             isValid = false;
         } else {
-            field.style.border = '';
+            field.style.border = ''; // Reset border
         }
     });
+
+    if (!isValid) {
+        errorMessage.textContent = 'لا تترك حقول فارغة'; // Error message
+        errorMessage.style.display = 'block'; // Show error message
+        return; // Stop form submission
     }
 
     // Submit the form
