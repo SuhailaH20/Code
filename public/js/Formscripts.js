@@ -135,7 +135,31 @@ prevButton.addEventListener('click', () => {
 submitButton.addEventListener('click', () => {
     const form = document.querySelector('form'); // Get the form element
 
-    // Select all enabled fields only
+    // If it's step 3, no validation needed for fields
+    if (active === 3) {
+        const enabledFields = form.querySelectorAll('input:enabled, select:enabled');
+        let isValid = false;  // Assume it's not valid
+
+        // Check if any enabled field has a value
+        enabledFields.forEach(field => {
+            if (field.value.trim()) {
+                isValid = true; // Allow submission if there's at least one filled field
+            }
+        });
+
+        // Submit form if valid, otherwise show an error
+        if (isValid) {
+            form.action = "/submitForm";  
+            form.method = "POST";  
+            form.submit();  
+        } else {
+            errorMessage.textContent = 'Please fill in at least one enabled field.';
+            errorMessage.style.display = 'block'; 
+        }
+        return; // Exit for step 3
+    }
+    
+    // For other steps, validate only enabled fields
     const requiredFields = form.querySelectorAll('input:enabled, select:enabled');
     let isValid = true;
 
@@ -144,18 +168,18 @@ submitButton.addEventListener('click', () => {
             field.style.border = '2px solid red'; // Highlight invalid fields
             isValid = false;
         } else {
-            field.style.border = ''; // Reset border
+            field.style.border = ''; // Reset border for valid fields
         }
     });
 
     if (!isValid) {
         errorMessage.textContent = 'لا تترك حقول فارغة'; // Error message
-        errorMessage.style.display = 'block'; // Show error message
-        return; // Stop form submission
+        errorMessage.style.display = 'block'; // Show the error message
+        return; // Stop form submission if validation fails
     }
 
-    // Submit the form
-    form.action = "/submitForm";  // Make sure the form action matches your route
+    // If form is valid, proceed to submit
+    form.action = "/submitForm";  // Ensure the form action matches your route
     form.method = "POST";  // Ensure the method is POST
     form.submit();  // This will trigger the form submission
 
