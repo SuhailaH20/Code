@@ -131,35 +131,55 @@ def count_competitors(lat, lng, radius=0.5):
             competitor_names.append(row['title'])  # افترض أن 'title' هو اسم المنافس
 
     return competitor_count, competitor_names  # إرجاع عدد المنافسين وأسمائهم
+#Function to calculate Sucess rate
+def calculate_success_rate(num_pois, num_competitors, max_pois=10, max_competitors=5):
+    """
+    Calculate the success rate based on the number of POIs and competitors.
+
+    Parameters:
+    - num_pois: Number of POIs within a 15-minute radius
+    - num_competitors: Number of competitors within a certain radius
+    - max_pois: Maximum number of POIs to normalize the POI count
+    - max_competitors: Maximum number of competitors to normalize the competitor count
+
+    Returns:
+    - success_rate: A value between 0 and 100 representing the success rate
+    """
+
+    # Normalize the POI and competitor values
+    poi_factor = num_pois / max_pois if max_pois > 0 else 0
+    competitor_factor = (max_competitors - num_competitors) / max_competitors if max_competitors > 0 else 0
+
+    # Success rate formula (weights can be adjusted)
+    success_rate = (poi_factor * 0.5) + (competitor_factor * 0.5)
+
+    # Convert to percentage (0 to 100 scale)
+    success_rate = success_rate * 100
+
+    # Ensure the success rate is between 0 and 100
+    return min(max(success_rate, 0), 100)
+
 
 @app.route('/get_recommendations', methods=['GET'])
 def get_recommendations():
     activity_type = request.args.get('activity_type')
     neighborhood = request.args.get('neighborhood')
-    lat = request.args.get('lat', type=float)  # استقبل إحداثيات latitude
-    lng = request.args.get('lng', type=float)  # استقبل إحداثيات longitude
+    lat = request.args.get('lat', type=float)
+    lng = request.args.get('lng', type=float)
 
-    # إذا تم إدخال إحداثيات، استخدمها مباشرة
     if lat is not None and lng is not None:
-        # تحقق مما إذا كانت الإحداثيات داخل جدة
         if not is_within_jeddah(lat, lng):
             return jsonify({"error": "Location is out of bounds."})
 
-        # حساب عدد المنافسين والمعلومات الأخرى
         num_competitors, competitor_names = count_competitors(lat, lng)
-        pois = fetch_pois_from_osm(lat, lng)  # جلب POIs من OpenStreetMap
+        pois = fetch_pois_from_osm(lat, lng)
         nearby_pois = get_places_within_15_minutes(lat, lng, pois)
 
-        # تحديد معدل النجاح
-        if num_competitors >= 4:
-            success_rate = 40
-        elif 2 <= num_competitors <= 3:
-            success_rate = 70
-        else:
-            success_rate = 90
+        # Calculate success rate based on both POIs and competitors
+        success_rate = calculate_success_rate(len(nearby_pois), num_competitors)
 
         recommendation = {
-            'id': 0,  # استخدم 0 للموقع المدخل
+            'id': 0,
             'lat': lat,
             'lng': lng,
             'summary': f'تحليل .',
@@ -169,9 +189,8 @@ def get_recommendations():
             'nearby_pois': nearby_pois
         }
 
-        recommendations = [recommendation]  # قائمة الاقتراحات تحتوي على اقتراح واحد
+        recommendations = [recommendation]
     else:
-        # إذا لم يتم إدخال إحداثيات، استخدم الفلترة كما هو الحال السابق
         filtered_data = data[(data['neighborhood'] == neighborhood) & (data['categoryName'] == activity_type)]
         centers, filtered_data = get_kmeans_clusters(filtered_data, n_clusters=5)
 
@@ -179,8 +198,7 @@ def get_recommendations():
             return jsonify({"error": "No recommendations found for this activity."})
 
         recommendations = []
-        success_rate_categories = {40: [], 70: [], 90: []}
-        recommendation_counter = 1  # عداد التوصيات
+        recommendation_counter = 1
 
         for i, center in enumerate(centers):
             if is_within_jeddah(center[0], center[1]):
@@ -188,12 +206,8 @@ def get_recommendations():
                 pois = fetch_pois_from_osm(center[0], center[1])
                 nearby_pois = get_places_within_15_minutes(center[0], center[1], pois)
 
-                if num_competitors >= 4:
-                    success_rate = 40
-                elif 2 <= num_competitors <= 3:
-                    success_rate = 70
-                else:
-                    success_rate = 90
+                # Calculate success rate based on both POIs and competitors
+                success_rate = calculate_success_rate(len(nearby_pois), num_competitors)
 
                 recommendation = {
                     'id': recommendation_counter,
@@ -206,25 +220,11 @@ def get_recommendations():
                     'nearby_pois': nearby_pois
                 }
 
-                success_rate_categories[success_rate].append(recommendation)
-                recommendation_counter += 1  # زيادة العداد بعد كل توصية
-
-        for rate in [90, 70, 40]:
-            if success_rate_categories[rate]:
-                recommendations.extend(success_rate_categories[rate])
-
-        # تعيين العداد إلى 1 مرة أخرى
-        recommendation_counter = 1
-
-        # تحديث التوصيات بأرقام مرتبة
-        for recommendation in recommendations:
-            recommendation['id'] = recommendation_counter
-            recommendation['summary'] = f'الاقتراح {recommendation_counter} - افضل موقع للنشاط "{activity_type}".'
-            recommendation_counter += 1
+                recommendations.append(recommendation)
+                recommendation_counter += 1
 
         recommendations = recommendations[:3]
 
-    # تحليل المنافسين في الحي المحدد
     competitors = analyze_competitors(neighborhood, activity_type)
     competitors_list = competitors[['title', 'location/lat', 'location/lng']].to_dict(orient='records')
 
@@ -232,7 +232,7 @@ def get_recommendations():
         "recommendations": recommendations,
         "competitors": competitors_list
     })
-    
+  
 # Main route to display the busniess types and neighborhoods
 @app.route('/')
 def index():
