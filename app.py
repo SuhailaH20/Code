@@ -26,7 +26,7 @@ def is_within_jeddah(lat, lng):
     return jeddah_bounds["south"] <= lat <= jeddah_bounds["north"] and jeddah_bounds["west"] <= lng <= jeddah_bounds["east"]
 
 # Train the KMeans model and filter data by activity type
-def get_kmeans_clusters(filtered_data, n_clusters=10):
+def get_kmeans_clusters(filtered_data, n_clusters=4):
     if filtered_data.empty:
         return [], filtered_data
     
@@ -192,7 +192,7 @@ def get_recommendations():
         recommendations = [recommendation]
     else:
         filtered_data = data[(data['neighborhood'] == neighborhood) & (data['categoryName'] == activity_type)]
-        centers, filtered_data = get_kmeans_clusters(filtered_data, n_clusters=5)
+        centers, filtered_data = get_kmeans_clusters(filtered_data, n_clusters=4)
 
         if len(centers) == 0:
             return jsonify({"error": "No recommendations found for this activity."})
