@@ -3,8 +3,6 @@ from flask import Flask, render_template, jsonify, request
 import pandas as pd
 from sklearn.cluster import KMeans
 from geopy.distance import geodesic
-from sklearn.metrics import accuracy_score
-import sqlite3
 import requests
 import pandas as pd
 
@@ -16,21 +14,6 @@ data = pd.read_csv('cafe.csv')
 # Ensure 'location/lat' and 'location/lng' columns are strings before cleaning
 data['location/lat'] = data['location/lat'].astype(str).str.replace(',', '').astype(float)
 data['location/lng'] = data['location/lng'].astype(str).str.replace(',', '').astype(float)
-
-# Initialize the database and its tables
-def init_db():
-    conn = sqlite3.connect('recommendations.db')
-    c = conn.cursor()
-    c.execute('''CREATE TABLE IF NOT EXISTS selected_locations (
-                    id INTEGER PRIMARY KEY,
-                    lat REAL,
-                    lng REAL,
-                    activity_type TEXT
-                )''')
-    conn.commit()
-    conn.close()
-
-init_db()
 
 # Function to check if a location is within Jeddah
 def is_within_jeddah(lat, lng):
@@ -250,41 +233,6 @@ def get_recommendations():
         "competitors": competitors_list
     })
     
-# API endpoint to save the selected location
-@app.route('/select_location', methods=['POST'])
-def select_location():
-    data = request.get_json()
-    lat = data.get('lat')
-    lng = data.get('lng')
-    activity_type = data.get('activity_type')
-    
-    if not lat or not lng or not activity_type:
-        return jsonify({"error": "Missing data"}), 400
-    
-    conn = sqlite3.connect('recommendations.db')
-    c = conn.cursor()
-    c.execute("INSERT INTO selected_locations (lat, lng, activity_type) VALUES (?, ?, ?)", (lat, lng, activity_type))
-    conn.commit()
-    conn.close()
-    
-    return jsonify({"message": "Location selected successfully"})
-
-
-@app.route('/location_info', methods=['GET'])
-def location_info():
-    lat = request.args.get('lat')
-    lng = request.args.get('lng')
-    activity_type = request.args.get('activity_type')
-    
-    location_info = {
-        'lat': lat,
-        'lng': lng,
-        'activity_type': activity_type,
-        'message': 'This location has been selected.'
-    }
-    
-    return render_template('location_info.html', location=location_info)
-
 # Main route to display the busniess types and neighborhoods
 @app.route('/')
 def index():
