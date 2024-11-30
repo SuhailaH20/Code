@@ -133,15 +133,19 @@ function showReportDetails(item) {
             <div class="customInfoItem">
                 <h4 class="section-title-Report">تحليل المنافسين</h4><br>
                 <strong>:أسماء المنافسين</strong>
-                    <ul>${item.competitors ? item.competitors.map(comp => `<li><i class="fas fa-store"></i>${comp}</li>`).join('') : '<li>N/A</li>'}</ul>
+             <ul>${step4Data.competitors && step4Data.competitors.length > 0
+                ? step4Data.competitors.map(comp => `<li><i class="fas fa-store"></i>${comp}</li>`).join('')
+                : '<li>لا يوجد منافسون</li>'
+            }</ul>
+
             </div>
             <div class="customInfoItem">
                 <h4 class="section-title-Report">تحليل استراتيجية ال15 دقيقة</h4><br>
                 <strong>:المواقع القريبة</strong>
-                    <ul>${item.nearby_pois && item.nearby_pois.length > 0
-                    ? item.nearby_pois.map(poi => `<li><i class="fas fa-map-marker-alt"></i>${poi.name} - ${poi.type}</li>`).join('')
-                    : '<li>الموقع لا يتوافق مع استراتيجية ال 15 دقيقة</li>'
-                }</ul>
+             <ul>${step4Data.nearby_pois && step4Data.nearby_pois.length > 0
+                ? step4Data.nearby_pois.map(poi => `<li><i class="fas fa-map-marker-alt"></i>${poi.name} - ${poi.type}</li>`).join('')
+                : '<li>الموقع لا يتوافق مع استراتيجية ال 15 دقيقة</li>'
+            }</ul>
             </div>
         `;
     } else if (item.type === 'اقتراح') {
@@ -182,14 +186,14 @@ function showReportDetails(item) {
     reportDetailsContent.innerHTML = detailsHtml;
     reportDetailsContainer.style.display = 'block';
 
-// Add click event for "Click here"
-const showSuccessReasonsLink = document.getElementById('showSuccessReasons');
-if (showSuccessReasonsLink) {
-    showSuccessReasonsLink.addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent default link behavior
-        showSuccessReasonsPopup(item); // Pass success reasons to the popup
-    });
-}   
+    // Add click event for "Click here"
+    const showSuccessReasonsLink = document.getElementById('showSuccessReasons');
+    if (showSuccessReasonsLink) {
+        showSuccessReasonsLink.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent default link behavior
+            showSuccessReasonsPopup(item); // Pass success reasons to the popup
+        });
+    }
     console.log("Success Rate:", successRate);
 
     if (chart) {
@@ -272,14 +276,14 @@ function showSuccessReasonsPopup(item) {
         <hr style="border: 1px solid #d9d9d972; margin: 10px 0;">
         <ul>
             ${item.step3Result
-                ? item.step3Result.split(/[;,]/) // Split reasons by commas or semicolons
-                      .map(reason => `
+            ? item.step3Result.split(/[;,]/) // Split reasons by commas or semicolons
+                .map(reason => `
                           <li class="reason-item">
                               <span>${reason.trim()}</span>
                               <span class="check-mark">✔️</span>
                           </li>`)
-                      .join('')
-                : '<li>لا توجد أسباب متوفرة</li>'}
+                .join('')
+            : '<li>لا توجد أسباب متوفرة</li>'}
         </ul>
     </div>
 `;
@@ -312,14 +316,14 @@ function showRejectionReasonsPopup(reasons) {
         <hr style="border: 1px solid #d9d9d972; margin: 10px 0;"> <!-- إضافة خط هنا -->
         <ul>
             ${reasons
-                ? reasons.split(/[;,]/) // Split reasons by commas or semicolons
-                      .map(reason => `
+            ? reasons.split(/[;,]/) // Split reasons by commas or semicolons
+                .map(reason => `
                           <li class="reason-item">
                               <span>${reason.trim()}</span>
                               <span class="check-mark">❌</span>
                           </li>`)
-                      .join('')
-                : '<li>لا توجد أسباب متوفرة</li>'}
+                .join('')
+            : '<li>لا توجد أسباب متوفرة</li>'}
         </ul>
     </div>
 `;
@@ -343,7 +347,7 @@ function showRejectionReasonsPopup(reasons) {
 document.addEventListener('DOMContentLoaded', () => {
     const showRejectionReasonsLinks = document.querySelectorAll('.show-rejection-reasons');
     showRejectionReasonsLinks.forEach(link => {
-        link.addEventListener('click', function(event) {
+        link.addEventListener('click', function (event) {
             event.preventDefault(); // Prevent default link behavior
             const reasons = this.getAttribute('data-reasons');
             showRejectionReasonsPopup(reasons); // Pass reasons to the popup
@@ -384,10 +388,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const recommendationsContainer = document.getElementById('recommendationsContainer');
     const recommendationsTitle = document.getElementById('recommendationsTitle');
     const inputRequestsTitle = document.getElementById('inputRequestsTitle');
-  
+
     const inputRequestsCount = inputRequestsTable.querySelectorAll('tbody tr').length;
     const recommendationsCount = recommendationsTable.querySelectorAll('tbody tr').length;
-  
+
     // Check if there are no reports
     if (inputRequestsCount === 0 && recommendationsCount === 0) {
         noReportsMessage.style.display = 'block'; // Show no reports message
@@ -397,7 +401,7 @@ document.addEventListener('DOMContentLoaded', function () {
         recommendationsTitle.style.display = 'none'; // Hide recommendations title
     } else {
         noReportsMessage.style.display = 'none'; // Hide no reports message
-        
+
         // Show relevant tables based on the counts
         if (inputRequestsCount > 0) {
             inputRequestsContainer.style.display = 'block'; // Show input requests if they exist
@@ -406,7 +410,7 @@ document.addEventListener('DOMContentLoaded', function () {
             inputRequestsContainer.style.display = 'none'; // Hide input requests container
             inputRequestsTitle.style.display = 'none'; // Hide input requests title
         }
-  
+
         if (recommendationsCount > 0) {
             recommendationsContainer.style.display = 'block'; // Show recommendations if they exist
             recommendationsTitle.style.display = 'block'; // Show recommendations title
