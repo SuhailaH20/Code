@@ -119,7 +119,6 @@ function showReportDetails(item) {
         detailsHtml += `
             <div class="customInfoItem">
                 <h4 class="section-title-Report">تحليل الاشتراطات</h4><br>
-                <strong>رقم الطلب:</strong> ${step4Data.summary || 'N/A'}<br>
                 <strong>حالة الطلب:</strong> ${item.step3Status || 'N/A'}<br>
                 <strong>الأسباب:</strong> موقعك يتناسب مع الاشتراطات	
                 لمعرفة التفاصيل <a href="#" id="showSuccessReasons" on>اضغط هنا</a>
@@ -128,14 +127,14 @@ function showReportDetails(item) {
                 <h4 class="section-title-Report">تحليل الموقع</h4><br>
                 <strong>الحي:</strong> ${neighborhoodName}<br>
                 <strong>الموقع:</strong> ${item.location ? `${item.location.lat}, ${item.location.lng}` : 'N/A'}<br>
-                <strong>نسبة النجاح :</strong> ${successRate || 'N/A'}
+                <strong>نسبة النجاح :</strong> %${successRate || 'N/A'}
             </div>
             <div class="customInfoItem">
                 <h4 class="section-title-Report">تحليل المنافسين</h4><br>
-                <strong>:أسماء المنافسين</strong>
+                <strong>: المنافسين</strong>
              <ul>${step4Data.competitors && step4Data.competitors.length > 0
                 ? step4Data.competitors.map(comp => `<li><i class="fas fa-store"></i>${comp}</li>`).join('')
-                : '<li>لا يوجد منافسون</li>'
+                : '<li>لا يوجد منافسين بالقرب من الموقع</li>'
             }</ul>
 
             </div>
@@ -163,14 +162,15 @@ function showReportDetails(item) {
         </div>
         <div class="customInfoItem">
             <h4 class="section-title-Report">تحليل الموقع</h4><br>
-            <strong>نسبة النجاح:</strong> ${successRate || 'N/A'}<br>
+            <strong>نسبة النجاح:</strong> %${successRate || 'N/A'}<br>
             <strong>الحي:</strong> ${neighborhoodName}<br>
             <strong>الموقع:</strong> ${item.location ? `${item.location.lat}, ${item.location.lng}` : 'N/A'}
         </div>
         <div class="customInfoItem">
             <h4 class="section-title-Report">تحليل المنافسين</h4><br>
-            <strong>:أسماء المنافسين</strong>
-                <ul>${item.competitors ? item.competitors.map(comp => `<li><i class="fas fa-store"></i>${comp}</li>`).join('') : '<li>N/A</li>'}</ul>
+            <strong>: المنافسين</strong>
+                <ul>${item.competitors ? item.competitors.map(comp => `<li><i class="fas fa-store"></i>${comp}</li>`).join('') 
+                    : '<li>لا يوجد منافسين بالقرب من الموقع</li>'}</ul>
         </div>
         <div class="customInfoItem">
             <h4 class="section-title-Report">تحليل استراتيجية ال15 دقيقة</h4><br>

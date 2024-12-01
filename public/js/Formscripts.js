@@ -524,7 +524,7 @@ function displayRecommendations(data) {
         // Create detailed content for the popup
         const popupContent = `
             <h4>${rec.summary}</h4>
-            <p><strong>نسبة النجاح:</strong> ${rec.success_rate} %</p>
+            <p><strong>نسبة النجاح:</strong> %${rec.success_rate}</p>
             <p><strong>عدد المواقع القريبة:</strong> ${rec.nearby_pois.length}</p>
             <p><strong>عدد المنافسين:</strong> ${rec.competitors.length}</p>
         `;

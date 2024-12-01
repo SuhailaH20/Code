@@ -169,7 +169,7 @@ function displayLatestReports() {
                             allReports.push({
                                 type: 'اقتراح',
                                 district: itemData.location ? `${itemData.location.lat}, ${itemData.location.lng}` : 'غير محدد',
-                                successRate: itemData.success_rate ? `${itemData.success_rate}%` : 'غير محدد',
+                                successRate: itemData.success_rate ? `${itemData.success_rate}` : 'غير محدد',
                                 date: new Date(itemData.createdAt),
                                 rawData: itemData
                             });
@@ -221,7 +221,7 @@ function displayLatestReports() {
         // Format the display for status or success rate
         let statusOrSuccessDisplay;
         if (report.type === 'اقتراح') {
-            statusOrSuccessDisplay = `نسبة النجاح: ${report.successRate.replace(' ', '')}`;
+            statusOrSuccessDisplay = `نسبة النجاح: %${report.successRate.replace(' ', '')}`;
         } else {
             statusOrSuccessDisplay = `حالة الطلب: ${report.status}`;
         }
