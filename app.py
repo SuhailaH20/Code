@@ -132,7 +132,7 @@ def count_competitors(lat, lng, radius=0.5):
 
     return competitor_count, competitor_names  # إرجاع عدد المنافسين وأسمائهم
 #Function to calculate Sucess rate
-def calculate_success_rate(num_pois, num_competitors, max_pois=10, max_competitors=5):
+def calculate_success_rate(num_pois, num_competitors, max_pois=10, max_competitors=5, min_rate=30, max_rate=95):
     """
     Calculate the success rate based on the number of POIs and competitors.
 
@@ -141,9 +141,11 @@ def calculate_success_rate(num_pois, num_competitors, max_pois=10, max_competito
     - num_competitors: Number of competitors within a certain radius
     - max_pois: Maximum number of POIs to normalize the POI count
     - max_competitors: Maximum number of competitors to normalize the competitor count
+    - min_rate: Minimum success rate (default 30)
+    - max_rate: Maximum success rate (default 95)
 
     Returns:
-    - success_rate: A value between 0 and 100 representing the success rate
+    - success_rate: A value between min_rate and max_rate representing the success rate
     """
 
     # Normalize the POI and competitor values
@@ -156,8 +158,11 @@ def calculate_success_rate(num_pois, num_competitors, max_pois=10, max_competito
     # Convert to percentage (0 to 100 scale)
     success_rate = success_rate * 100
 
-    # Ensure the success rate is between 0 and 100
-    return min(max(success_rate, 0), 100)
+    # Scale the success rate to be between min_rate and max_rate
+    success_rate = min_rate + (success_rate / 100) * (max_rate - min_rate)
+
+    # Ensure the success rate is between min_rate and max_rate
+    return min(max(success_rate, min_rate), max_rate)
 
 
 @app.route('/get_recommendations', methods=['GET'])
